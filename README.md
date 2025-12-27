@@ -1,0 +1,94 @@
+# Wordsmith (Python)
+
+Wordsmith is a composable, deterministic-friendly text-generation DSL for Python.
+It is a port of the original Swift package and focuses on building rich, varied text
+with small, reusable components.
+
+## What it is for
+- Generating names for people, towns, ships, gangs, and creative works.
+- Building simple language generators from reusable parts.
+- Producing repeatable output with a seeded RNG.
+
+## Installation
+Use PDM to install dependencies for development:
+```bash
+pdm install --group dev
+```
+
+## Quickstart
+```python
+from wordsmith import WorkTitle
+
+print(WorkTitle()())
+```
+
+## Core concepts
+Wordsmith is centered around the `Component` type. Each component can render text
+with a provided random number generator.
+
+Key combinators:
+- `text(*parts, sep="")`: Join components with a separator.
+- `one_of(*options)`: Pick a random option.
+- `either(a, b, first_probability=0.5)`: Weighted choice between two options.
+- `maybe(*parts, probability=0.5)`: Optionally include text.
+
+Common decorators on components:
+- `.title_case()` for title casing (with small-word rules).
+- `.capitalized()` to capitalize all words.
+- `.first_upper()` for first-letter capitalization.
+- `.prefixed_by_article()` / `.prefixed_by_determiner()` for grammar helpers.
+- `.possessive_form()` for possessives.
+
+## Usage examples
+```python
+import random
+
+from wordsmith import Adjective, Noun, WorkTitle, either, maybe, one_of, text
+
+rng = random.Random(42)
+
+title = text(
+    "The",
+    maybe(Adjective()),
+    one_of("Journey", "Voyage", "Chronicles"),
+    "of",
+    Noun().prefixed_by_article(),
+    sep=" ",
+).title_case()
+
+print(title(rng))
+print(WorkTitle()(rng))
+```
+
+## Generators included
+Wordsmith ships with a growing set of generators:
+- Names: `GivenName`, `Surname`, `PersonName`, `WeirdName`, `AncientName`
+- Locations: `TownName`
+- Groups: `CriminalGangName`, `BandName`
+- Vessels: `NauticalShipName`
+- Works: `SimpleWorkTitle`, `UnusualWorkTitle`, `WorkTitle`
+- Materials: `FictionalElementName`, `FictionalMineralName`, `ChemicalCompoundName`
+- Utilities: `ReadableUniqueIdentifierFactory`, `ExoticCharacterFactory`
+
+## Deterministic output
+All components accept a `random.Random` instance. If you want repeatable results,
+pass a seeded RNG.
+```python
+import random
+from wordsmith import WorkTitle
+
+rng = random.Random(1234)
+print(WorkTitle()(rng))
+print(WorkTitle()(rng))
+```
+
+## Examples
+Run any script under `examples/` with PDM, for example:
+```bash
+pdm run python examples/work_titles.py
+```
+
+## Development
+- Install: `pdm install --group dev`
+- Run tests: `pdm run pytest`
+- Run lint: `pdm run lint`
