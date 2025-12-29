@@ -5,7 +5,8 @@
 [![Build Status](https://github.com/btfranklin/wordsmith-engine/actions/workflows/python-package.yml/badge.svg)](https://github.com/btfranklin/wordsmith-engine/actions/workflows/python-package.yml) [![Supports Python versions 3.12+](https://img.shields.io/pypi/pyversions/wordsmith-engine.svg)](https://pypi.python.org/pypi/wordsmith-engine)
 
 The Wordsmith Engine is a composable, deterministic-friendly text-generation toolkit for Python.
-It started as a port of the Swift package Wordsmith (by the same author) and focuses on building
+It started as a port of the Swift package [`Wordsmith`](https://github.com/btfranklin/wordsmith)
+(by the same author) and focuses on building
 rich, varied text with small, reusable components.
 
 ## What it is for
