@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import random
 
-from wordsmith import CriminalGangName, ReadableUniqueIdentifierFactory
+from wordsmith import CriminalGangName, ReadableUniqueIdentifier
 
 
 def main() -> None:
@@ -16,7 +16,7 @@ def main() -> None:
 
     print("\nReadable identifiers:")
     for _ in range(5):
-        print(ReadableUniqueIdentifierFactory.make_identifier(rng))
+        print(ReadableUniqueIdentifier.make_identifier(rng))
 
 
 if __name__ == "__main__":

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import random
 
-from wordsmith.factories import ReadableUniqueIdentifierFactory
+from wordsmith.specials import ReadableUniqueIdentifier
 from wordsmith.generators import (
     BandName,
     CriminalGangName,
@@ -46,7 +46,7 @@ def test_work_title_repeatable() -> None:
 
 
 def test_identifier_format() -> None:
-    identifier = ReadableUniqueIdentifierFactory.make_identifier(random.Random(0))
+    identifier = ReadableUniqueIdentifier.make_identifier(random.Random(0))
     parts = identifier.split("_")
     assert len(parts) >= 3
     assert parts[-1].isalnum()

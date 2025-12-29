@@ -1,10 +1,10 @@
-"""Generate exotic characters from the factory."""
+"""Generate exotic characters."""
 
 from __future__ import annotations
 
 import random
 
-from wordsmith import ExoticCharacterFactory
+from wordsmith import ExoticCharacter
 
 
 def main() -> None:
@@ -12,12 +12,12 @@ def main() -> None:
 
     print("Random characters from any set:")
     for _ in range(12):
-        print(ExoticCharacterFactory.random_character(rng), end=" ")
+        print(ExoticCharacter.random_character(rng), end=" ")
     print()
 
     print("\nRunic characters:")
     for _ in range(12):
-        print(ExoticCharacterFactory.random_character_from_set("runic", rng), end=" ")
+        print(ExoticCharacter.random_character_from_set("runic", rng), end=" ")
     print()
 
 

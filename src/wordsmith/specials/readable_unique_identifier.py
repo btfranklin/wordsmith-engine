@@ -23,8 +23,8 @@ def _to_base36(value: int) -> str:
 
 
 @dataclass(frozen=True)
-class ReadableUniqueIdentifierFactory:
-    """Factory for readable identifiers with a timestamp suffix."""
+class ReadableUniqueIdentifier:
+    """Readable identifiers with a timestamp suffix."""
 
     @staticmethod
     def make_identifier(rng: random.Random | None = None) -> str:

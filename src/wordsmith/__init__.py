@@ -19,10 +19,6 @@ from wordsmith.core import (
     one_of,
     text,
 )
-from wordsmith.factories import (
-    ExoticCharacterFactory,
-    ReadableUniqueIdentifierFactory,
-)
 from wordsmith.generators import (
     BandName,
     CriminalGangName,
@@ -34,6 +30,7 @@ from wordsmith.generators import (
     UnusualWorkTitle,
     WorkTitle,
 )
+from wordsmith.specials import ExoticCharacter, ReadableUniqueIdentifier
 from wordsmith.names import (
     AncientName,
     BinaryGender,
@@ -77,7 +74,6 @@ __all__ = [
     "Determiner",
     "Either",
     "Empty",
-    "ExoticCharacterFactory",
     "FictionalElementName",
     "FictionalMineralName",
     "FirstUppercased",
@@ -97,7 +93,8 @@ __all__ = [
     "PrefixedByDeterminer",
     "PrimitiveWeapon",
     "Pronoun",
-    "ReadableUniqueIdentifierFactory",
+    "ExoticCharacter",
+    "ReadableUniqueIdentifier",
     "ShipNameAdjective",
     "SimpleWorkTitle",
     "Surname",
