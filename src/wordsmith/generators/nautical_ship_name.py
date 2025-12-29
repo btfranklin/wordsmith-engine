@@ -6,12 +6,11 @@ from dataclasses import dataclass
 import random
 
 from wordsmith.core.base import Component
-from wordsmith.core.components import either
+from wordsmith.core.components import either, weighted_one_of
 from wordsmith.names.ancient_name import AncientName
 from wordsmith.names.gender import BinaryGender
 from wordsmith.names.given_name import GivenName
 from wordsmith.names.weird_name import WeirdName
-from wordsmith.util import random_bool
 from wordsmith.words.base import (
     MartialSocialConcept,
     NauticalShipNameColor,
@@ -28,70 +27,68 @@ class NauticalShipName(Component):
     """Generate a nautical ship name."""
 
     def make_text(self, rng: random.Random) -> str:
-        roll = rng.randint(1, 18)
+        possessive_name = (
+            either(
+                MartialSocialConcept().first_upper(),
+                either(
+                    GivenName(gender=BinaryGender.FEMALE),
+                    GivenName(gender=BinaryGender.MALE),
+                    first_probability=0.75,
+                ),
+                first_probability=0.33,
+            ).possessive_form()
+            | either(
+                either(NauticalShipNameObject(), PrimitiveWeapon()),
+                MartialSocialConcept(),
+            )
+        )
 
-        if 1 <= roll <= 4:
-            component = GivenName(gender=BinaryGender.FEMALE)
-        elif 5 <= roll <= 7:
-            component = MartialSocialConcept()
-        elif roll == 8:
-            component = TownName()
-        elif roll == 9:
-            component = either(WeirdName(syllable_count=3), AncientName(syllable_count=3))
-        elif roll == 10:
-            component = NauticalShipNameObject()
-        elif roll == 11:
-            component = ShipNameAdjective()
-        elif roll == 12:
-            component = (
+        component = weighted_one_of(
+            (4, GivenName(gender=BinaryGender.FEMALE)),
+            (3, MartialSocialConcept()),
+            (1, TownName()),
+            (1, either(WeirdName(syllable_count=3), AncientName(syllable_count=3))),
+            (1, NauticalShipNameObject()),
+            (1, ShipNameAdjective()),
+            (
+                1,
                 NauticalShipNameColor()
                 | either(
                     NauticalShipNameObject(),
                     PrimitiveWeapon(),
                     first_probability=0.75,
-                )
-            )
-        elif 13 <= roll <= 14:
-            component = (
+                ),
+            ),
+            (
+                2,
                 ShipNameAdjective()
                 | either(
                     NauticalShipNameObject(),
                     PrimitiveWeapon(),
                     first_probability=0.85,
-                )
-            )
-        elif roll == 15:
-            component = (
+                ),
+            ),
+            (
+                1,
                 TimeOfDay()
-                | either(MartialSocialConcept(), PrimitiveWeapon(), first_probability=0.75)
-            )
-        elif roll == 16:
-            component = (
+                | either(MartialSocialConcept(), PrimitiveWeapon(), first_probability=0.75),
+            ),
+            (
+                1,
                 TownName()
                 | either(
                     NauticalShipNameObject(),
                     PrimitiveWeapon(),
                     first_probability=0.85,
-                )
-            )
-        elif roll == 17:
-            component = (
+                ),
+            ),
+            (
+                1,
                 either(NauticalShipNameObject(), PrimitiveWeapon())
                 | "of"
-                | either(MartialSocialConcept(), TownName())
-            )
-        else:
-            gender = BinaryGender.FEMALE if random_bool(rng, 0.75) else BinaryGender.MALE
-            component = (
-                either(
-                    MartialSocialConcept().first_upper(),
-                    GivenName(gender=gender),
-                    first_probability=0.33,
-                ).possessive_form()
-                | either(
-                    either(NauticalShipNameObject(), PrimitiveWeapon()),
-                    MartialSocialConcept(),
-                )
-            )
+                | either(MartialSocialConcept(), TownName()),
+            ),
+            (1, possessive_name),
+        )
 
         return component.title_case().make_text(rng)

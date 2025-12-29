@@ -14,10 +14,12 @@ from .components import (
     PrefixedByDeterminer,
     Text,
     TitleCased,
+    WeightedOneOf,
     either,
     maybe,
     one_of,
     text,
+    weighted_one_of,
 )
 
 __all__ = [
@@ -34,8 +36,10 @@ __all__ = [
     "PrefixedByDeterminer",
     "Text",
     "TitleCased",
+    "WeightedOneOf",
     "either",
     "maybe",
     "one_of",
     "text",
+    "weighted_one_of",
 ]

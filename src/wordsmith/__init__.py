@@ -14,10 +14,12 @@ from wordsmith.core import (
     PrefixedByDeterminer,
     Text,
     TitleCased,
+    WeightedOneOf,
     either,
     maybe,
     one_of,
     text,
+    weighted_one_of,
 )
 from wordsmith.generators import (
     BandName,
@@ -109,8 +111,10 @@ __all__ = [
     "VillainousPersonNoun",
     "WeirdName",
     "WorkTitle",
+    "WeightedOneOf",
     "either",
     "maybe",
     "one_of",
     "text",
+    "weighted_one_of",
 ]

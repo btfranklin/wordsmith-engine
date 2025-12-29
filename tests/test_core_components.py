@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import random
 
-from wordsmith.core.components import Literal, either, maybe, one_of, text
+from wordsmith.core.components import Literal, either, maybe, one_of, text, weighted_one_of
 from wordsmith.util.strings import starts_with_vowel
 
 
@@ -32,6 +32,12 @@ def test_maybe_probability_extremes() -> None:
 def test_one_of_selection() -> None:
     rng = random.Random(3)
     assert one_of("alpha", "beta", "gamma").make_text(rng) in {"alpha", "beta", "gamma"}
+
+
+def test_weighted_one_of_respects_zero_weight() -> None:
+    rng = random.Random(4)
+    component = weighted_one_of((1.0, "alpha"), (0.0, "beta"))
+    assert component.make_text(rng) == "alpha"
 
 
 def test_starts_with_vowel_heuristics() -> None:

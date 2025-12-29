@@ -81,6 +81,28 @@ class OneOf(Component):
 
 
 @dataclass(frozen=True)
+class WeightedOneOf(Component):
+    """Choose one of the provided components using weighted probabilities."""
+
+    options: tuple[Component, ...]
+    weights: tuple[float, ...]
+
+    def __post_init__(self) -> None:
+        if not self.options:
+            raise ValueError("WeightedOneOf requires at least one option.")
+        if len(self.options) != len(self.weights):
+            raise ValueError("WeightedOneOf requires matching options and weights.")
+        if any(weight < 0.0 for weight in self.weights):
+            raise ValueError("WeightedOneOf requires non-negative weights.")
+        if not any(weight > 0.0 for weight in self.weights):
+            raise ValueError("WeightedOneOf requires at least one positive weight.")
+
+    def make_text(self, rng: random.Random) -> str:
+        choice = rng.choices(self.options, weights=self.weights, k=1)[0]
+        return choice.make_text(rng)
+
+
+@dataclass(frozen=True)
 class Either(Component):
     """Choose between two options based on the provided probability."""
 
@@ -187,6 +209,17 @@ def text(*parts: ComponentLike, sep: str = "") -> Text:
 def one_of(*options: ComponentLike) -> OneOf:
     """Build a OneOf component from options."""
     return OneOf(options=_normalize_components(options))
+
+
+def weighted_one_of(*pairs: tuple[float, ComponentLike]) -> WeightedOneOf:
+    """Build a WeightedOneOf component from weighted pairs."""
+    if not pairs:
+        raise ValueError("WeightedOneOf requires at least one option.")
+    weights, options = zip(*pairs)
+    return WeightedOneOf(
+        options=_normalize_components(options),
+        weights=tuple(float(weight) for weight in weights),
+    )
 
 
 def either(first: ComponentLike, second: ComponentLike, first_probability: float = 0.5) -> Either:
