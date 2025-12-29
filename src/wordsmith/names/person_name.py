@@ -6,7 +6,6 @@ from dataclasses import dataclass
 import random
 
 from wordsmith.core.base import Component
-from wordsmith.core.components import text
 from wordsmith.names.gender import BinaryGender
 from wordsmith.names.given_name import GivenName
 from wordsmith.names.surname import Surname
@@ -19,4 +18,4 @@ class PersonName(Component):
     gender: BinaryGender | None = None
 
     def make_text(self, rng: random.Random) -> str:
-        return text(GivenName(gender=self.gender), Surname(), sep=" ").make_text(rng)
+        return (GivenName(gender=self.gender) | Surname()).make_text(rng)

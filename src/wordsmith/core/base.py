@@ -54,3 +54,35 @@ class Component(abc.ABC):
         from .components import PossessiveForm
 
         return PossessiveForm(self)
+
+    def __or__(self, other: Component | str) -> Component:
+        """Return a component that joins with a space."""
+        if not isinstance(other, (Component, str)):
+            return NotImplemented
+        from .components import text
+
+        return text(self, other, sep=" ")
+
+    def __ror__(self, other: Component | str) -> Component:
+        """Return a component that joins with a space."""
+        if not isinstance(other, (Component, str)):
+            return NotImplemented
+        from .components import text
+
+        return text(other, self, sep=" ")
+
+    def __add__(self, other: Component | str) -> Component:
+        """Return a component that joins with no separator."""
+        if not isinstance(other, (Component, str)):
+            return NotImplemented
+        from .components import text
+
+        return text(self, other)
+
+    def __radd__(self, other: Component | str) -> Component:
+        """Return a component that joins with no separator."""
+        if not isinstance(other, (Component, str)):
+            return NotImplemented
+        from .components import text
+
+        return text(other, self)

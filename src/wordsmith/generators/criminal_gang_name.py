@@ -6,7 +6,7 @@ from dataclasses import dataclass
 import random
 
 from wordsmith.core.base import Component
-from wordsmith.core.components import either, one_of, text
+from wordsmith.core.components import either, one_of
 from wordsmith.names.given_name import GivenName
 from wordsmith.util import random_bool
 from wordsmith.words.base import (
@@ -26,29 +26,21 @@ class CriminalGangName(Component):
         begins_with_person_name = random_bool(rng, 0.25)
 
         if begins_with_person_name:
-            component = text(
-                GivenName().possessive_form(),
-                either(VillainousPersonNoun(is_plural=True), PrimitiveWeapon(is_plural=True)),
-                sep=" ",
+            component = (
+                GivenName().possessive_form()
+                | either(VillainousPersonNoun(is_plural=True), PrimitiveWeapon(is_plural=True))
             ).title_case()
         else:
-            component = text(
-                "the",
-                one_of(
-                    text(MartialSocialConcept(), VillainousPersonNoun(is_plural=True), sep=" "),
-                    text(PrimitiveWeapon(), VillainousPersonNoun(is_plural=True), sep=" "),
-                    text(VillainousPersonNoun(is_plural=True), "of", TownName(), sep=" "),
-                    text(TownName(), VillainousPersonNoun(is_plural=True), sep=" "),
-                    text(Adjective(), VillainousPersonNoun(is_plural=True), sep=" "),
-                    text(
-                        Adjective(),
-                        VillainousPersonNoun(is_plural=True),
-                        "of",
-                        TownName(),
-                        sep=" ",
-                    ),
-                ).title_case(),
-                sep=" ",
+            component = (
+                "the"
+                | one_of(
+                    MartialSocialConcept() | VillainousPersonNoun(is_plural=True),
+                    PrimitiveWeapon() | VillainousPersonNoun(is_plural=True),
+                    VillainousPersonNoun(is_plural=True) | "of" | TownName(),
+                    TownName() | VillainousPersonNoun(is_plural=True),
+                    Adjective() | VillainousPersonNoun(is_plural=True),
+                    Adjective() | VillainousPersonNoun(is_plural=True) | "of" | TownName(),
+                ).title_case()
             )
 
         return component.make_text(rng)

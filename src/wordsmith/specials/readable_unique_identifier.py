@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 import random
 
-from wordsmith.core.components import either, text
+from wordsmith.core.components import either
 from wordsmith.words.base import Adjective, Adverb, Noun, Verb, VerbTense
 
 
@@ -32,8 +32,8 @@ class ReadableUniqueIdentifier:
             rng = random.SystemRandom()
 
         prefix = either(
-            text(Adjective(), Noun(), sep="_"),
-            text(Adverb(), Verb(tense=VerbTense.PRESENT_PERFECT), sep="_"),
+            Adjective() + "_" + Noun(),
+            Adverb() + "_" + Verb(tense=VerbTense.PRESENT_PERFECT),
         ).make_text(rng)
 
         reference = datetime(2001, 1, 1, tzinfo=timezone.utc)

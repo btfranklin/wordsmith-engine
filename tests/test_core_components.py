@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import random
 
-from wordsmith.core.components import either, maybe, one_of, text
+from wordsmith.core.components import Literal, either, maybe, one_of, text
 from wordsmith.util.strings import starts_with_vowel
 
 
@@ -56,3 +56,34 @@ def test_title_case_small_words() -> None:
         .make_text(random.Random(0))
         == "The Voyage of the Sunrise Wrath"
     )
+
+
+def test_operator_or_joins_with_space() -> None:
+    component = Literal("alpha") | Literal("beta")
+    assert component.make_text(random.Random(0)) == "alpha beta"
+
+
+def test_operator_or_supports_strings() -> None:
+    component = Literal("alpha") | "beta"
+    assert component.make_text(random.Random(0)) == "alpha beta"
+
+    component = "alpha" | Literal("beta")
+    assert component.make_text(random.Random(0)) == "alpha beta"
+
+
+def test_operator_add_joins_with_no_space() -> None:
+    component = Literal("alpha") + Literal("beta")
+    assert component.make_text(random.Random(0)) == "alphabeta"
+
+
+def test_operator_add_supports_strings() -> None:
+    component = Literal("alpha") + "beta"
+    assert component.make_text(random.Random(0)) == "alphabeta"
+
+    component = "alpha" + Literal("beta")
+    assert component.make_text(random.Random(0)) == "alphabeta"
+
+
+def test_operator_chain_mixes_space_and_no_space() -> None:
+    component = Literal("alpha") | (Literal("beta") + Literal("gamma"))
+    assert component.make_text(random.Random(0)) == "alpha betagamma"

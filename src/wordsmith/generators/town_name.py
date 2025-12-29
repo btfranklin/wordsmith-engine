@@ -6,7 +6,7 @@ from dataclasses import dataclass
 import random
 
 from wordsmith.core.base import Component
-from wordsmith.core.components import one_of, text
+from wordsmith.core.components import one_of
 from wordsmith.names.surname import Surname
 from wordsmith.words.base import LocationAdjective
 
@@ -19,54 +19,23 @@ class TownName(Component):
         roll = rng.randint(1, 100)
 
         if 1 <= roll <= 9:
-            component = text(
-                Surname(),
-                one_of("Bay", "Point", "City", "Park"),
-                sep=" ",
-            )
+            component = Surname() | one_of("Bay", "Point", "City", "Park")
         elif 10 <= roll <= 19:
-            component = text(
-                one_of("Fort", "Port", "Cape"),
-                Surname(),
-                sep=" ",
-            )
+            component = one_of("Fort", "Port", "Cape") | Surname()
         elif 20 <= roll <= 24:
-            component = text(
-                Surname(),
-                one_of("River", "Hill", "Town", "Beach", "Village"),
-                sep=" ",
-            )
+            component = Surname() | one_of("River", "Hill", "Town", "Beach", "Village")
         elif 25 <= roll <= 29:
-            component = text(
-                one_of("Saint", "Mount", "Lake"),
-                Surname(),
-                sep=" ",
-            )
+            component = one_of("Saint", "Mount", "Lake") | Surname()
         elif 30 <= roll <= 31:
-            component = text(
-                "New",
-                text(
-                    Surname(),
-                    one_of("ton", "burg", "ville", "town", "dale"),
-                ),
-                sep=" ",
-            )
+            component = "New" | (Surname() + one_of("ton", "burg", "ville", "town", "dale"))
         elif 32 <= roll <= 35:
-            component = text(
-                LocationAdjective().first_upper(),
-                one_of("Bay", "Point", "City", "Park"),
-                sep=" ",
-            )
+            component = LocationAdjective().first_upper() | one_of("Bay", "Point", "City", "Park")
         elif 36 <= roll <= 38:
-            component = text(
-                LocationAdjective().first_upper(),
-                one_of("River", "Hill", "Town", "Beach", "Village"),
-                sep=" ",
+            component = (
+                LocationAdjective().first_upper()
+                | one_of("River", "Hill", "Town", "Beach", "Village")
             )
         else:
-            component = text(
-                Surname(),
-                one_of("ton", "burg", "ville", "town", "dale"),
-            )
+            component = Surname() + one_of("ton", "burg", "ville", "town", "dale")
 
         return component.make_text(rng)

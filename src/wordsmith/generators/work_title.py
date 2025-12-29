@@ -6,7 +6,7 @@ from dataclasses import dataclass
 import random
 
 from wordsmith.core.base import Component
-from wordsmith.core.components import either, maybe, one_of, text
+from wordsmith.core.components import either, maybe, one_of
 from wordsmith.generators.criminal_gang_name import CriminalGangName
 from wordsmith.generators.nautical_ship_name import NauticalShipName
 from wordsmith.generators.town_name import TownName
@@ -54,55 +54,38 @@ class SimpleWorkTitle(Component):
             UCBerkeleyEmotion(),
             UCBerkeleyEmotion().prefixed_by_determiner(),
             CriminalGangName(),
-            text(
-                either(UCBerkeleyEmotion(), MartialSocialConcept()),
-                "in",
-                TownName(),
-                sep=" ",
-            ),
-            text(Adjective(), Verb(tense=VerbTense.PRESENT_PERFECT), sep=" "),
-            text(TimeOfDay(), Verb(tense=VerbTense.PRESENT), sep=" "),
-            text(TimeOfDay(), Noun(is_plural=noun_plural_2), sep=" "),
-            text(Adjective(), Noun(is_plural=noun_plural_3), sep=" "),
-            text(Adjective().prefixed_by_article(), Noun(), sep=" "),
-            text(Adjective().prefixed_by_determiner(), Noun(), sep=" "),
-            text(MartialSocialConcept(), "and", MartialSocialConcept(), sep=" "),
-            text(
-                one_of(
-                    "A Treatise on",
-                    "On",
-                    "A Discussion of",
-                    "An Analysis of",
-                    "Commentary on",
-                    "An Examination of",
-                ),
-                either(MartialSocialConcept(), Noun(is_plural=True)),
-                sep=" ",
-            ),
-            text(
-                "The",
-                maybe(Adjective()),
-                one_of("Adventures", "Journey", "Journeys", "Travels", "Tale", "Voyage"),
-                "of the",
-                text("'", NauticalShipName(), "'"),
-                sep=" ",
-            ),
-            text(
-                "The",
-                maybe(Adjective()),
-                one_of("Adventures", "Journey", "Journeys", "Travels", "Tale", "Escapades"),
-                "of",
-                PersonName(),
-                sep=" ",
-            ),
-            text(
-                "The",
-                maybe(Adjective()),
-                Noun(is_plural=noun_plural_4),
-                either("in", "of"),
-                TownName(),
-                sep=" ",
-            ),
+            either(UCBerkeleyEmotion(), MartialSocialConcept()) | "in" | TownName(),
+            Adjective() | Verb(tense=VerbTense.PRESENT_PERFECT),
+            TimeOfDay() | Verb(tense=VerbTense.PRESENT),
+            TimeOfDay() | Noun(is_plural=noun_plural_2),
+            Adjective() | Noun(is_plural=noun_plural_3),
+            Adjective().prefixed_by_article() | Noun(),
+            Adjective().prefixed_by_determiner() | Noun(),
+            MartialSocialConcept() | "and" | MartialSocialConcept(),
+            one_of(
+                "A Treatise on",
+                "On",
+                "A Discussion of",
+                "An Analysis of",
+                "Commentary on",
+                "An Examination of",
+            )
+            | either(MartialSocialConcept(), Noun(is_plural=True)),
+            "The"
+            | maybe(Adjective())
+            | one_of("Adventures", "Journey", "Journeys", "Travels", "Tale", "Voyage")
+            | "of the"
+            | ("'" + NauticalShipName() + "'"),
+            "The"
+            | maybe(Adjective())
+            | one_of("Adventures", "Journey", "Journeys", "Travels", "Tale", "Escapades")
+            | "of"
+            | PersonName(),
+            "The"
+            | maybe(Adjective())
+            | Noun(is_plural=noun_plural_4)
+            | either("in", "of")
+            | TownName(),
         )
 
         return component.title_case().make_text(rng)
@@ -114,88 +97,49 @@ class UnusualWorkTitle(Component):
 
     def make_text(self, rng: random.Random) -> str:
         component = one_of(
-            text(UCBerkeleyEmotion(), Adverb(), Verb(tense=VerbTense.PRESENT), sep=" "),
-            text(UCBerkeleyEmotion(), "and", UCBerkeleyEmotion(), sep=" "),
-            text(
-                UCBerkeleyEmotion(),
-                maybe("and ", UCBerkeleyEmotion()),
-                "in",
-                TownName(),
-                sep=" ",
-            ),
-            text(
-                text("'", SimpleWorkTitle(), "'"),
-                one_of("Revisited", "Revised", "Reimagined", "Renewed", "Rethought", "Redux"),
-                sep=" ",
-            ),
-            text(Verb(tense=VerbTense.PRESENT_PERFECT), Noun().prefixed_by_determiner(), sep=" "),
-            text(
-                one_of("When", "Where", "Why", "While", "As", "Until", "Because"),
-                Noun().prefixed_by_article(),
-                Verb(tense=VerbTense.PRESENT),
-                sep=" ",
-            ),
-            text(
-                one_of("When", "Where", "Why", "While", "As", "Until", "Because"),
-                either(
-                    one_of(
-                        text(
-                            Pronoun(
-                                is_singular=False,
-                                is_third_person=rng.choice([True, False]),
-                            ),
-                            Verb(tense=VerbTense.BASE),
-                            sep=" ",
-                        ),
-                        text(
-                            Pronoun(is_singular=True, is_third_person=False),
-                            Verb(tense=VerbTense.BASE),
-                            sep=" ",
-                        ),
-                        text(
-                            Pronoun(is_singular=True, is_third_person=True),
-                            Verb(tense=VerbTense.PRESENT),
-                            sep=" ",
-                        ),
-                    ),
-                    text(
-                        Pronoun(
-                            is_singular=rng.choice([True, False]),
-                            is_third_person=rng.choice([True, False]),
-                        ),
-                        Verb(tense=VerbTense.PAST),
-                        sep=" ",
-                    ),
-                ),
-                sep=" ",
-            ),
-            text(
-                Adjective(),
-                maybe(", ", Adjective(), ","),
-                " and ",
-                Adjective(),
-                sep="",
-            ),
-            text(
-                Noun().prefixed_by_determiner(),
+            UCBerkeleyEmotion() | Adverb() | Verb(tense=VerbTense.PRESENT),
+            UCBerkeleyEmotion() | "and" | UCBerkeleyEmotion(),
+            UCBerkeleyEmotion() | maybe("and " + UCBerkeleyEmotion()) | "in" | TownName(),
+            ("'" + SimpleWorkTitle() + "'")
+            | one_of("Revisited", "Revised", "Reimagined", "Renewed", "Rethought", "Redux"),
+            Verb(tense=VerbTense.PRESENT_PERFECT) | Noun().prefixed_by_determiner(),
+            one_of("When", "Where", "Why", "While", "As", "Until", "Because")
+            | Noun().prefixed_by_article()
+            | Verb(tense=VerbTense.PRESENT),
+            one_of("When", "Where", "Why", "While", "As", "Until", "Because")
+            | either(
                 one_of(
-                    Verb(tense=VerbTense.PRESENT),
-                    text(one_of("Will", "Shall", "Can", "Must", "May"), Verb(), sep=" "),
-                    text("Is", Verb(tense=VerbTense.PRESENT_PERFECT), sep=" "),
-                    text("Has", Verb(tense=VerbTense.PAST_PARTICIPLE), sep=" "),
+                    Pronoun(
+                        is_singular=False,
+                        is_third_person=rng.choice([True, False]),
+                    )
+                    | Verb(tense=VerbTense.BASE),
+                    Pronoun(is_singular=True, is_third_person=False)
+                    | Verb(tense=VerbTense.BASE),
+                    Pronoun(is_singular=True, is_third_person=True)
+                    | Verb(tense=VerbTense.PRESENT),
                 ),
-                sep=" ",
+                Pronoun(
+                    is_singular=rng.choice([True, False]),
+                    is_third_person=rng.choice([True, False]),
+                )
+                | Verb(tense=VerbTense.PAST),
+            ),
+            Adjective() + maybe(", " + Adjective() + ",") + " and " + Adjective(),
+            Noun().prefixed_by_determiner()
+            | one_of(
+                Verb(tense=VerbTense.PRESENT),
+                one_of("Will", "Shall", "Can", "Must", "May") | Verb(),
+                "Is" | Verb(tense=VerbTense.PRESENT_PERFECT),
+                "Has" | Verb(tense=VerbTense.PAST_PARTICIPLE),
             ),
             either(
-                text(Noun(), "and", Noun(), sep=" "),
-                text(
-                    Noun().prefixed_by_determiner(),
-                    "and",
-                    Noun().prefixed_by_determiner(),
-                    sep=" ",
-                ),
+                Noun() | "and" | Noun(),
+                Noun().prefixed_by_determiner()
+                | "and"
+                | Noun().prefixed_by_determiner(),
             ),
-            text(text(MartialSocialConcept(), ":", sep=""), UnusualWorkTitle(), sep=" "),
+            (MartialSocialConcept() + ":") | UnusualWorkTitle(),
         )
 
         return component.title_case().make_text(rng)

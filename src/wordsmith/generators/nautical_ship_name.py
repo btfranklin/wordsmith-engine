@@ -6,7 +6,7 @@ from dataclasses import dataclass
 import random
 
 from wordsmith.core.base import Component
-from wordsmith.core.components import either, text
+from wordsmith.core.components import either
 from wordsmith.names.ancient_name import AncientName
 from wordsmith.names.gender import BinaryGender
 from wordsmith.names.given_name import GivenName
@@ -43,58 +43,55 @@ class NauticalShipName(Component):
         elif roll == 11:
             component = ShipNameAdjective()
         elif roll == 12:
-            component = text(
-                NauticalShipNameColor(),
-                either(
+            component = (
+                NauticalShipNameColor()
+                | either(
                     NauticalShipNameObject(),
                     PrimitiveWeapon(),
                     first_probability=0.75,
-                ),
-                sep=" ",
+                )
             )
         elif 13 <= roll <= 14:
-            component = text(
-                ShipNameAdjective(),
-                either(
+            component = (
+                ShipNameAdjective()
+                | either(
                     NauticalShipNameObject(),
                     PrimitiveWeapon(),
                     first_probability=0.85,
-                ),
-                sep=" ",
+                )
             )
         elif roll == 15:
-            component = text(
-                TimeOfDay(),
-                either(MartialSocialConcept(), PrimitiveWeapon(), first_probability=0.75),
-                sep=" ",
+            component = (
+                TimeOfDay()
+                | either(MartialSocialConcept(), PrimitiveWeapon(), first_probability=0.75)
             )
         elif roll == 16:
-            component = text(
-                TownName(),
-                either(
+            component = (
+                TownName()
+                | either(
                     NauticalShipNameObject(),
                     PrimitiveWeapon(),
                     first_probability=0.85,
-                ),
-                sep=" ",
+                )
             )
         elif roll == 17:
-            component = text(
-                either(NauticalShipNameObject(), PrimitiveWeapon()),
-                "of",
-                either(MartialSocialConcept(), TownName()),
-                sep=" ",
+            component = (
+                either(NauticalShipNameObject(), PrimitiveWeapon())
+                | "of"
+                | either(MartialSocialConcept(), TownName())
             )
         else:
             gender = BinaryGender.FEMALE if random_bool(rng, 0.75) else BinaryGender.MALE
-            component = text(
+            component = (
                 either(
                     MartialSocialConcept().first_upper(),
                     GivenName(gender=gender),
                     first_probability=0.33,
-                ).possessive_form(),
-                either(either(NauticalShipNameObject(), PrimitiveWeapon()), MartialSocialConcept()),
-                sep=" ",
+                ).possessive_form()
+                | either(
+                    either(NauticalShipNameObject(), PrimitiveWeapon()),
+                    MartialSocialConcept(),
+                )
             )
 
         return component.title_case().make_text(rng)
