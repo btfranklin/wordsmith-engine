@@ -5,8 +5,8 @@
 
 ## Build, Test, and Development Commands
 - Use PDM to capture application and dev-only dependencies. Document the canonical install command (e.g., `pdm install --group dev`).
-- Target runtimes: Python 3.14+ always.
-- Enforce version policy in `pyproject.toml`: set `requires-python = ">=3.14"`.
+- Target runtimes: Python 3.12+ always.
+- Enforce version policy in `pyproject.toml`: set `requires-python = ">=3.12"`.
 - Expose a single test runner command (`pdm run pytest`) that covers any supporting packages.
 
 ## Coding Style & Naming Conventions
