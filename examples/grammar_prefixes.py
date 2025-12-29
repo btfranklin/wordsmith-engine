@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import random
 
-from wordsmith import Component, one_of, text
+from wordsmith import Component, one_of
 
 
 def build_phrases() -> list[Component]:
@@ -13,7 +13,7 @@ def build_phrases() -> list[Component]:
         noun.prefixed_by_article(),
         noun.prefixed_by_determiner(),
         noun.possessive_form(),
-        text("the", noun, "returns", sep=" ").first_upper(),
+        ("the" | noun | "returns").first_upper(),
     ]
 
 

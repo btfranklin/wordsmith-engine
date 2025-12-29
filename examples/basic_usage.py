@@ -4,17 +4,17 @@ from __future__ import annotations
 
 import random
 
-from wordsmith import Component, either, maybe, one_of, text
+from wordsmith import Component, either, maybe, one_of
 
 
 def build_title() -> Component:
     descriptor = one_of("quiet", "restless", "golden", "shattered")
     subject = either("river", "city", first_probability=0.7)
-    return text("The", descriptor, subject, sep=" ").title_case()
+    return ("The" | descriptor | subject).title_case()
 
 
 def build_line() -> Component:
-    return text("Once", maybe(" upon a time", probability=0.5), ".", sep="")
+    return ("Once" | maybe("upon a time", probability=0.5)) + "."
 
 
 def main() -> None:

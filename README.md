@@ -31,9 +31,14 @@ print(WorkTitle()())
 The Wordsmith Engine is centered around the `Component` type. Each component can render text
 with a provided random number generator.
 
+Operator DSL (preferred):
+- `left | right`: Join components with a space.
+- `left + right`: Join components with no separator (useful for punctuation).
+
 Key combinators:
-- `text(*parts, sep="")`: Join components with a separator.
+- `text(*parts, sep="")`: Join components with a custom separator.
 - `one_of(*options)`: Pick a random option.
+- `weighted_one_of((weight, option), ...)`: Weighted choice across many options.
 - `either(a, b, first_probability=0.5)`: Weighted choice between two options.
 - `maybe(*parts, probability=0.5)`: Optionally include text.
 
@@ -48,20 +53,22 @@ Common decorators on components:
 ```python
 import random
 
-from wordsmith import Adjective, Noun, WorkTitle, either, maybe, one_of, text
+from wordsmith import Adjective, Noun, WorkTitle, either, maybe, one_of
 
 rng = random.Random(42)
 
-title = text(
-    "The",
-    maybe(Adjective()),
-    one_of("Journey", "Voyage", "Chronicles"),
-    "of",
-    Noun().prefixed_by_article(),
-    sep=" ",
+title = (
+    "The"
+    | maybe(Adjective())
+    | one_of("Journey", "Voyage", "Chronicles")
+    | "of"
+    | Noun().prefixed_by_article()
 ).title_case()
 
+line = ("Once" | maybe("upon a time", probability=0.5)) + "."
+
 print(title(rng))
+print(line(rng))
 print(WorkTitle()(rng))
 ```
 
@@ -95,5 +102,5 @@ pdm run python examples/work_titles.py
 
 ## Development
 - Install: `pdm install --group dev`
-- Run tests: `pdm run test`
+- Run tests: `pdm run pytest`
 - Run lint: `pdm run lint`

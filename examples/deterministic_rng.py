@@ -4,11 +4,11 @@ from __future__ import annotations
 
 import random
 
-from wordsmith import Component, one_of, text
+from wordsmith import Component, one_of
 
 
 def build_component() -> Component:
-    return text("Signal", one_of("alpha", "bravo", "charlie"), sep=" ")
+    return "Signal" | one_of("alpha", "bravo", "charlie")
 
 
 def generate_samples(component: Component, seed: int, count: int) -> list[str]:
