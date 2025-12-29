@@ -1,8 +1,12 @@
-# Wordsmith (Python)
+# The Wordsmith Engine
 
-Wordsmith is a composable, deterministic-friendly text-generation DSL for Python.
-It is a port of the original Swift package and focuses on building rich, varied text
-with small, reusable components.
+![Wordsmith Engine banner](https://raw.githubusercontent.com/btfranklin/wordsmith-engine/main/.github/social%20preview/wordsmith_engine_social_preview.jpg "The Wordsmith Engine")
+
+[![Build Status](https://github.com/btfranklin/wordsmith-engine/actions/workflows/python-package.yml/badge.svg)](https://github.com/btfranklin/wordsmith-engine/actions/workflows/python-package.yml) [![Supports Python versions 3.12+](https://img.shields.io/pypi/pyversions/wordsmith-engine.svg)](https://pypi.python.org/pypi/wordsmith-engine)
+
+The Wordsmith Engine is a composable, deterministic-friendly text-generation toolkit for Python.
+It started as a port of the Swift package Wordsmith (by the same author) and focuses on building
+rich, varied text with small, reusable components.
 
 ## What it is for
 - Generating names for people, towns, ships, gangs, and creative works.
@@ -23,7 +27,7 @@ print(WorkTitle()())
 ```
 
 ## Core concepts
-Wordsmith is centered around the `Component` type. Each component can render text
+The Wordsmith Engine is centered around the `Component` type. Each component can render text
 with a provided random number generator.
 
 Key combinators:
@@ -61,14 +65,14 @@ print(WorkTitle()(rng))
 ```
 
 ## Generators included
-Wordsmith ships with a growing set of generators:
+The Wordsmith Engine ships with a growing set of generators:
 - Names: `GivenName`, `Surname`, `PersonName`, `WeirdName`, `AncientName`
 - Locations: `TownName`
 - Groups: `CriminalGangName`, `BandName`
 - Vessels: `NauticalShipName`
 - Works: `SimpleWorkTitle`, `UnusualWorkTitle`, `WorkTitle`
 - Materials: `FictionalElementName`, `FictionalMineralName`, `ChemicalCompoundName`
-- Utilities: `ReadableUniqueIdentifierFactory`, `ExoticCharacterFactory`
+- Specials: `ReadableUniqueIdentifier`, `ExoticCharacter`
 
 ## Deterministic output
 All components accept a `random.Random` instance. If you want repeatable results,
@@ -90,5 +94,5 @@ pdm run python examples/work_titles.py
 
 ## Development
 - Install: `pdm install --group dev`
-- Run tests: `pdm run pytest`
+- Run tests: `pdm run test`
 - Run lint: `pdm run lint`
