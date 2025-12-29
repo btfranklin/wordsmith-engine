@@ -1,8 +1,8 @@
 [project]
-name = "wordsmith"
+name = "wordsmith-engine"
 version = "0.1.0"
-description = "Python port of the Wordsmith text-generation DSL."
-requires-python = ">=3.14"
+description = "Composable, deterministic-friendly text-generation components for Python."
+requires-python = ">=3.12"
 license = {text = "MIT"}
 authors = [
     {name = "B.T. Franklin", email = "brandon.franklin@gmail.com"},
@@ -11,6 +11,8 @@ dependencies = []
 classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
     "Typing :: Typed",
     "License :: OSI Approved :: MIT License",
