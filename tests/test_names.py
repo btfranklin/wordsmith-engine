@@ -6,7 +6,14 @@ import random
 
 import pytest
 
-from wordsmith.names import AncientName, BinaryGender, GivenName, PersonName, Surname, WeirdName
+from wordsmith.names import (
+    AncientName,
+    BinaryGender,
+    GivenName,
+    PersonName,
+    Surname,
+    WeirdName,
+)
 
 
 def test_given_name_gendered() -> None:

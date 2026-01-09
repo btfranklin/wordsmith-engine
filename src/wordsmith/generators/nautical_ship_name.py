@@ -71,7 +71,11 @@ class NauticalShipName(Component):
             (
                 1,
                 TimeOfDay()
-                | either(MartialSocialConcept(), PrimitiveWeapon(), first_probability=0.75),
+                | either(
+                    MartialSocialConcept(),
+                    PrimitiveWeapon(),
+                    first_probability=0.75,
+                ),
             ),
             (
                 1,

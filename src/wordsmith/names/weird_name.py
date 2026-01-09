@@ -186,8 +186,12 @@ class WeirdName(Component):
             and rng.choice([True, False])
         )
 
-        hyphen_syllable = rng.randrange(1, self.syllable_count) if will_use_hyphen else 0
-        apostrophe_syllable = rng.randrange(1, self.syllable_count) if will_use_apostrophe else 0
+        hyphen_syllable = (
+            rng.randrange(1, self.syllable_count) if will_use_hyphen else 0
+        )
+        apostrophe_syllable = (
+            rng.randrange(1, self.syllable_count) if will_use_apostrophe else 0
+        )
 
         text = ""
         for current_syllable in range(1, self.syllable_count + 1):

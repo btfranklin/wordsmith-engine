@@ -54,7 +54,9 @@ class AncientName(Component):
         )
         will_try_apostrophe = self.allow_apostrophe and rng.choice([True, False])
 
-        hyphen_syllable = rng.randrange(3, self.syllable_count) if will_use_hyphen else 0
+        hyphen_syllable = (
+            rng.randrange(3, self.syllable_count) if will_use_hyphen else 0
+        )
 
         text = ""
         previous_pattern: _SyllablePattern | None = None
@@ -93,7 +95,10 @@ class AncientName(Component):
             if current_syllable == hyphen_syllable:
                 text += "-"
 
-        if previous_pattern != _SyllablePattern.VOWEL_CONSONANT and random_bool(rng, 0.4):
+        if previous_pattern != _SyllablePattern.VOWEL_CONSONANT and random_bool(
+            rng,
+            0.4,
+        ):
             text += self._random_consonant(rng)
 
         return first_upper(text)

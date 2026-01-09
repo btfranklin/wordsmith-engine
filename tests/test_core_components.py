@@ -4,7 +4,14 @@ from __future__ import annotations
 
 import random
 
-from wordsmith.core.components import Literal, either, maybe, one_of, text, weighted_one_of
+from wordsmith.core.components import (
+    Literal,
+    either,
+    maybe,
+    one_of,
+    text,
+    weighted_one_of,
+)
 from wordsmith.util.strings import starts_with_vowel
 
 

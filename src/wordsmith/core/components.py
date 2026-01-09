@@ -112,10 +112,16 @@ class Either(Component):
 
     def __post_init__(self) -> None:
         if not 0.0 <= self.first_probability <= 1.0:
-            raise ValueError("First option probability must be in the range 0.0 to 1.0.")
+            raise ValueError(
+                "First option probability must be in the range 0.0 to 1.0."
+            )
 
     def make_text(self, rng: random.Random) -> str:
-        choice = self.first if _roll_probability(rng, self.first_probability) else self.second
+        choice = (
+            self.first
+            if _roll_probability(rng, self.first_probability)
+            else self.second
+        )
         return choice.make_text(rng)
 
 
@@ -131,7 +137,11 @@ class Maybe(Component):
             raise ValueError("Probability must be in the range 0.0 to 1.0.")
 
     def make_text(self, rng: random.Random) -> str:
-        return self.option.make_text(rng) if _roll_probability(rng, self.probability) else ""
+        return (
+            self.option.make_text(rng)
+            if _roll_probability(rng, self.probability)
+            else ""
+        )
 
 
 @dataclass(frozen=True)
@@ -222,7 +232,11 @@ def weighted_one_of(*pairs: tuple[float, ComponentLike]) -> WeightedOneOf:
     )
 
 
-def either(first: ComponentLike, second: ComponentLike, first_probability: float = 0.5) -> Either:
+def either(
+    first: ComponentLike,
+    second: ComponentLike,
+    first_probability: float = 0.5,
+) -> Either:
     """Build an Either component from two options."""
     return Either(
         first=_coerce_component(first),

@@ -29,7 +29,11 @@ class WorkTitle(Component):
     """Top-level work title generator."""
 
     def make_text(self, rng: random.Random) -> str:
-        return either(SimpleWorkTitle(), UnusualWorkTitle(), first_probability=0.85).make_text(rng)
+        return either(
+            SimpleWorkTitle(),
+            UnusualWorkTitle(),
+            first_probability=0.85,
+        ).make_text(rng)
 
 
 @dataclass(frozen=True)
@@ -78,7 +82,14 @@ class SimpleWorkTitle(Component):
             | ("'" + NauticalShipName() + "'"),
             "The"
             | maybe(Adjective())
-            | one_of("Adventures", "Journey", "Journeys", "Travels", "Tale", "Escapades")
+            | one_of(
+                "Adventures",
+                "Journey",
+                "Journeys",
+                "Travels",
+                "Tale",
+                "Escapades",
+            )
             | "of"
             | PersonName(),
             "The"
@@ -99,9 +110,19 @@ class UnusualWorkTitle(Component):
         component = one_of(
             UCBerkeleyEmotion() | Adverb() | Verb(tense=VerbTense.PRESENT),
             UCBerkeleyEmotion() | "and" | UCBerkeleyEmotion(),
-            UCBerkeleyEmotion() | maybe("and " + UCBerkeleyEmotion()) | "in" | TownName(),
+            UCBerkeleyEmotion()
+            | maybe("and " + UCBerkeleyEmotion())
+            | "in"
+            | TownName(),
             ("'" + SimpleWorkTitle() + "'")
-            | one_of("Revisited", "Revised", "Reimagined", "Renewed", "Rethought", "Redux"),
+            | one_of(
+                "Revisited",
+                "Revised",
+                "Reimagined",
+                "Renewed",
+                "Rethought",
+                "Redux",
+            ),
             Verb(tense=VerbTense.PRESENT_PERFECT) | Noun().prefixed_by_determiner(),
             one_of("When", "Where", "Why", "While", "As", "Until", "Because")
             | Noun().prefixed_by_article()

@@ -4,7 +4,14 @@ from __future__ import annotations
 
 import random
 
-from wordsmith import AncientName, BinaryGender, GivenName, PersonName, Surname, WeirdName
+from wordsmith import (
+    AncientName,
+    BinaryGender,
+    GivenName,
+    PersonName,
+    Surname,
+    WeirdName,
+)
 
 
 def main() -> None:

@@ -37,6 +37,8 @@ class ReadableUniqueIdentifier:
         ).make_text(rng)
 
         reference = datetime(2001, 1, 1, tzinfo=timezone.utc)
-        micros = int((datetime.now(tz=timezone.utc) - reference).total_seconds() * 1_000_000)
+        micros = int(
+            (datetime.now(tz=timezone.utc) - reference).total_seconds() * 1_000_000
+        )
         suffix = _to_base36(micros)
         return f"{prefix}_{suffix}"

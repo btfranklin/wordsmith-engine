@@ -27,9 +27,16 @@ class TownName(Component):
         elif 25 <= roll <= 29:
             component = one_of("Saint", "Mount", "Lake") | Surname()
         elif 30 <= roll <= 31:
-            component = "New" | (Surname() + one_of("ton", "burg", "ville", "town", "dale"))
+            component = "New" | (
+                Surname() + one_of("ton", "burg", "ville", "town", "dale")
+            )
         elif 32 <= roll <= 35:
-            component = LocationAdjective().first_upper() | one_of("Bay", "Point", "City", "Park")
+            component = LocationAdjective().first_upper() | one_of(
+                "Bay",
+                "Point",
+                "City",
+                "Park",
+            )
         elif 36 <= roll <= 38:
             component = (
                 LocationAdjective().first_upper()

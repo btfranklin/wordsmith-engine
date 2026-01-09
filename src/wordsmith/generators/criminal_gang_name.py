@@ -28,7 +28,10 @@ class CriminalGangName(Component):
         if begins_with_person_name:
             component = (
                 GivenName().possessive_form()
-                | either(VillainousPersonNoun(is_plural=True), PrimitiveWeapon(is_plural=True))
+                | either(
+                    VillainousPersonNoun(is_plural=True),
+                    PrimitiveWeapon(is_plural=True),
+                )
             ).title_case()
         else:
             component = (
@@ -39,7 +42,10 @@ class CriminalGangName(Component):
                     VillainousPersonNoun(is_plural=True) | "of" | TownName(),
                     TownName() | VillainousPersonNoun(is_plural=True),
                     Adjective() | VillainousPersonNoun(is_plural=True),
-                    Adjective() | VillainousPersonNoun(is_plural=True) | "of" | TownName(),
+                    Adjective()
+                    | VillainousPersonNoun(is_plural=True)
+                    | "of"
+                    | TownName(),
                 ).title_case()
             )
 

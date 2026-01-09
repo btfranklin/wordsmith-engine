@@ -88,8 +88,14 @@ def test_martial_social_concept_from_assets() -> None:
 
 def test_ship_name_vocab() -> None:
     rng = random.Random(7)
-    assert_in_options(NauticalShipNameColor().make_text(rng), NauticalShipNameColor._options)
-    assert_in_options(NauticalShipNameObject().make_text(rng), NauticalShipNameObject._options)
+    assert_in_options(
+        NauticalShipNameColor().make_text(rng),
+        NauticalShipNameColor._options,
+    )
+    assert_in_options(
+        NauticalShipNameObject().make_text(rng),
+        NauticalShipNameObject._options,
+    )
     assert_in_options(ShipNameAdjective().make_text(rng), ShipNameAdjective._options)
 
 
@@ -107,13 +113,16 @@ def test_ucb_emotion_from_assets() -> None:
 
 def test_villainous_person_pluralization_rules() -> None:
     assert (
-        VillainousPersonNoun(is_plural=True).make_text(ChoiceRandom("lowlife")) == "lowlifes"
+        VillainousPersonNoun(is_plural=True).make_text(ChoiceRandom("lowlife"))
+        == "lowlifes"
     )
     assert (
-        VillainousPersonNoun(is_plural=True).make_text(ChoiceRandom("thief")) == "thieves"
+        VillainousPersonNoun(is_plural=True).make_text(ChoiceRandom("thief"))
+        == "thieves"
     )
     assert (
-        VillainousPersonNoun(is_plural=True).make_text(ChoiceRandom("bandit")) == "bandits"
+        VillainousPersonNoun(is_plural=True).make_text(ChoiceRandom("bandit"))
+        == "bandits"
     )
 
 

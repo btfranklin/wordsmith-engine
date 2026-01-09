@@ -19,7 +19,9 @@ def test_exotic_character_any_set() -> None:
     rng = random.Random(1)
     value = ExoticCharacter.random_character(rng)
     all_chars = {
-        char for char_set in ExoticCharacter._character_sets.values() for char in char_set
+        char
+        for char_set in ExoticCharacter._character_sets.values()
+        for char in char_set
     }
     assert value in all_chars
 
