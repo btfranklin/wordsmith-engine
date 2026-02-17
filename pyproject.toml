@@ -40,7 +40,6 @@ source = "scm"
 
 [tool.pdm.build]
 excludes = ["tests/**"]
-includes = ["src/wordsmith/assets/*.json"]
 
 [dependency-groups]
 dev = [
