@@ -15,6 +15,12 @@ def test_exotic_character_from_set() -> None:
     assert value in ExoticCharacter._character_sets["runic"]
 
 
+def test_exotic_character_from_glagolitic_set() -> None:
+    rng = random.Random(0)
+    value = ExoticCharacter.random_character_from_set("glagolitic", rng)
+    assert value in ExoticCharacter._character_sets["glagolitic"]
+
+
 def test_exotic_character_any_set() -> None:
     rng = random.Random(1)
     value = ExoticCharacter.random_character(rng)
