@@ -11,7 +11,15 @@ from wordsmith.util import load_json
 
 @dataclass(frozen=True)
 class ExoticCharacter:
-    """Pick random exotic characters."""
+    """Pick random exotic characters.
+
+    Character set names generally follow Unicode block names rather than strict
+    semantic categories. For example, ``linearBSyllabary`` includes both Linear
+    B syllables and Linear B symbols because Unicode groups both in that block.
+    The sets are still curated for visual interest, so assigned characters may
+    be omitted when they render poorly, resemble ordinary Latin letters, or are
+    visually uninteresting.
+    """
 
     _character_sets: ClassVar[dict[str, list[str]]] = load_json(
         "Exotic Character Sets.json"
