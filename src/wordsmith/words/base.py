@@ -116,6 +116,29 @@ class ChemicalCompoundName(Component):
 
 
 @dataclass(frozen=True)
+class AuthoredArtifact(Component):
+    """Random authored or documented artifact."""
+
+    _options: ClassVar[list[str]] = [
+        "almanac",
+        "atlas",
+        "book",
+        "catalog",
+        "codex",
+        "field guide",
+        "inventory",
+        "letter",
+        "manual",
+        "notebook",
+        "record",
+        "score",
+    ]
+
+    def make_text(self, rng: random.Random) -> str:
+        return rng.choice(self._options)
+
+
+@dataclass(frozen=True)
 class LocationAdjective(Component):
     """Random location adjective."""
 

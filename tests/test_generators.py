@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import random
+import re
 
 from wordsmith.specials import ReadableUniqueIdentifier
 from wordsmith.generators import (
@@ -12,7 +13,7 @@ from wordsmith.generators import (
     FictionalMineralName,
     NauticalShipName,
     TownName,
-    WorkTitle,
+    LiteraryTitle,
 )
 from tests.utils import assert_nonempty, assert_repeatable
 
@@ -41,8 +42,52 @@ def test_town_name_repeatable() -> None:
     assert_repeatable(TownName())
 
 
-def test_work_title_repeatable() -> None:
-    assert_repeatable(WorkTitle())
+def test_literary_title_repeatable() -> None:
+    assert_repeatable(LiteraryTitle())
+
+
+def test_literary_titles_have_title_shape() -> None:
+    rng = random.Random(20260617)
+    titles = [LiteraryTitle().make_text(rng) for _ in range(250)]
+
+    assert all(title == title.strip() for title in titles)
+    assert all("  " not in title for title in titles)
+    assert all(len(title.split()) >= 2 for title in titles)
+    assert all(not title.lower().endswith("ly") for title in titles)
+    assert all("''" not in title and "\"\"" not in title for title in titles)
+
+
+def test_literary_titles_avoid_bare_singular_motifs_after_of() -> None:
+    rng = random.Random(6789)
+    titles = [LiteraryTitle().make_text(rng) for _ in range(500)]
+    singular_motifs = (
+        "Archive",
+        "Bell",
+        "Bridge",
+        "Camera",
+        "Cipher",
+        "Clock",
+        "Compass",
+        "Door",
+        "Garden",
+        "Harbor",
+        "Key",
+        "Lantern",
+        "Machine",
+        "Map",
+        "Mirror",
+        "Moon",
+        "Orchard",
+        "Room",
+        "Signal",
+        "Staircase",
+        "Station",
+        "Thread",
+        "Window",
+    )
+    awkward_pattern = re.compile(rf" of ({'|'.join(singular_motifs)})(?:$|\\b)")
+
+    assert all(awkward_pattern.search(title) is None for title in titles)
 
 
 def test_identifier_format() -> None:
@@ -60,4 +105,4 @@ def test_nonempty_outputs() -> None:
     assert_nonempty(FictionalMineralName())
     assert_nonempty(NauticalShipName())
     assert_nonempty(TownName())
-    assert_nonempty(WorkTitle())
+    assert_nonempty(LiteraryTitle())

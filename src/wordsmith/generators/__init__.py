@@ -6,7 +6,7 @@ from .fictional_element_name import FictionalElementName
 from .fictional_mineral_name import FictionalMineralName
 from .nautical_ship_name import NauticalShipName
 from .town_name import TownName
-from .work_title import SimpleWorkTitle, UnusualWorkTitle, WorkTitle
+from .literary_title import LiteraryTitle, SimpleLiteraryTitle, UnusualLiteraryTitle
 
 __all__ = [
     "BandName",
@@ -14,8 +14,8 @@ __all__ = [
     "FictionalElementName",
     "FictionalMineralName",
     "NauticalShipName",
-    "SimpleWorkTitle",
+    "LiteraryTitle",
+    "SimpleLiteraryTitle",
     "TownName",
-    "UnusualWorkTitle",
-    "WorkTitle",
+    "UnusualLiteraryTitle",
 ]

@@ -4,6 +4,7 @@ from .articles import Article, Determiner
 from .base import (
     Adjective,
     Adverb,
+    AuthoredArtifact,
     ChemicalCompoundName,
     LocationAdjective,
     MartialSocialConcept,
@@ -24,6 +25,7 @@ __all__ = [
     "Adjective",
     "Adverb",
     "Article",
+    "AuthoredArtifact",
     "ChemicalCompoundName",
     "Determiner",
     "LocationAdjective",

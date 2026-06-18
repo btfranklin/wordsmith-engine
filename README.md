@@ -10,7 +10,7 @@ It started as a port of the Swift package [`Wordsmith`](https://github.com/btfra
 rich, varied text with small, reusable components.
 
 ## What it is for
-- Generating names for people, towns, ships, gangs, and creative works.
+- Generating names for people, towns, ships, gangs, and literary works.
 - Building simple language generators from reusable parts.
 - Producing repeatable output with a seeded RNG.
 
@@ -22,9 +22,9 @@ pdm install --group dev
 
 ## Quickstart
 ```python
-from wordsmith import WorkTitle
+from wordsmith import LiteraryTitle
 
-print(WorkTitle()())
+print(LiteraryTitle()())
 ```
 
 ## Core concepts
@@ -53,7 +53,7 @@ Common decorators on components:
 ```python
 import random
 
-from wordsmith import Adjective, Noun, WorkTitle, either, maybe, one_of
+from wordsmith import Adjective, Noun, LiteraryTitle, either, maybe, one_of
 
 rng = random.Random(42)
 
@@ -69,7 +69,7 @@ line = ("Once" | maybe("upon a time", probability=0.5)) + "."
 
 print(title(rng))
 print(line(rng))
-print(WorkTitle()(rng))
+print(LiteraryTitle()(rng))
 ```
 
 ## Generators included
@@ -78,7 +78,7 @@ The Wordsmith Engine ships with a growing set of generators:
 - Locations: `TownName`
 - Groups: `CriminalGangName`, `BandName`
 - Vessels: `NauticalShipName`
-- Works: `SimpleWorkTitle`, `UnusualWorkTitle`, `WorkTitle`
+- Literary titles: `SimpleLiteraryTitle`, `UnusualLiteraryTitle`, `LiteraryTitle`
 - Materials: `FictionalElementName`, `FictionalMineralName`, `ChemicalCompoundName`
 - Specials: `ReadableUniqueIdentifier`, `ExoticCharacter`
 
@@ -87,17 +87,17 @@ All components accept a `random.Random` instance. If you want repeatable results
 pass a seeded RNG.
 ```python
 import random
-from wordsmith import WorkTitle
+from wordsmith import LiteraryTitle
 
 rng = random.Random(1234)
-print(WorkTitle()(rng))
-print(WorkTitle()(rng))
+print(LiteraryTitle()(rng))
+print(LiteraryTitle()(rng))
 ```
 
 ## Examples
 Run any script under `examples/` with PDM, for example:
 ```bash
-pdm run python examples/work_titles.py
+pdm run python examples/literary_titles.py
 ```
 
 ## Development

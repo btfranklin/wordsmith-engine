@@ -9,6 +9,7 @@ from tests.utils import assert_in_options
 from wordsmith.words import (
     Adjective,
     Adverb,
+    AuthoredArtifact,
     ChemicalCompoundName,
     LocationAdjective,
     MartialSocialConcept,
@@ -74,20 +75,26 @@ def test_chemical_compound_from_assets() -> None:
     assert_in_options(value, ChemicalCompoundName._options)
 
 
-def test_location_adjective_from_assets() -> None:
+def test_authored_artifact_from_options() -> None:
     rng = random.Random(5)
+    value = AuthoredArtifact().make_text(rng)
+    assert_in_options(value, AuthoredArtifact._options)
+
+
+def test_location_adjective_from_assets() -> None:
+    rng = random.Random(6)
     value = LocationAdjective().make_text(rng)
     assert_in_options(value, LocationAdjective._options)
 
 
 def test_martial_social_concept_from_assets() -> None:
-    rng = random.Random(6)
+    rng = random.Random(7)
     value = MartialSocialConcept().make_text(rng)
     assert_in_options(value, MartialSocialConcept._options)
 
 
 def test_ship_name_vocab() -> None:
-    rng = random.Random(7)
+    rng = random.Random(8)
     assert_in_options(
         NauticalShipNameColor().make_text(rng),
         NauticalShipNameColor._options,
@@ -100,13 +107,13 @@ def test_ship_name_vocab() -> None:
 
 
 def test_time_of_day_from_assets() -> None:
-    rng = random.Random(8)
+    rng = random.Random(9)
     value = TimeOfDay().make_text(rng)
     assert_in_options(value, TimeOfDay._options)
 
 
 def test_ucb_emotion_from_assets() -> None:
-    rng = random.Random(9)
+    rng = random.Random(10)
     value = UCBerkeleyEmotion().make_text(rng)
     assert_in_options(value, UCBerkeleyEmotion._options)
 
