@@ -10,11 +10,16 @@ It started as a port of the Swift package [`Wordsmith`](https://github.com/btfra
 rich, varied text with small, reusable components.
 
 ## What it is for
-- Generating names for people, towns, ships, gangs, literary works, movies, and albums.
+- Generating names for people, towns, ships, gangs, literary works, movies, albums, and fictional materials.
 - Building simple language generators from reusable parts.
 - Producing repeatable output with a seeded RNG.
 
 ## Installation
+Install the package from PyPI:
+```bash
+pip install wordsmith-engine
+```
+
 Use PDM to install dependencies for development:
 ```bash
 pdm install --group dev
@@ -76,6 +81,7 @@ print(AlbumTitle()(rng))
 ## Generators included
 The Wordsmith Engine ships with a growing set of generators:
 - Names: `GivenName`, `Surname`, `PersonName`, `AlienName`, `AncientGivenName`, `FantasyName`
+  - `GivenName` supports gender and cultural grouping with `BinaryGender` and `GivenNameCulture`.
 - Locations: `TownName`
 - Groups: `CriminalGangName`, `BandName`
 - Vessels: `NauticalShipName`
@@ -83,6 +89,7 @@ The Wordsmith Engine ships with a growing set of generators:
 - Movie titles: `SimpleMovieTitle`, `HighConceptMovieTitle`, `MovieTitle`
 - Album titles: `AlbumTitle`
 - Materials: `FictionalElementName`, `FictionalMineralName`, `ChemicalCompoundName`
+  - `ChemicalCompoundName` samples real compound names; the element and mineral generators produce fictional names.
 - Specials: `ReadableUniqueIdentifier`, `ExoticCharacter`
 
 ## Deterministic output
@@ -100,12 +107,18 @@ print(LiteraryTitle()(rng))
 ## Examples
 Run any script under `examples/` with PDM, for example:
 ```bash
+pdm run python examples/character_names.py
+pdm run python examples/fictional_materials.py
 pdm run python examples/literary_titles.py
 pdm run python examples/movie_titles.py
 pdm run python examples/album_titles.py
 ```
 
+## Project docs
+Repo-local architecture, asset, and quality notes live in [`docs/`](docs/README.md).
+
 ## Development
 - Install: `pdm install --group dev`
 - Run tests: `pdm run pytest`
 - Run lint: `pdm run lint`
+- Build: `pdm build`

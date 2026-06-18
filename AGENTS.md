@@ -1,26 +1,36 @@
 # Repository Guidelines
 
-## Project Structure & Module Organization
-- Consolidate architecture notes, runbooks, and decision records in `docs/`. Before major refactors, review and extend these documents to keep system knowledge current.
+## Repo Map
+- `src/wordsmith/core/`: the composable `Component` DSL, operators, and combinators.
+- `src/wordsmith/words/`: asset-backed word components and grammar helpers.
+- `src/wordsmith/names/`: given names, surnames, generated alien/fantasy names, and culture/gender enums.
+- `src/wordsmith/generators/`: higher-level generators built from core, words, and names.
+- `src/wordsmith/assets/`: packaged JSON data used at runtime.
+- `examples/`: runnable usage examples for the public package surface.
+- `tests/`: pytest coverage for DSL behavior, generators, names, words, and assets.
+- `docs/`: repo-local system of record for architecture, assets, and quality expectations.
 
-## Build, Test, and Development Commands
-- Use PDM to capture application and dev-only dependencies. Document the canonical install command (e.g., `pdm install --group dev`).
-- Target runtimes: Python 3.12+ always.
-- Enforce version policy in `pyproject.toml`: set `requires-python = ">=3.12"`.
-- Expose a single test runner command (`pdm run pytest`) that covers any supporting packages.
+## Sources Of Truth
+- Start with [README.md](README.md) for public usage and the exported feature list.
+- Use [docs/README.md](docs/README.md) as the documentation index.
+- Use [docs/architecture.md](docs/architecture.md) before changing module boundaries or adding generators.
+- Use [docs/name-assets.md](docs/name-assets.md) before changing given-name data or refresh logic.
+- Use [docs/quality.md](docs/quality.md) before committing, releasing, or touching public exports.
 
-## Coding Style & Naming Conventions
-- Use 4-space indentation, type-annotate every function, and prefer built-in generics (`list[str]`, `dict[str, Any]`) with `| None` for optionals on Python 3.14+.
-- Keep Django apps modular: new views, forms, services, and tasks should live under the app that owns the corresponding data or workflow.
-- Treat the linter as non-optional. Run it locally before committing; unresolved linting errors should block CI.
-- Write docstrings and comments in American English; focus on clarifying intent rather than restating code.
+## Development Commands
+- Install dev dependencies with `pdm install --group dev`.
+- Run tests with `pdm run pytest`.
+- Run lint with `pdm run lint`.
+- Build the distributable package with `pdm build`.
+- Run examples with `pdm run python examples/<script>.py`.
 
-## Testing Guidelines
-- Keep tests in the top-level `tests/` folder (sibling to `src/`). Name modules `test_*.py`, classes `Test*`, and functions `test_*` for automatic discovery.
-- Cover asynchronous tasks, external service adapters, and LLM helpers with deterministic fixtures. Mock network-bound APIs so the suite stays offline and fast.
-- Make `pdm run pytest` (or the equivalent) the default validation step before pushing changes.
+## Implementation Rules
+- Keep the public API coherent: generator renames or additions must update `src/wordsmith/generators/__init__.py`, `src/wordsmith/__init__.py`, examples, tests, and README together.
+- Prefer `one_of`, `weighted_one_of`, `either`, `maybe`, `|`, and `+` for generator composition. Use direct `rng.choice(...)` for uniform asset or enum selection.
+- Pass the caller-provided `random.Random` through all rendering. Do not use module-level randomness.
+- Keep packaged data in `src/wordsmith/assets/`; document source and refresh process under `docs/`.
+- This is a Python package, not a Django app or service. Do not add framework guidance, runtime service assumptions, migrations, or webhook conventions unless the repo actually grows that surface.
 
-## Commit & Pull Request Guidelines
-- Favor concise, sentence-case commit messages that describe both the change and its intent (e.g., `Add credit balance tracking to user profiles`).
-- Keep commits scoped to a single concern. Mention the affected app or feature area when useful for reviewers.
-- Pull requests should summarize the change set, call out new migrations, list manual or automated test results, and attach UI screenshots or logs for behavioral updates.
+## Release Notes
+- This repo uses SCM-derived versions, tag-triggered draft release notes, and release-published trusted publishing.
+- For releases, push the tag and let the existing draft-release workflow create notes for review; do not manually author and publish release notes first.
