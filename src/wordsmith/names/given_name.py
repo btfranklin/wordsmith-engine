@@ -24,8 +24,6 @@ class GivenName(Component):
     ).get("modern", {})
 
     def make_text(self, rng: random.Random) -> str:
-        gender = self.gender or (
-            BinaryGender.MALE if rng.choice([True, False]) else BinaryGender.FEMALE
-        )
+        gender = self.gender or rng.choice([BinaryGender.MALE, BinaryGender.FEMALE])
         culture = self.culture or rng.choice(list(GivenNameCulture))
         return rng.choice(self._options[culture.value][gender.value])

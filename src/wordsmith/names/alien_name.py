@@ -7,7 +7,7 @@ import random
 from typing import ClassVar
 
 from wordsmith.core.base import Component
-from wordsmith.util import first_upper
+from wordsmith.util import first_upper, random_bool
 
 
 @dataclass(frozen=True)
@@ -178,12 +178,12 @@ class AlienName(Component):
         will_use_hyphen = (
             self.syllable_count > 2
             and self.allow_hyphen
-            and rng.choice([True, False])
+            and random_bool(rng)
         )
         will_use_apostrophe = (
             self.syllable_count > 2
             and self.allow_apostrophe
-            and rng.choice([True, False])
+            and random_bool(rng)
         )
 
         hyphen_syllable = (
@@ -202,7 +202,7 @@ class AlienName(Component):
             elif current_syllable == hyphen_syllable:
                 text += "-"
 
-        if rng.choice([True, False]):
+        if random_bool(rng):
             text += rng.choice(self._ending_sounds)
 
         return first_upper(text)

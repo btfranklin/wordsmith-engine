@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import random
+from typing import ClassVar
 
 from wordsmith.core.base import Component
 from wordsmith.core.components import weighted_one_of
@@ -17,7 +18,7 @@ from wordsmith.generators._material_roots import (
 class FictionalElementName(Component):
     """Generate a fictional element name."""
 
-    _real_element_names = {
+    _real_element_names: ClassVar[set[str]] = {
         "actinium",
         "aluminium",
         "americium",

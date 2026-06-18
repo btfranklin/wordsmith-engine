@@ -23,7 +23,5 @@ class AncientGivenName(Component):
     )
 
     def make_text(self, rng: random.Random) -> str:
-        gender = self.gender or (
-            BinaryGender.MALE if rng.choice([True, False]) else BinaryGender.FEMALE
-        )
+        gender = self.gender or rng.choice([BinaryGender.MALE, BinaryGender.FEMALE])
         return rng.choice(self._options[gender.value])
