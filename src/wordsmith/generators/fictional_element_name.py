@@ -9,6 +9,7 @@ from wordsmith.core.base import Component
 from wordsmith.core.components import one_of
 from wordsmith.names.alien_name import AlienName
 from wordsmith.names.given_name import GivenName
+from wordsmith.names.given_name_culture import GivenNameCulture
 from wordsmith.names.surname import Surname
 from wordsmith.util import random_bool
 
@@ -20,7 +21,7 @@ class FictionalElementName(Component):
     def make_text(self, rng: random.Random) -> str:
         root_word = (
             one_of(
-                GivenName(),
+                GivenName(culture=GivenNameCulture.ENGLISH_SPEAKING),
                 Surname(),
                 AlienName(syllable_count=2, allow_hyphen=False, allow_apostrophe=False),
                 AlienName(syllable_count=3, allow_hyphen=False, allow_apostrophe=False),

@@ -8,6 +8,7 @@ import random
 from wordsmith.core.base import Component
 from wordsmith.core.components import one_of, weighted_one_of
 from wordsmith.generators.town_name import TownName
+from wordsmith.names.given_name_culture import GivenNameCulture
 from wordsmith.names.person_name import PersonName
 from wordsmith.words.base import (
     Adjective,
@@ -67,7 +68,12 @@ class FragmentAlbumTitle(Component):
             ),
             (1.6, TimeOfDay() | "with" | Noun(form=NounForm.PLURAL)),
             (1.4, Noun() | "for" | Noun(form=NounForm.PLURAL)),
-            (1.2, UCBerkeleyEmotion() | "for" | PersonName()),
+            (
+                1.2,
+                UCBerkeleyEmotion()
+                | "for"
+                | PersonName(culture=GivenNameCulture.ENGLISH_SPEAKING),
+            ),
             (1.0, Verb(tense=VerbTense.BASE) | "the" | Noun()),
         )
         return component.title_case().make_text(rng)
@@ -80,7 +86,13 @@ class DocumentaryAlbumTitle(Component):
     def make_text(self, rng: random.Random) -> str:
         component = weighted_one_of(
             (2.0, TownName() | one_of("sessions", "recordings")),
-            (1.6, PersonName().possessive_form() | AuthoredArtifact()),
+            (
+                1.6,
+                PersonName(
+                    culture=GivenNameCulture.ENGLISH_SPEAKING,
+                ).possessive_form()
+                | AuthoredArtifact(),
+            ),
             (1.4, AuthoredArtifact() | "from" | TownName()),
             (
                 1.4,

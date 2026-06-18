@@ -9,6 +9,7 @@ from wordsmith.core.base import Component
 from wordsmith.core.components import one_of, weighted_one_of
 from wordsmith.generators.literary_title import LiteraryTitle
 from wordsmith.generators.town_name import TownName
+from wordsmith.names.given_name_culture import GivenNameCulture
 from wordsmith.names.person_name import PersonName
 from wordsmith.words.base import (
     Adjective,
@@ -41,15 +42,27 @@ class SimpleMovieTitle(Component):
 
     def make_text(self, rng: random.Random) -> str:
         component = weighted_one_of(
-            (2.0, PersonName()),
+            (2.0, PersonName(culture=GivenNameCulture.ENGLISH_SPEAKING)),
             (1.8, TownName()),
             (1.7, "the" | Adjective() | Noun()),
             (1.7, "the" | Noun() | "of" | TownName()),
             (1.5, TimeOfDay() | "in" | TownName()),
             (1.4, MartialSocialConcept() | "at" | TownName()),
             (1.3, UCBerkeleyEmotion() | "and" | MartialSocialConcept()),
-            (1.2, PersonName().possessive_form() | AuthoredArtifact()),
-            (1.0, "the" | AuthoredArtifact() | "of" | PersonName()),
+            (
+                1.2,
+                PersonName(
+                    culture=GivenNameCulture.ENGLISH_SPEAKING,
+                ).possessive_form()
+                | AuthoredArtifact(),
+            ),
+            (
+                1.0,
+                "the"
+                | AuthoredArtifact()
+                | "of"
+                | PersonName(culture=GivenNameCulture.ENGLISH_SPEAKING),
+            ),
         )
         return component.title_case().make_text(rng)
 
@@ -79,7 +92,7 @@ class HighConceptMovieTitle(Component):
             (
                 1.6,
                 one_of("before", "after", "when")
-                | PersonName()
+                | PersonName(culture=GivenNameCulture.ENGLISH_SPEAKING)
                 | Verb(tense=VerbTense.PRESENT),
             ),
             (

@@ -10,6 +10,7 @@ from typing import ClassVar
 from wordsmith.core.base import Component
 from wordsmith.core.components import maybe, one_of, weighted_one_of
 from wordsmith.generators.town_name import TownName
+from wordsmith.names.given_name_culture import GivenNameCulture
 from wordsmith.names.person_name import PersonName
 from wordsmith.words.base import (
     AuthoredArtifact,
@@ -194,7 +195,7 @@ class ResonantSubject(Component):
         return one_of(
             LiteraryTitleObject(is_plural=True),
             AbstractSubject(),
-            PersonName(),
+            PersonName(culture=GivenNameCulture.ENGLISH_SPEAKING),
             TownName(),
         ).make_text(rng)
 
@@ -307,7 +308,13 @@ class SimpleLiteraryTitle(Component):
             (2.0, AbstractSubject() | "and" | AbstractSubject()),
             (2.0, AbstractSubject() | "in" | TownName()),
             (1.8, TitleNounPhrase(AuthoredArtifact()) | "of" | ResonantSubject()),
-            (1.5, PersonName().possessive_form() | AuthoredArtifact()),
+            (
+                1.5,
+                PersonName(
+                    culture=GivenNameCulture.ENGLISH_SPEAKING,
+                ).possessive_form()
+                | AuthoredArtifact(),
+            ),
             (
                 1.5,
                 one_of(

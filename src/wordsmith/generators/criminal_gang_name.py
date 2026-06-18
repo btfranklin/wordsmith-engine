@@ -8,6 +8,7 @@ import random
 from wordsmith.core.base import Component
 from wordsmith.core.components import either, one_of
 from wordsmith.names.given_name import GivenName
+from wordsmith.names.given_name_culture import GivenNameCulture
 from wordsmith.util import random_bool
 from wordsmith.words.base import (
     Adjective,
@@ -27,7 +28,9 @@ class CriminalGangName(Component):
 
         if begins_with_person_name:
             component = (
-                GivenName().possessive_form()
+                GivenName(
+                    culture=GivenNameCulture.ENGLISH_SPEAKING,
+                ).possessive_form()
                 | either(
                     VillainousPersonNoun(is_plural=True),
                     PrimitiveWeapon(is_plural=True),

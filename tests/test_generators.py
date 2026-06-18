@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import random
+import inspect
 import re
 
 from wordsmith.specials import ReadableUniqueIdentifier
@@ -42,6 +43,12 @@ def test_fictional_mineral_name_repeatable() -> None:
 
 def test_nautical_ship_name_repeatable() -> None:
     assert_repeatable(NauticalShipName())
+
+
+def test_nautical_ship_names_use_fantasy_not_alien_names() -> None:
+    source = inspect.getsource(NauticalShipName.make_text)
+    assert "FantasyName" in source
+    assert "AlienName" not in source
 
 
 def test_movie_title_repeatable() -> None:

@@ -7,10 +7,11 @@ import random
 
 from wordsmith.core.base import Component
 from wordsmith.core.components import either, weighted_one_of
-from wordsmith.names.alien_name import AlienName
+from wordsmith.names.ancient_given_name import AncientGivenName
 from wordsmith.names.fantasy_name import FantasyName
 from wordsmith.names.gender import BinaryGender
 from wordsmith.names.given_name import GivenName
+from wordsmith.names.given_name_culture import GivenNameCulture
 from wordsmith.words.base import (
     MartialSocialConcept,
     NauticalShipNameColor,
@@ -31,8 +32,14 @@ class NauticalShipName(Component):
             either(
                 MartialSocialConcept().first_upper(),
                 either(
-                    GivenName(gender=BinaryGender.FEMALE),
-                    GivenName(gender=BinaryGender.MALE),
+                    GivenName(
+                        gender=BinaryGender.FEMALE,
+                        culture=GivenNameCulture.ENGLISH_SPEAKING,
+                    ),
+                    GivenName(
+                        gender=BinaryGender.MALE,
+                        culture=GivenNameCulture.ENGLISH_SPEAKING,
+                    ),
                     first_probability=0.75,
                 ),
                 first_probability=0.33,
@@ -44,10 +51,22 @@ class NauticalShipName(Component):
         )
 
         component = weighted_one_of(
-            (4, GivenName(gender=BinaryGender.FEMALE)),
+            (
+                4,
+                GivenName(
+                    gender=BinaryGender.FEMALE,
+                    culture=GivenNameCulture.ENGLISH_SPEAKING,
+                ),
+            ),
             (3, MartialSocialConcept()),
             (1, TownName()),
-            (1, either(AlienName(syllable_count=3), FantasyName(syllable_count=3))),
+            (
+                1,
+                either(
+                    AncientGivenName(gender=BinaryGender.FEMALE),
+                    FantasyName(syllable_count=3),
+                ),
+            ),
             (1, NauticalShipNameObject()),
             (1, ShipNameAdjective()),
             (

@@ -65,10 +65,18 @@ def test_person_name_components() -> None:
     rng = random.Random(2)
     name = PersonName(gender=BinaryGender.MALE).make_text(rng)
     parts = name.split(" ")
-    assert any(
-        parts[0] in group["male"]
-        for group in GivenName._options.values()
-    )
+    assert any(parts[0] in group["male"] for group in GivenName._options.values())
+    assert parts[-1] in Surname._options
+
+
+def test_person_name_passes_culture_to_given_name() -> None:
+    rng = random.Random(2)
+    name = PersonName(
+        gender=BinaryGender.MALE,
+        culture=GivenNameCulture.ENGLISH_SPEAKING,
+    ).make_text(rng)
+    parts = name.split(" ")
+    assert parts[0] in GivenName._options["english_speaking"]["male"]
     assert parts[-1] in Surname._options
 
 
