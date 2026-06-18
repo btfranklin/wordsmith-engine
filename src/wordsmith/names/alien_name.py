@@ -1,4 +1,4 @@
-"""Procedural weird name generator."""
+"""Procedural alien name generator."""
 
 from __future__ import annotations
 
@@ -11,8 +11,8 @@ from wordsmith.util import first_upper
 
 
 @dataclass(frozen=True)
-class WeirdName(Component):
-    """Generate a synthetic name from syllable fragments."""
+class AlienName(Component):
+    """Generate a synthetic alien name from open syllable fragments."""
 
     syllable_count: int
     allow_hyphen: bool = True

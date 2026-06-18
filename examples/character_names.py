@@ -5,12 +5,14 @@ from __future__ import annotations
 import random
 
 from wordsmith import (
-    AncientName,
+    AlienName,
+    AncientGivenName,
     BinaryGender,
+    FantasyName,
     GivenName,
+    GivenNameCulture,
     PersonName,
     Surname,
-    WeirdName,
 )
 
 
@@ -19,7 +21,12 @@ def main() -> None:
 
     print("Given names:")
     for _ in range(5):
-        print(GivenName(gender=BinaryGender.FEMALE)(rng))
+        print(
+            GivenName(
+                gender=BinaryGender.FEMALE,
+                culture=GivenNameCulture.LATIN_AMERICAN,
+            )(rng)
+        )
 
     print("\nSurnames:")
     for _ in range(5):
@@ -29,13 +36,17 @@ def main() -> None:
     for _ in range(5):
         print(PersonName()(rng))
 
-    print("\nWeird names:")
+    print("\nAlien names:")
     for _ in range(5):
-        print(WeirdName(syllable_count=3)(rng))
+        print(AlienName(syllable_count=3)(rng))
 
-    print("\nAncient names:")
+    print("\nAncient given names:")
     for _ in range(5):
-        print(AncientName(syllable_count=4)(rng))
+        print(AncientGivenName(gender=BinaryGender.FEMALE)(rng))
+
+    print("\nFantasy names:")
+    for _ in range(5):
+        print(FantasyName(syllable_count=4)(rng))
 
 
 if __name__ == "__main__":

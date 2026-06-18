@@ -7,8 +7,8 @@ import random
 
 from wordsmith.core.base import Component
 from wordsmith.core.components import one_of
+from wordsmith.names.alien_name import AlienName
 from wordsmith.names.given_name import GivenName
-from wordsmith.names.weird_name import WeirdName
 
 
 @dataclass(frozen=True)
@@ -19,7 +19,7 @@ class FictionalMineralName(Component):
         root_word = (
             one_of(
                 GivenName(),
-                WeirdName(syllable_count=2, allow_hyphen=False, allow_apostrophe=False),
+                AlienName(syllable_count=2, allow_hyphen=False, allow_apostrophe=False),
             )
             .make_text(rng)
             .lower()

@@ -75,7 +75,7 @@ print(AlbumTitle()(rng))
 
 ## Generators included
 The Wordsmith Engine ships with a growing set of generators:
-- Names: `GivenName`, `Surname`, `PersonName`, `WeirdName`, `AncientName`
+- Names: `GivenName`, `Surname`, `PersonName`, `AlienName`, `AncientGivenName`, `FantasyName`
 - Locations: `TownName`
 - Groups: `CriminalGangName`, `BandName`
 - Vessels: `NauticalShipName`

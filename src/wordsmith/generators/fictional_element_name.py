@@ -7,9 +7,9 @@ import random
 
 from wordsmith.core.base import Component
 from wordsmith.core.components import one_of
+from wordsmith.names.alien_name import AlienName
 from wordsmith.names.given_name import GivenName
 from wordsmith.names.surname import Surname
-from wordsmith.names.weird_name import WeirdName
 from wordsmith.util import random_bool
 
 
@@ -22,8 +22,8 @@ class FictionalElementName(Component):
             one_of(
                 GivenName(),
                 Surname(),
-                WeirdName(syllable_count=2, allow_hyphen=False, allow_apostrophe=False),
-                WeirdName(syllable_count=3, allow_hyphen=False, allow_apostrophe=False),
+                AlienName(syllable_count=2, allow_hyphen=False, allow_apostrophe=False),
+                AlienName(syllable_count=3, allow_hyphen=False, allow_apostrophe=False),
             )
             .make_text(rng)
             .lower()

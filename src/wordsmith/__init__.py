@@ -38,12 +38,14 @@ from wordsmith.generators import (
 )
 from wordsmith.specials import ExoticCharacter, ReadableUniqueIdentifier
 from wordsmith.names import (
-    AncientName,
+    AlienName,
+    AncientGivenName,
     BinaryGender,
+    FantasyName,
     GivenName,
+    GivenNameCulture,
     PersonName,
     Surname,
-    WeirdName,
 )
 from wordsmith.words import (
     Adjective,
@@ -71,8 +73,9 @@ from wordsmith.words import (
 __all__ = [
     "Adjective",
     "Adverb",
+    "AlienName",
     "AlbumTitle",
-    "AncientName",
+    "AncientGivenName",
     "Article",
     "AuthoredArtifact",
     "BandName",
@@ -86,8 +89,10 @@ __all__ = [
     "Empty",
     "FictionalElementName",
     "FictionalMineralName",
+    "FantasyName",
     "FirstUppercased",
     "GivenName",
+    "GivenNameCulture",
     "HighConceptMovieTitle",
     "Literal",
     "LocationAdjective",
@@ -122,7 +127,6 @@ __all__ = [
     "Verb",
     "VerbTense",
     "VillainousPersonNoun",
-    "WeirdName",
     "WeightedOneOf",
     "either",
     "maybe",

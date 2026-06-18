@@ -7,10 +7,10 @@ import random
 
 from wordsmith.core.base import Component
 from wordsmith.core.components import either, weighted_one_of
-from wordsmith.names.ancient_name import AncientName
+from wordsmith.names.alien_name import AlienName
+from wordsmith.names.fantasy_name import FantasyName
 from wordsmith.names.gender import BinaryGender
 from wordsmith.names.given_name import GivenName
-from wordsmith.names.weird_name import WeirdName
 from wordsmith.words.base import (
     MartialSocialConcept,
     NauticalShipNameColor,
@@ -47,7 +47,7 @@ class NauticalShipName(Component):
             (4, GivenName(gender=BinaryGender.FEMALE)),
             (3, MartialSocialConcept()),
             (1, TownName()),
-            (1, either(WeirdName(syllable_count=3), AncientName(syllable_count=3))),
+            (1, either(AlienName(syllable_count=3), FantasyName(syllable_count=3))),
             (1, NauticalShipNameObject()),
             (1, ShipNameAdjective()),
             (
