@@ -31,37 +31,24 @@ class Adverb(Component):
         return rng.choice(self._options)
 
 
+class NounForm(Enum):
+    """Noun form indices."""
+
+    SINGULAR = 0
+    PLURAL = 1
+
+
 @dataclass(frozen=True)
 class Noun(Component):
-    """Random noun with optional pluralization."""
+    """Random noun in the requested form."""
 
-    is_plural: bool = False
+    form: NounForm = NounForm.SINGULAR
 
-    _options: ClassVar[list[str]] = load_json("Nouns.json")
+    _options: ClassVar[list[list[str]]] = load_json("Nouns.json")
 
     def make_text(self, rng: random.Random) -> str:
-        value = rng.choice(self._options)
-
-        if self.is_plural:
-            if value.endswith(("ay", "ey", "iy", "oy", "uy")):
-                value += "s"
-            elif value.endswith("y"):
-                value = f"{value[:-1]}ies"
-            elif value.endswith(("x", "ss", "sh", "ch")):
-                value += "es"
-            elif value.endswith("ife"):
-                value = f"{value[:-2]}ves"
-            elif value.endswith("rf"):
-                value = f"{value[:-1]}ves"
-            elif value.endswith("man"):
-                if value == "human":
-                    value = "humans"
-                else:
-                    value = f"{value[:-2]}en"
-            elif not value.endswith("s"):
-                value += "s"
-
-        return value
+        noun_row = rng.choice(self._options)
+        return noun_row[self.form.value]
 
 
 class VerbTense(Enum):

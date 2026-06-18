@@ -8,7 +8,7 @@ import random
 from wordsmith.core.base import Component
 from wordsmith.core.components import one_of
 from wordsmith.names.given_name import GivenName
-from wordsmith.words.base import Adjective, Noun
+from wordsmith.words.base import Adjective, Noun, NounForm
 
 
 @dataclass(frozen=True)
@@ -20,11 +20,11 @@ class BandName(Component):
             one_of(
                 "The" | Adjective(),
                 "The" | Noun(),
-                "The" | Noun(is_plural=True),
+                "The" | Noun(form=NounForm.PLURAL),
                 Adjective() | Noun(),
-                "The" | Adjective() | Noun(is_plural=True),
-                GivenName() | "and the" | Noun(is_plural=True),
-                GivenName().possessive_form() | Noun(is_plural=True),
+                "The" | Adjective() | Noun(form=NounForm.PLURAL),
+                GivenName() | "and the" | Noun(form=NounForm.PLURAL),
+                GivenName().possessive_form() | Noun(form=NounForm.PLURAL),
             )
             .title_case()
             .make_text(rng)

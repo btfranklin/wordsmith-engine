@@ -14,6 +14,7 @@ from wordsmith.words.base import (
     AuthoredArtifact,
     MartialSocialConcept,
     Noun,
+    NounForm,
     TimeOfDay,
     UCBerkeleyEmotion,
     Verb,
@@ -40,11 +41,11 @@ class ShortAlbumTitle(Component):
     """Generate a compact album title."""
 
     def make_text(self, rng: random.Random) -> str:
-        noun_plural = rng.choice([True, False])
+        noun_form = rng.choice([NounForm.SINGULAR, NounForm.PLURAL])
         component = weighted_one_of(
-            (2.0, Noun(is_plural=True)),
-            (2.0, Adjective() | Noun(is_plural=noun_plural)),
-            (1.4, TimeOfDay() | Noun(is_plural=True)),
+            (2.0, Noun(form=NounForm.PLURAL)),
+            (2.0, Adjective() | Noun(form=noun_form)),
+            (1.4, TimeOfDay() | Noun(form=NounForm.PLURAL)),
             (1.2, UCBerkeleyEmotion()),
             (1.2, MartialSocialConcept()),
             (1.0, AuthoredArtifact()),
@@ -57,15 +58,15 @@ class FragmentAlbumTitle(Component):
     """Generate a phrase-fragment album title."""
 
     def make_text(self, rng: random.Random) -> str:
-        noun_plural = rng.choice([True, False])
+        noun_form = rng.choice([NounForm.SINGULAR, NounForm.PLURAL])
         component = weighted_one_of(
             (
                 1.8,
                 one_of("no", "new", "old", "last", "first")
-                | Noun(is_plural=noun_plural),
+                | Noun(form=noun_form),
             ),
-            (1.6, TimeOfDay() | "with" | Noun(is_plural=True)),
-            (1.4, Noun() | "for" | Noun(is_plural=True)),
+            (1.6, TimeOfDay() | "with" | Noun(form=NounForm.PLURAL)),
+            (1.4, Noun() | "for" | Noun(form=NounForm.PLURAL)),
             (1.2, UCBerkeleyEmotion() | "for" | PersonName()),
             (1.0, Verb(tense=VerbTense.BASE) | "the" | Noun()),
         )
@@ -85,7 +86,7 @@ class DocumentaryAlbumTitle(Component):
                 1.4,
                 one_of("songs for", "music for")
                 | one_of(
-                    Noun(is_plural=True),
+                    Noun(form=NounForm.PLURAL),
                     UCBerkeleyEmotion(),
                     MartialSocialConcept(),
                 ),
@@ -102,9 +103,9 @@ class CollisionAlbumTitle(Component):
     def make_text(self, rng: random.Random) -> str:
         component = weighted_one_of(
             (1.8, Noun() + " / " + Noun()),
-            (1.6, Noun() | "and" | Noun(is_plural=True)),
+            (1.6, Noun() | "and" | Noun(form=NounForm.PLURAL)),
             (1.4, Adjective() | "and" | Adjective()),
-            (1.2, UCBerkeleyEmotion() | "and" | Noun(is_plural=True)),
+            (1.2, UCBerkeleyEmotion() | "and" | Noun(form=NounForm.PLURAL)),
             (1.0, MartialSocialConcept() | "/" | UCBerkeleyEmotion()),
         )
         return component.title_case().make_text(rng)

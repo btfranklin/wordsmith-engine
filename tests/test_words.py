@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import random
-from typing import Sequence
+from typing import TypeVar
 
 from tests.utils import assert_in_options
 from wordsmith.words import (
@@ -16,6 +16,7 @@ from wordsmith.words import (
     NauticalShipNameColor,
     NauticalShipNameObject,
     Noun,
+    NounForm,
     PrimitiveWeapon,
     Pronoun,
     ShipNameAdjective,
@@ -27,13 +28,16 @@ from wordsmith.words import (
 )
 
 
+ChoiceValue = TypeVar("ChoiceValue")
+
+
 class ChoiceRandom:
     """Deterministic RNG that always returns a chosen value."""
 
-    def __init__(self, value: str) -> None:
+    def __init__(self, value: ChoiceValue) -> None:
         self._value = value
 
-    def choice(self, options: Sequence[str]) -> str:
+    def choice(self, options: list[ChoiceValue]) -> ChoiceValue:
         return self._value
 
 
@@ -50,11 +54,56 @@ def test_adverb_from_assets() -> None:
 
 
 def test_noun_pluralization_rules() -> None:
-    assert Noun(is_plural=True).make_text(ChoiceRandom("city")) == "cities"
-    assert Noun(is_plural=True).make_text(ChoiceRandom("box")) == "boxes"
-    assert Noun(is_plural=True).make_text(ChoiceRandom("knife")) == "knives"
-    assert Noun(is_plural=True).make_text(ChoiceRandom("human")) == "humans"
-    assert Noun(is_plural=True).make_text(ChoiceRandom("fireman")) == "firemen"
+    plural_noun = Noun(form=NounForm.PLURAL)
+
+    assert plural_noun.make_text(ChoiceRandom(["city", "cities"])) == "cities"
+    assert plural_noun.make_text(ChoiceRandom(["box", "boxes"])) == "boxes"
+    assert plural_noun.make_text(ChoiceRandom(["knife", "knives"])) == "knives"
+    assert plural_noun.make_text(ChoiceRandom(["human", "humans"])) == "humans"
+    assert plural_noun.make_text(ChoiceRandom(["fireman", "firemen"])) == "firemen"
+
+
+def test_noun_irregular_pluralization_rules() -> None:
+    plural_noun = Noun(form=NounForm.PLURAL)
+
+    assert plural_noun.make_text(ChoiceRandom(["child", "children"])) == "children"
+    assert plural_noun.make_text(ChoiceRandom(["foot", "feet"])) == "feet"
+    assert plural_noun.make_text(ChoiceRandom(["tooth", "teeth"])) == "teeth"
+    assert plural_noun.make_text(ChoiceRandom(["mouse", "mice"])) == "mice"
+    assert plural_noun.make_text(ChoiceRandom(["person", "people"])) == "people"
+    assert plural_noun.make_text(ChoiceRandom(["woman", "women"])) == "women"
+    assert plural_noun.make_text(ChoiceRandom(["man", "men"])) == "men"
+    assert plural_noun.make_text(ChoiceRandom(["goose", "geese"])) == "geese"
+    assert plural_noun.make_text(ChoiceRandom(["ox", "oxen"])) == "oxen"
+    assert plural_noun.make_text(ChoiceRandom(["criterion", "criteria"])) == "criteria"
+    assert plural_noun.make_text(ChoiceRandom(["medium", "media"])) == "media"
+    assert plural_noun.make_text(ChoiceRandom(["foot", "feet"])) != "feets"
+
+
+def test_noun_source_uses_canonical_singular_irregulars() -> None:
+    noun_rows = {row[NounForm.SINGULAR.value]: row for row in Noun._options}
+
+    assert noun_rows["child"][NounForm.PLURAL.value] == "children"
+    assert noun_rows["foot"][NounForm.PLURAL.value] == "feet"
+    assert noun_rows["tooth"][NounForm.PLURAL.value] == "teeth"
+    assert noun_rows["mouse"][NounForm.PLURAL.value] == "mice"
+    assert noun_rows["person"][NounForm.PLURAL.value] == "people"
+    assert noun_rows["woman"][NounForm.PLURAL.value] == "women"
+    assert noun_rows["criterion"][NounForm.PLURAL.value] == "criteria"
+    assert noun_rows["medium"][NounForm.PLURAL.value] == "media"
+
+    assert "children" not in noun_rows
+    assert "feet" not in noun_rows
+    assert "teeth" not in noun_rows
+    assert "mice" not in noun_rows
+    assert "people" not in noun_rows
+    assert "women" not in noun_rows
+    assert "criteria" not in noun_rows
+    assert "media" not in noun_rows
+
+
+def test_noun_source_rows_match_noun_forms() -> None:
+    assert all(len(row) == len(NounForm) for row in Noun._options)
 
 
 def test_verb_tense_selection() -> None:
