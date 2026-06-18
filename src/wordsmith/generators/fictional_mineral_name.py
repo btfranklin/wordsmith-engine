@@ -6,10 +6,11 @@ from dataclasses import dataclass
 import random
 
 from wordsmith.core.base import Component
-from wordsmith.core.components import one_of
-from wordsmith.names.alien_name import AlienName
-from wordsmith.names.given_name import GivenName
-from wordsmith.names.given_name_culture import GivenNameCulture
+from wordsmith.core.components import weighted_one_of
+from wordsmith.generators._material_roots import (
+    make_material_root,
+    mineral_root_source,
+)
 
 
 @dataclass(frozen=True)
@@ -17,24 +18,28 @@ class FictionalMineralName(Component):
     """Generate a fictional mineral name."""
 
     def make_text(self, rng: random.Random) -> str:
-        root_word = (
-            one_of(
-                GivenName(culture=GivenNameCulture.ENGLISH_SPEAKING),
-                AlienName(syllable_count=2, allow_hyphen=False, allow_apostrophe=False),
-            )
-            .make_text(rng)
-            .lower()
-        )
+        root = make_material_root(rng, mineral_root_source(), "aurel")
+        return _join_mineral_suffix(root, _mineral_suffix().make_text(rng))
 
-        last_letter = root_word[-1]
-        suffix = rng.choice(["ite", "alt", "um"])
 
-        if last_letter in {"a", "o", "u"}:
-            joining_letter = rng.choice(["b", "m", "n"])
-            text = f"{root_word}{joining_letter}{suffix}"
-        elif last_letter in {"e", "y", "i"}:
-            text = f"{root_word[:-1]}{suffix}"
-        else:
-            text = f"{root_word}{suffix}"
+def _mineral_suffix() -> Component:
+    return weighted_one_of(
+        (8, "ite"),
+        (2, "ine"),
+        (1.5, "spar"),
+        (1, "ore"),
+        (0.7, "stone"),
+        (0.5, "glass"),
+        (0.25, "cryst"),
+    )
 
-        return text
+
+def _join_mineral_suffix(root: str, suffix: str) -> str:
+    if suffix in {"ite", "ine"} and root.endswith(("e", "i", "y")):
+        root = root[:-1]
+
+    if root.endswith(suffix):
+        return root
+    if root[-1] == suffix[0]:
+        suffix = suffix[1:]
+    return root + suffix

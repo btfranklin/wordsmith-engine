@@ -6,47 +6,170 @@ from dataclasses import dataclass
 import random
 
 from wordsmith.core.base import Component
-from wordsmith.core.components import one_of
-from wordsmith.names.alien_name import AlienName
-from wordsmith.names.given_name import GivenName
-from wordsmith.names.given_name_culture import GivenNameCulture
-from wordsmith.names.surname import Surname
-from wordsmith.util import random_bool
+from wordsmith.core.components import weighted_one_of
+from wordsmith.generators._material_roots import (
+    element_root_source,
+    make_material_root,
+)
 
 
 @dataclass(frozen=True)
 class FictionalElementName(Component):
     """Generate a fictional element name."""
 
+    _real_element_names = {
+        "actinium",
+        "aluminium",
+        "americium",
+        "antimony",
+        "argon",
+        "arsenic",
+        "astatine",
+        "barium",
+        "berkelium",
+        "beryllium",
+        "bismuth",
+        "bohrium",
+        "boron",
+        "bromine",
+        "cadmium",
+        "caesium",
+        "calcium",
+        "californium",
+        "carbon",
+        "cerium",
+        "chlorine",
+        "chromium",
+        "cobalt",
+        "copernicium",
+        "copper",
+        "curium",
+        "darmstadtium",
+        "dubnium",
+        "dysprosium",
+        "einsteinium",
+        "erbium",
+        "europium",
+        "fermium",
+        "flerovium",
+        "fluorine",
+        "francium",
+        "gadolinium",
+        "gallium",
+        "germanium",
+        "gold",
+        "hafnium",
+        "hassium",
+        "helium",
+        "holmium",
+        "hydrogen",
+        "indium",
+        "iodine",
+        "iridium",
+        "iron",
+        "krypton",
+        "lanthanum",
+        "lawrencium",
+        "lead",
+        "lithium",
+        "livermorium",
+        "lutetium",
+        "magnesium",
+        "manganese",
+        "meitnerium",
+        "mendelevium",
+        "mercury",
+        "molybdenum",
+        "moscovium",
+        "neodymium",
+        "neon",
+        "neptunium",
+        "nickel",
+        "nihonium",
+        "niobium",
+        "nitrogen",
+        "nobelium",
+        "oganesson",
+        "osmium",
+        "oxygen",
+        "palladium",
+        "phosphorus",
+        "platinum",
+        "plutonium",
+        "polonium",
+        "potassium",
+        "praseodymium",
+        "promethium",
+        "protactinium",
+        "radium",
+        "radon",
+        "rhenium",
+        "rhodium",
+        "roentgenium",
+        "rubidium",
+        "ruthenium",
+        "rutherfordium",
+        "samarium",
+        "scandium",
+        "seaborgium",
+        "selenium",
+        "silicon",
+        "silver",
+        "sodium",
+        "strontium",
+        "sulfur",
+        "tantalum",
+        "technetium",
+        "tellurium",
+        "tennessine",
+        "terbium",
+        "thallium",
+        "thorium",
+        "thulium",
+        "tin",
+        "titanium",
+        "tungsten",
+        "uranium",
+        "vanadium",
+        "xenon",
+        "ytterbium",
+        "yttrium",
+        "zinc",
+        "zirconium",
+    }
+
     def make_text(self, rng: random.Random) -> str:
-        root_word = (
-            one_of(
-                GivenName(culture=GivenNameCulture.ENGLISH_SPEAKING),
-                Surname(),
-                AlienName(syllable_count=2, allow_hyphen=False, allow_apostrophe=False),
-                AlienName(syllable_count=3, allow_hyphen=False, allow_apostrophe=False),
-            )
-            .make_text(rng)
-            .lower()
-        )
+        for _ in range(16):
+            root = make_material_root(rng, element_root_source(), "lumin")
+            text = _join_element_suffix(root, _element_suffix().make_text(rng))
+            if text not in self._real_element_names:
+                return text
+        return "luminum"
 
-        last_letter = root_word[-1]
 
-        if last_letter in {"a", "o", "u"}:
-            text = f"{root_word}{'gen' if random_bool(rng) else 'n'}"
-        elif last_letter == "e":
-            text = f"{root_word[:-1]}ium" if random_bool(rng) else f"{root_word}on"
-        elif last_letter in {"h", "v", "x"}:
-            text = (
-                f"{root_word[:-1]}ion"
-                if random_bool(rng)
-                else f"{root_word}{rng.choice(['ium', 'ine'])}"
-            )
-        elif last_letter in {"k", "m", "n"}:
-            text = f"{root_word}{rng.choice(['ium', 'ine', 'ion'])}"
-        elif last_letter in {"y", "i"}:
-            text = f"{root_word}gen" if random_bool(rng) else f"{root_word[:-1]}ium"
-        else:
-            text = f"{root_word}{rng.choice(['ium', 'ine', 'on'])}"
+def _element_suffix() -> Component:
+    return weighted_one_of(
+        (4, "ium"),
+        (2, "on"),
+        (1, "ine"),
+        (1, "ene"),
+        (1, "gen"),
+    )
 
-        return text
+
+def _join_element_suffix(root: str, suffix: str) -> str:
+    if suffix == "ium":
+        if root.endswith("on"):
+            root = root[:-2]
+        while len(root) > 2 and root.endswith(("a", "e", "i", "y")):
+            root = root[:-1]
+        return root + suffix
+
+    if suffix == "gen":
+        return root + ("gen" if root[-1] in "aeiou" else "ogen")
+
+    if root.endswith("e"):
+        root = root[:-1]
+    if root.endswith(suffix):
+        return root
+    return root + suffix

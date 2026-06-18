@@ -41,6 +41,41 @@ def test_fictional_mineral_name_repeatable() -> None:
     assert_repeatable(FictionalMineralName())
 
 
+def test_fictional_material_names_are_clean_tokens() -> None:
+    rng = random.Random(923)
+    names = [
+        *(FictionalElementName().make_text(rng) for _ in range(250)),
+        *(FictionalMineralName().make_text(rng) for _ in range(250)),
+    ]
+
+    assert all(re.fullmatch(r"[a-z]+", name) is not None for name in names)
+    assert all("iium" not in name for name in names)
+    assert all(3 < len(name) <= 20 for name in names)
+
+
+def test_fictional_material_names_use_distinct_suffixes() -> None:
+    rng = random.Random(924)
+    element_names = [FictionalElementName().make_text(rng) for _ in range(250)]
+    mineral_names = [FictionalMineralName().make_text(rng) for _ in range(250)]
+
+    assert all(
+        name not in FictionalElementName._real_element_names
+        for name in element_names
+    )
+    assert all(
+        name.endswith(("ium", "on", "ine", "ene", "gen"))
+        for name in element_names
+    )
+    assert all(
+        name.endswith(("ite", "ine", "spar", "stone", "ore", "cryst", "glass"))
+        for name in mineral_names
+    )
+    assert any(
+        name.endswith(("spar", "stone", "ore", "cryst", "glass"))
+        for name in mineral_names
+    )
+
+
 def test_nautical_ship_name_repeatable() -> None:
     assert_repeatable(NauticalShipName())
 
