@@ -10,7 +10,7 @@ It started as a port of the Swift package [`Wordsmith`](https://github.com/btfra
 rich, varied text with small, reusable components.
 
 ## What it is for
-- Generating names for people, towns, ships, gangs, and literary works.
+- Generating names for people, towns, ships, gangs, literary works, movies, and albums.
 - Building simple language generators from reusable parts.
 - Producing repeatable output with a seeded RNG.
 
@@ -53,7 +53,7 @@ Common decorators on components:
 ```python
 import random
 
-from wordsmith import Adjective, Noun, LiteraryTitle, either, maybe, one_of
+from wordsmith import Adjective, AlbumTitle, LiteraryTitle, Noun, one_of, maybe
 
 rng = random.Random(42)
 
@@ -70,6 +70,7 @@ line = ("Once" | maybe("upon a time", probability=0.5)) + "."
 print(title(rng))
 print(line(rng))
 print(LiteraryTitle()(rng))
+print(AlbumTitle()(rng))
 ```
 
 ## Generators included
@@ -79,6 +80,8 @@ The Wordsmith Engine ships with a growing set of generators:
 - Groups: `CriminalGangName`, `BandName`
 - Vessels: `NauticalShipName`
 - Literary titles: `SimpleLiteraryTitle`, `UnusualLiteraryTitle`, `LiteraryTitle`
+- Movie titles: `SimpleMovieTitle`, `HighConceptMovieTitle`, `MovieTitle`
+- Album titles: `AlbumTitle`
 - Materials: `FictionalElementName`, `FictionalMineralName`, `ChemicalCompoundName`
 - Specials: `ReadableUniqueIdentifier`, `ExoticCharacter`
 
@@ -98,6 +101,8 @@ print(LiteraryTitle()(rng))
 Run any script under `examples/` with PDM, for example:
 ```bash
 pdm run python examples/literary_titles.py
+pdm run python examples/movie_titles.py
+pdm run python examples/album_titles.py
 ```
 
 ## Development
