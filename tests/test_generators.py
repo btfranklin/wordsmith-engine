@@ -3,8 +3,9 @@
 from __future__ import annotations
 
 import random
-import inspect
 import re
+
+import pytest
 
 from wordsmith.specials import ReadableUniqueIdentifier
 from wordsmith.generators import (
@@ -18,6 +19,7 @@ from wordsmith.generators import (
     TownName,
     LiteraryTitle,
 )
+from wordsmith.names import AlienName, FantasyName
 from tests.utils import assert_nonempty, assert_repeatable
 
 
@@ -80,10 +82,26 @@ def test_nautical_ship_name_repeatable() -> None:
     assert_repeatable(NauticalShipName())
 
 
-def test_nautical_ship_names_use_fantasy_not_alien_names() -> None:
-    source = inspect.getsource(NauticalShipName.make_text)
-    assert "FantasyName" in source
-    assert "AlienName" not in source
+def test_nautical_ship_names_use_fantasy_not_alien_names(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    marker = "fantasy provenance"
+
+    monkeypatch.setattr(
+        FantasyName,
+        "make_text",
+        lambda self, rng: marker,
+    )
+
+    def reject_alien_name(self: AlienName, rng: random.Random) -> str:
+        raise AssertionError("NauticalShipName rendered AlienName")
+
+    monkeypatch.setattr(AlienName, "make_text", reject_alien_name)
+
+    rng = random.Random(20260713)
+    outputs = [NauticalShipName().make_text(rng) for _ in range(500)]
+
+    assert "Fantasy Provenance" in outputs
 
 
 def test_movie_title_repeatable() -> None:
