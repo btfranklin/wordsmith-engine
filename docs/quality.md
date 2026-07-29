@@ -13,6 +13,22 @@ pdm build
 For user-facing generator changes, also run the relevant example script under
 `examples/` and inspect sample output.
 
+## Cross-Language Conformance
+
+Shared behavior lives in `spec/`. Every first-class implementation must consume
+every file under `spec/conformance/` in its tests.
+
+When changing shared behavior:
+
+- update `spec/BEHAVIOR.md`
+- update or add machine-readable conformance fixtures
+- update every language implementation and its fixture consumer
+- update implementation-specific tests and public documentation
+- run the full validation suite for every language package
+
+Conformance fixtures are test-time contract artifacts. Do not load them from a
+published runtime package.
+
 ## CI
 
 GitHub Actions runs tests and lint on Python 3.12, 3.13, and 3.14 for pushes and

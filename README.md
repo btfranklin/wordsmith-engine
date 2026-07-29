@@ -115,7 +115,9 @@ pdm run python examples/album_titles.py
 ```
 
 ## Project docs
-Repo-local architecture, asset, and quality notes live in [`docs/`](docs/README.md).
+Language-neutral component semantics live in
+[`spec/BEHAVIOR.md`](spec/BEHAVIOR.md). Repo-local architecture, asset, and
+quality notes live in [`docs/`](docs/README.md).
 
 ## Development
 - Install: `pdm install --group dev`

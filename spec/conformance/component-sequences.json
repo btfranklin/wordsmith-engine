@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "cases": [
+    {
+      "name": "zero parts render empty",
+      "separator": " ",
+      "parts": [],
+      "expected": ""
+    },
+    {
+      "name": "one part renders without separator",
+      "separator": "-",
+      "parts": ["alpha"],
+      "expected": "alpha"
+    },
+    {
+      "name": "separator joins ordered literals",
+      "separator": "-",
+      "parts": ["alpha", "beta", "gamma"],
+      "expected": "alpha-beta-gamma"
+    },
+    {
+      "name": "empty results do not create separators",
+      "separator": "-",
+      "parts": [
+        {"kind": "empty"},
+        "alpha",
+        {"kind": "empty"},
+        "beta",
+        {"kind": "empty"}
+      ],
+      "expected": "alpha-beta"
+    },
+    {
+      "name": "all empty results render empty",
+      "separator": " / ",
+      "parts": [
+        {"kind": "empty"},
+        {"kind": "empty"},
+        {"kind": "empty"}
+      ],
+      "expected": ""
+    },
+    {
+      "name": "whitespace-only results are preserved",
+      "separator": "|",
+      "parts": ["alpha", " ", "beta"],
+      "expected": "alpha| |beta"
+    },
+    {
+      "name": "unicode separator is preserved",
+      "separator": " ✦ ",
+      "parts": ["火", "水", "風"],
+      "expected": "火 ✦ 水 ✦ 風"
+    },
+    {
+      "name": "empty separator concatenates",
+      "separator": "",
+      "parts": ["Once", {"kind": "empty"}, "."],
+      "expected": "Once."
+    },
+    {
+      "name": "nested sequences retain their separators",
+      "separator": " ",
+      "parts": [
+        "alpha",
+        {
+          "kind": "sequence",
+          "separator": "",
+          "parts": ["beta", "-", "gamma"]
+        },
+        "delta"
+      ],
+      "expected": "alpha beta-gamma delta"
+    },
+    {
+      "name": "empty nested sequence is omitted",
+      "separator": " ",
+      "parts": [
+        "alpha",
+        {
+          "kind": "sequence",
+          "separator": "-",
+          "parts": [
+            {"kind": "empty"},
+            {"kind": "empty"}
+          ]
+        },
+        "beta"
+      ],
+      "expected": "alpha beta"
+    },
+    {
+      "name": "children render once from left to right",
+      "separator": "/",
+      "parts": [
+        {"kind": "probe", "label": "first", "text": "alpha"},
+        {"kind": "probe", "label": "second", "text": ""},
+        {"kind": "probe", "label": "third", "text": "gamma"}
+      ],
+      "expected": "alpha/gamma",
+      "expectedRenderOrder": ["first", "second", "third"],
+      "expectedRandomDraws": 3
+    },
+    {
+      "name": "construction snapshots the parts collection",
+      "separator": "-",
+      "parts": ["alpha", "beta"],
+      "mutationAfterConstruction": {
+        "index": 0,
+        "replacement": "changed"
+      },
+      "expected": "alpha-beta"
+    }
+  ]
+}

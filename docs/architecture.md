@@ -4,6 +4,16 @@ Wordsmith Engine is a small Python package for deterministic-friendly text
 generation. The central abstraction is `Component`: every generator renders text
 with a caller-provided `random.Random`.
 
+## Cross-Language Contract
+
+Language-neutral component semantics live under `spec/`. Conformance fixtures
+are test-time inputs consumed independently by every first-class language
+implementation; they are not runtime package data.
+
+The contract guarantees semantic parity while allowing idiomatic public APIs.
+For example, Python may retain `|` and `+` composition while a TypeScript peer
+uses `join(...)` and `concat(...)` for the same ordered-sequence behavior.
+
 ## Layers
 
 - `wordsmith.core`: framework layer. Defines `Component`, literal text,

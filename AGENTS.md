@@ -6,12 +6,14 @@
 - `src/wordsmith/names/`: given names, surnames, generated alien/fantasy names, and culture/gender enums.
 - `src/wordsmith/generators/`: higher-level generators built from core, words, and names.
 - `src/wordsmith/assets/`: packaged JSON data used at runtime.
+- `spec/`: language-neutral behavioral contract and conformance fixtures.
 - `examples/`: runnable usage examples for the public package surface.
 - `tests/`: pytest coverage for DSL behavior, generators, names, words, and assets.
 - `docs/`: repo-local system of record for architecture, assets, and quality expectations.
 
 ## Sources Of Truth
 - Start with [README.md](README.md) for public usage and the exported feature list.
+- Use [spec/BEHAVIOR.md](spec/BEHAVIOR.md) before changing shared component semantics.
 - Use [docs/README.md](docs/README.md) as the documentation index.
 - Use [docs/architecture.md](docs/architecture.md) before changing module boundaries or adding generators.
 - Use [docs/name-assets.md](docs/name-assets.md) before changing given-name data or refresh logic.
@@ -26,6 +28,7 @@
 
 ## Implementation Rules
 - Keep the public API coherent: generator renames or additions must update `src/wordsmith/generators/__init__.py`, `src/wordsmith/__init__.py`, examples, tests, and README together.
+- Keep shared semantics coherent: update `spec/`, conformance fixtures, every language implementation, tests, and public documentation together.
 - Prefer `one_of`, `weighted_one_of`, `either`, `maybe`, `|`, and `+` for generator composition. Use direct `rng.choice(...)` for uniform asset or enum selection.
 - Pass the caller-provided `random.Random` through all rendering. Do not use module-level randomness.
 - Keep packaged data in `src/wordsmith/assets/`; document source and refresh process under `docs/`.

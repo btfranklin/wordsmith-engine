@@ -5,6 +5,7 @@ knowledge that does not belong in the public README.
 
 ## Core References
 
+- [Behavioral Contract](../spec/BEHAVIOR.md): language-neutral component semantics and conformance rules.
 - [Architecture](architecture.md): package layout, dependency direction, and generator design rules.
 - [Name Assets](name-assets.md): grouped given-name data source, license, refresh command, and curation rules.
 - [Quality](quality.md): validation commands, public API checklist, and release workflow notes.
