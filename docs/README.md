@@ -7,6 +7,8 @@ knowledge that does not belong in the public README.
 
 - [Behavioral Contract](../spec/BEHAVIOR.md): language-neutral component semantics and conformance rules.
 - [Architecture](architecture.md): package layout, dependency direction, and generator design rules.
+- [Exotic Character Assets](exotic-character-assets.md): Unicode sources,
+  repertoire boundaries, and refresh guidance for exotic character sets.
 - [Name Assets](name-assets.md): grouped given-name data source, license, refresh command, and curation rules.
 - [Quality](quality.md): validation commands, public API checklist, and release workflow notes.
 

@@ -42,6 +42,12 @@ def test_exotic_character_sets_contain_single_characters() -> None:
         assert all(len(character) == 1 for character in character_set)
 
 
+def test_alchemical_symbols_set_contains_complete_original_repertoire() -> None:
+    assert ExoticCharacter._character_sets["alchemicalSymbols"] == [
+        chr(codepoint) for codepoint in range(0x1F700, 0x1F774)
+    ]
+
+
 def test_cuneiform_set_includes_later_main_block_additions() -> None:
     cuneiform_set = ExoticCharacter._character_sets["cuneiform"]
 

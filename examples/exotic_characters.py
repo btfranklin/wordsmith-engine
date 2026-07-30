@@ -20,6 +20,14 @@ def main() -> None:
         print(ExoticCharacter.random_character_from_set("runic", rng), end=" ")
     print()
 
+    print("\nAlchemical symbols:")
+    for _ in range(12):
+        print(
+            ExoticCharacter.random_character_from_set("alchemicalSymbols", rng),
+            end=" ",
+        )
+    print()
+
 
 if __name__ == "__main__":
     main()
