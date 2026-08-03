@@ -1,72 +1,80 @@
 # Quality And Operations
 
-## Local Validation
+## Local validation
 
-Run these before committing code changes:
+From `packages/python/`:
 
 ```bash
-pdm run pytest
-pdm run lint
-pdm build
+pdm install --group dev
+pdm run check
 ```
 
-For user-facing generator changes, also run the relevant example script under
-`examples/` and inspect sample output.
+From `packages/typescript/`:
 
-## Cross-Language Conformance
+```bash
+npm ci
+npm run check
+```
 
-Shared behavior lives in `spec/`. Every first-class implementation must consume
-every file under `spec/conformance/` in its tests.
+The Python check runs Ruff, pytest, asset freshness, package build, archive
+inspection, and isolated wheel installation. The TypeScript check runs Biome,
+TypeScript 7 compilation, examples, Node tests, TypeScript 6 consumer
+compatibility, asset freshness, npm-pack inspection, isolated installation,
+and browser bundling.
 
-When changing shared behavior:
+## Shared behavior
 
-- update `spec/BEHAVIOR.md`
-- update or add machine-readable conformance fixtures
-- update every language implementation and its fixture consumer
-- update implementation-specific tests and public documentation
-- run the full validation suite for every language package
+Every implementation consumes every JSON file under `spec/conformance/` in its
+tests. A shared change must update the contract, fixtures, both implementations,
+implementation tests, examples where relevant, and public documentation.
 
-Conformance fixtures are test-time contract artifacts. Do not load them from a
-published runtime package.
+Do not introduce fixture schema versions or random-algorithm versions by
+default. Update current consumers together.
+
+## Assets
+
+Only edit canonical JSON under `assets/`. Then run:
+
+```bash
+python tools/sync_assets.py
+python tools/validate_assets.py
+python tools/sync_assets.py --check
+```
+
+Synchronization copies raw bytes. Never sort or reserialize assets as a cleanup
+step: array and object order affect seeded selection. Both package verifiers
+must prove all eight package-local files match the canonical bytes.
 
 ## CI
 
-GitHub Actions runs tests and lint on Python 3.12, 3.13, and 3.14 for pushes and
-pull requests to `main`.
+- Python CI covers 3.12, 3.13, and 3.14, then builds and installs artifacts.
+- TypeScript CI covers Node 24 and 26, TypeScript 7, a TypeScript 6 declaration
+  consumer, an isolated npm install, and a browser bundle.
+- Release preflight builds each exact artifact once. Neither publisher runs
+  unless both packages pass, except for an explicit recovery dispatch pointing
+  to a previously validated artifact run. Recovery verifies that run's workflow
+  identity, tag commit, successful package preflights, versions, archive
+  contents, isolated installs, assets, declarations, and browser bundle again.
 
-## Public API Checklist
+## Release workflow
 
-When changing generator names, exported classes, or examples:
+Versions are lockstep. For `v0.4.0` and later:
 
-- update all relevant `__init__.py` exports
-- update README generator lists
-- update or add examples
-- update tests
-- run all validation commands above
+1. Confirm both manifests/artifacts resolve to the intended tag version.
+2. Push the tag and let the draft-release workflow create reviewable notes.
+3. Publish the reviewed GitHub Release.
+4. The unified workflow validates both artifacts and uses registry Trusted
+   Publishing to upload those exact files.
 
-This repo intentionally avoids compatibility shims for renamed APIs. Make
-renames complete and direct.
+The workflow filename and `release` environment are part of each registry's
+OIDC identity. Update the existing PyPI Trusted Publisher to
+`publish-packages.yml` before release.
 
-## Asset Checklist
+The npm name must exist before npm permits Trusted Publisher configuration.
+Because `wordsmith-engine` is initially unclaimed, its first publication needs
+an explicitly authorized authenticated bootstrap; configure OIDC for subsequent
+lockstep releases. Do not add a long-lived token path to the normal workflow.
 
-When changing packaged JSON data:
-
-- keep assets under `src/wordsmith/assets/`
-- document source, license, and refresh command in `docs/`
-- ensure package build includes the asset
-- add deterministic tests for any behavior that depends on the new data shape
-
-## Release Workflow
-
-Versions are derived from SCM tags. Release notes are drafted by the existing
-tag-triggered workflow.
-
-For a release:
-
-1. Create and push the semantic version tag.
-2. Let the draft-release workflow create notes for review.
-3. Review and publish the draft release.
-4. Trusted publishing uploads to PyPI from the published GitHub release.
-
-Do not manually write and publish release notes before the workflow has a chance
-to create the draft.
+Publishing is gated but not atomic. If one registry succeeds and the other
+fails, retry only the failed publisher using preserved artifacts; never rebuild
+or move an existing tag.

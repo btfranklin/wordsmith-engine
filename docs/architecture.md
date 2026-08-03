@@ -1,67 +1,65 @@
 # Architecture
 
-Wordsmith Engine is a small Python package for deterministic-friendly text
-generation. The central abstraction is `Component`: every generator renders text
-with a caller-provided `random.Random`.
+Wordsmith Engine is one dependency-free procedural text library implemented in
+Python and TypeScript. The central abstraction is a lazy `Component` that
+renders synchronously through a caller-owned random source.
 
-## Cross-Language Contract
+## Repository and package boundary
 
-Language-neutral component semantics live under `spec/`. Conformance fixtures
-are test-time inputs consumed independently by every first-class language
-implementation; they are not runtime package data.
+- `packages/python` owns the Python implementation, tests, examples, and
+  distributable metadata.
+- `packages/typescript` owns the TypeScript implementation, tests, examples,
+  and distributable metadata.
+- `spec` owns shared behavior and conformance data, but is never a runtime
+  package dependency.
+- `assets` owns canonical data. Each package contains a verified byte-identical
+  runtime copy.
 
-The contract guarantees semantic parity while allowing idiomatic public APIs.
-For example, Python may retain `|` and `+` composition while a TypeScript peer
-uses `join(...)` and `concat(...)` for the same ordered-sequence behavior.
+Neither language is canonical. Shared changes are complete only when the
+contract, both implementations, tests, and documentation agree.
 
-## Layers
+## Runtime layers
 
-- `wordsmith.core`: framework layer. Defines `Component`, literal text,
-  composition operators, decorators, and choice combinators.
-- `wordsmith.words`: reusable word and grammar components. Most of these choose
-  uniformly from packaged assets or small in-code lists.
-- `wordsmith.names`: reusable name components and enums. This layer owns
-  given-name data, surnames, alien/fantasy procedural names, and person-name
-  composition.
-- `wordsmith.generators`: product-facing composite generators such as titles,
-  towns, ships, gangs, and fictional materials.
-- `wordsmith.specials`: standalone non-domain helpers such as readable IDs and
-  exotic characters.
-- `wordsmith.assets`: packaged JSON data loaded through `wordsmith.util.load_json`.
+Each implementation follows the same dependency direction:
 
-## Dependency Direction
+1. Core defines components, composition, transformations, choices, and random
+   helpers.
+2. Words and grammar depend on core and package-local assets.
+3. Names depend on core, words where appropriate, and package-local assets.
+4. Generators compose core, words, names, and other generators.
+5. Specials are standalone features whose behavior does not fit a component
+   family.
 
-- `core` must not depend on `words`, `names`, or `generators`, except decorator
-  components may import article/determiner helpers at render time for grammar.
-- `words` may depend on `core` and `util`.
-- `names` may depend on `core`, `util`, and assets.
-- `generators` may compose `core`, `words`, `names`, and other generators.
-- `specials` should stay standalone unless a helper clearly belongs in `core`.
+TypeScript keeps its concrete random generator private. Public code sees only
+`RandomSource.random()`. Python continues to accept `random.Random` through its
+published API.
 
-## Generator Design
+## Random-source ownership
 
-- Prefer declarative composition with `one_of`, `weighted_one_of`, `either`,
-  `maybe`, `|`, and `+`.
-- Use `weighted_one_of` when the distribution matters or when old manual range
-  logic would hide probability.
-- Use `rng.choice(...)` directly for uniform selection from an asset list, enum
-  values, or local option list.
-- Every render path must use the caller-provided `random.Random`; construction of
-  components should not resolve random choices.
-- Use private helpers for domain-specific validation or cleanup that is not
-  naturally expressed with the component DSL, such as fictional material root
-  sanitization.
+Components never create or retain random sources during rendering. They pass
+the exact source received by a parent through every nested call. The caller
+defines seed identity, derives independent named streams at orchestration
+boundaries, and controls source lifetime.
 
-## Public Surface
+Same-language replay requires unchanged package content, assets, component
+structure, configuration, and call order. The project has one current random
+algorithm, without version dispatch or legacy paths.
 
-Public imports are exposed from `wordsmith.__init__`, `wordsmith.generators`,
-`wordsmith.names`, `wordsmith.words`, and `wordsmith.specials`.
+## Generator design
 
-When adding, renaming, or removing public classes or helpers, update:
+- Prefer declarative composition and the established choice combinators.
+- Preserve construction order because draw order is observable.
+- Use uniform selection for assets, enum values, and local option arrays.
+- Keep domain-specific cleanup and bounded retries in small private helpers.
+- Keep public components immutable and defer all random selection until render.
 
-- the implementation module
-- the relevant package `__init__.py`
-- `src/wordsmith/__init__.py`
-- examples that demonstrate the feature
-- tests that cover the public behavior
-- README generator lists or usage examples
+Python uses `one_of`, `weighted_one_of`, `either`, `maybe`, `|`, and `+`.
+TypeScript uses `oneOf`, `weightedOneOf`, `either`, `maybe`, `join`, and
+`concat`. These spellings share behavior, not syntax.
+
+## Language boundary
+
+Wordsmith is English-oriented. Its articles, determiners, title casing,
+pluralization, and general datasets do not promise locale-aware grammar.
+Arbitrary Unicode text and curated exotic symbols must still pass through
+without code-point corruption.

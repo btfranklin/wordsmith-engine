@@ -52,7 +52,20 @@ testpaths = ["tests"]
 
 [tool.pdm.scripts]
 test = "pytest"
-lint = "ruff check src tests examples"
+lint = "ruff check src tests examples scripts ../../tools"
+check-assets = {composite = [
+    "python ../../tools/validate_assets.py",
+    "python ../../tools/sync_assets.py --check",
+]}
+build-package = "pdm build"
+verify-package = "python scripts/verify_package.py"
+check = {composite = [
+    "lint",
+    "test",
+    "check-assets",
+    "build-package",
+    "verify-package",
+]}
 
 [tool.ruff.lint]
 select = ["E", "F", "W"]

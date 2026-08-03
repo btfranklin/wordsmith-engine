@@ -1,6 +1,6 @@
 # Exotic Character Assets
 
-`src/wordsmith/assets/Exotic Character Sets.json` contains curated Unicode
+`assets/Exotic Character Sets.json` contains canonical curated Unicode
 character sets used by `ExoticCharacter`.
 
 ## Alchemical Symbols
@@ -23,7 +23,9 @@ To refresh or verify this set:
 1. Check the current Unicode names list for changes to the encoded repertoire.
 2. Generate the inclusive sequence with
    `list(map(chr, range(0x1F700, 0x1F774)))`.
-3. Run `pdm run pytest tests/test_exotic_character.py`.
+3. Run `python tools/sync_assets.py`.
+4. From `packages/python`, run
+   `pdm run pytest tests/test_exotic_character.py`.
 
 Glyph appearance is font-dependent. The asset guarantees Unicode character
 identity, not a particular historical or typographic drawing.

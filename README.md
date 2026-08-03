@@ -2,125 +2,113 @@
 
 ![Wordsmith Engine banner](https://raw.githubusercontent.com/btfranklin/wordsmith-engine/main/.github/social%20preview/wordsmith_engine_social_preview.jpg "The Wordsmith Engine")
 
-[![Build Status](https://github.com/btfranklin/wordsmith-engine/actions/workflows/python-package.yml/badge.svg)](https://github.com/btfranklin/wordsmith-engine/actions/workflows/python-package.yml) [![Supports Python versions 3.12+](https://img.shields.io/pypi/pyversions/wordsmith-engine.svg)](https://pypi.python.org/pypi/wordsmith-engine)
+Wordsmith Engine is a dependency-free, English-oriented procedural text
+toolkit with equal Python and TypeScript implementations. It builds names,
+titles, places, groups, vessels, fictional materials, and custom generators
+from small lazy components.
 
-The Wordsmith Engine is a composable, deterministic-friendly text-generation toolkit for Python.
-It started as a port of the Swift package [`Wordsmith`](https://github.com/btfranklin/wordsmith)
-(by the same author) and focuses on building
-rich, varied text with small, reusable components.
+## Install
 
-## What it is for
-- Generating names for people, towns, ships, gangs, literary works, movies, albums, and fictional materials.
-- Building simple language generators from reusable parts.
-- Producing repeatable output with a seeded RNG.
-
-## Installation
-Install the package from PyPI:
 ```bash
 pip install wordsmith-engine
+npm install wordsmith-engine
 ```
 
-Use PDM to install dependencies for development:
-```bash
-pdm install --group dev
-```
+Python 3.12–3.14:
 
-## Quickstart
-```python
-from wordsmith import LiteraryTitle
-
-print(LiteraryTitle()())
-```
-
-## Core concepts
-The Wordsmith Engine is centered around the `Component` type. Each component can render text
-with a provided random number generator.
-
-Operator DSL (preferred):
-- `left | right`: Join components with a space.
-- `left + right`: Join components with no separator (useful for punctuation).
-
-Key combinators:
-- `text(*parts, sep="")`: Join components with a custom separator.
-- `one_of(*options)`: Pick a random option.
-- `weighted_one_of((weight, option), ...)`: Weighted choice across many options.
-- `either(a, b, first_probability=0.5)`: Weighted choice between two options.
-- `maybe(*parts, probability=0.5)`: Optionally include text.
-
-Common decorators on components:
-- `.title_case()` for title casing (with small-word rules).
-- `.capitalized()` to capitalize all words.
-- `.first_upper()` for first-letter capitalization.
-- `.prefixed_by_article()` / `.prefixed_by_determiner()` for grammar helpers.
-- `.possessive_form()` for possessives.
-
-## Usage examples
 ```python
 import random
 
-from wordsmith import Adjective, AlbumTitle, LiteraryTitle, Noun, one_of, maybe
+from wordsmith import Adjective, Noun
 
-rng = random.Random(42)
-
-title = (
-    "The"
-    | maybe(Adjective())
-    | one_of("Journey", "Voyage", "Chronicles")
-    | "of"
-    | Noun().prefixed_by_article()
-).title_case()
-
-line = ("Once" | maybe("upon a time", probability=0.5)) + "."
-
-print(title(rng))
-print(line(rng))
-print(LiteraryTitle()(rng))
-print(AlbumTitle()(rng))
+rng = random.Random(5343)
+ship_name = ("The" | Adjective() | Noun()).title_case()
+print(ship_name(rng))
 ```
 
-## Generators included
-The Wordsmith Engine ships with a growing set of generators:
-- Names: `GivenName`, `Surname`, `PersonName`, `AlienName`, `AncientGivenName`, `FantasyName`
-  - `GivenName` supports gender and cultural grouping with `BinaryGender` and `GivenNameCulture`.
-- Locations: `TownName`
-- Groups: `CriminalGangName`, `BandName`
+TypeScript 7 / ES2022:
+
+```typescript
+import { Adjective, Noun, join, seededRandom, ws } from "wordsmith-engine";
+
+const rng = seededRandom(5343);
+const shipName = join(["The", new Adjective(), new Noun()], " ").titleCase();
+console.log(shipName.render(rng));
+
+const callSign = ws`WS-${new Noun()}`;
+console.log(callSign.render(rng));
+```
+
+## Composition
+
+Python uses its natural operator vocabulary:
+
+- `left | right` joins with a space.
+- `left + right` concatenates without a separator.
+- `text(*parts, sep=separator)` joins with a chosen separator.
+
+TypeScript uses component-aware functions:
+
+- `join(parts, separator)` joins rendered parts.
+- `concat(...parts)` concatenates rendered parts.
+- `ws` is an exact tagged-template form of `concat`; it adds no whitespace.
+
+Both languages provide uniform and weighted choices, optional parts, English
+article/determiner helpers, title casing, first-letter uppercasing, and
+possessive forms. Only an exact empty result is omitted during composition;
+whitespace-only text is preserved.
+
+## Deterministic streams
+
+Every nested render receives the same caller-owned random source. Python uses
+`random.Random(seed)`; TypeScript supplies `seededRandom(seed)` for string and
+safe-integer seeds. Isolate that source from unrelated random consumers and
+discard it after the related Wordsmith calls finish.
+
+Higher-level generators should derive stable named seeds for independent
+Wordsmith streams. Seed identity belongs to the caller. The same seed is not
+expected to produce the same text across Python and TypeScript.
+
+Replay also depends on package content, assets, component structure, and call
+order. Pin the package release when stored seeds must reproduce durable output.
+`ReadableUniqueIdentifier` additionally includes the current time and is
+therefore outside seed-only replay.
+
+## Included generators
+
+- Names: `GivenName`, `Surname`, `PersonName`, `AlienName`,
+  `AncientGivenName`, `FantasyName`
+- Titles: `LiteraryTitle`, `MovieTitle`, `AlbumTitle`, and their public variants
+- Places and groups: `TownName`, `CriminalGangName`, `BandName`
 - Vessels: `NauticalShipName`
-- Literary titles: `SimpleLiteraryTitle`, `UnusualLiteraryTitle`, `LiteraryTitle`
-- Movie titles: `SimpleMovieTitle`, `HighConceptMovieTitle`, `MovieTitle`
-- Album titles: `AlbumTitle`
-- Materials: `FictionalElementName`, `FictionalMineralName`, `ChemicalCompoundName`
-  - `ChemicalCompoundName` samples real compound names; the element and mineral generators produce fictional names.
+- Materials: `FictionalElementName`, `FictionalMineralName`,
+  `ChemicalCompoundName`
 - Specials: `ReadableUniqueIdentifier`, `ExoticCharacter`
 
-## Deterministic output
-All components accept a `random.Random` instance. If you want repeatable results,
-pass a seeded RNG.
-```python
-import random
-from wordsmith import LiteraryTitle
+See [the API mapping](spec/API.md) for the complete language-to-language
+surface.
 
-rng = random.Random(1234)
-print(LiteraryTitle()(rng))
-print(LiteraryTitle()(rng))
+## Repository layout and development
+
+```text
+packages/
+  python/        Python package, tests, and examples
+  typescript/    TypeScript package, tests, and examples
+assets/          Canonical shared data
+spec/            Shared behavior and conformance fixtures
+docs/            Architecture, quality, and asset provenance
 ```
 
-## Examples
-Run any script under `examples/` with PDM, for example:
 ```bash
-pdm run python examples/character_names.py
-pdm run python examples/fictional_materials.py
-pdm run python examples/literary_titles.py
-pdm run python examples/movie_titles.py
-pdm run python examples/album_titles.py
+cd packages/python
+pdm install --group dev
+pdm run check
+
+cd ../typescript
+npm ci
+npm run check
 ```
 
-## Project docs
-Language-neutral component semantics live in
-[`spec/BEHAVIOR.md`](spec/BEHAVIOR.md). Repo-local architecture, asset, and
-quality notes live in [`docs/`](docs/README.md).
-
-## Development
-- Install: `pdm install --group dev`
-- Run tests: `pdm run pytest`
-- Run lint: `pdm run lint`
-- Build: `pdm build`
+The packages release in version lockstep. Canonical behavior lives in
+[spec/BEHAVIOR.md](spec/BEHAVIOR.md), with operational guidance under
+[docs/](docs/README.md).

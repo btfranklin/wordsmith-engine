@@ -1,39 +1,56 @@
 # Repository Guidelines
 
 ## Repo Map
-- `src/wordsmith/core/`: the composable `Component` DSL, operators, and combinators.
-- `src/wordsmith/words/`: asset-backed word components and grammar helpers.
-- `src/wordsmith/names/`: given names, surnames, generated alien/fantasy names, and culture/gender enums.
-- `src/wordsmith/generators/`: higher-level generators built from core, words, and names.
-- `src/wordsmith/assets/`: packaged JSON data used at runtime.
-- `spec/`: language-neutral behavioral contract and conformance fixtures.
-- `examples/`: runnable usage examples for the public package surface.
-- `tests/`: pytest coverage for DSL behavior, generators, names, words, and assets.
-- `docs/`: repo-local system of record for architecture, assets, and quality expectations.
+
+- `packages/python/`: Python source, tests, examples, manifest, and lockfile.
+- `packages/typescript/`: TypeScript source, tests, examples, manifest, and lockfile.
+- `assets/`: canonical JSON data. Package-local copies are generated from here.
+- `spec/`: language-neutral behavior, API mapping, and conformance fixtures.
+- `docs/`: architecture, asset provenance, and quality/release guidance.
+- `tools/`: repository-level maintenance shared by both packages.
 
 ## Sources Of Truth
-- Start with [README.md](README.md) for public usage and the exported feature list.
-- Use [spec/BEHAVIOR.md](spec/BEHAVIOR.md) before changing shared component semantics.
-- Use [docs/README.md](docs/README.md) as the documentation index.
-- Use [docs/architecture.md](docs/architecture.md) before changing module boundaries or adding generators.
-- Use [docs/name-assets.md](docs/name-assets.md) before changing given-name data or refresh logic.
-- Use [docs/quality.md](docs/quality.md) before committing, releasing, or touching public exports.
+
+- Start with [README.md](README.md) for public usage and the feature list.
+- Read [spec/BEHAVIOR.md](spec/BEHAVIOR.md) before changing shared semantics.
+- Keep [spec/API.md](spec/API.md) aligned with both public package surfaces.
+- Use [docs/architecture.md](docs/architecture.md) before changing boundaries.
+- Use [docs/quality.md](docs/quality.md) before committing or releasing.
 
 ## Development Commands
-- Install dev dependencies with `pdm install --group dev`.
-- Run tests with `pdm run pytest`.
-- Run lint with `pdm run lint`.
-- Build the distributable package with `pdm build`.
-- Run examples with `pdm run python examples/<script>.py`.
+
+Run Python commands from `packages/python/`:
+
+- `pdm install --group dev`
+- `pdm run check`
+- `pdm run python examples/<script>.py`
+
+Run TypeScript commands from `packages/typescript/`:
+
+- `npm ci`
+- `npm run check`
+- `npm run examples`
+
+Synchronize canonical assets from the repository root with
+`python tools/sync_assets.py`; verify them with `--check`.
 
 ## Implementation Rules
-- Keep the public API coherent: generator renames or additions must update `src/wordsmith/generators/__init__.py`, `src/wordsmith/__init__.py`, examples, tests, and README together.
-- Keep shared semantics coherent: update `spec/`, conformance fixtures, every language implementation, tests, and public documentation together.
-- Prefer `one_of`, `weighted_one_of`, `either`, `maybe`, `|`, and `+` for generator composition. Use direct `rng.choice(...)` for uniform asset or enum selection.
-- Pass the caller-provided `random.Random` through all rendering. Do not use module-level randomness.
-- Keep packaged data in `src/wordsmith/assets/`; document source and refresh process under `docs/`.
-- This is a Python package, not a Django app or service. Do not add framework guidance, runtime service assumptions, migrations, or webhook conventions unless the repo actually grows that surface.
+
+- Preserve idiomatic parity: Python uses snake_case and operators; TypeScript
+  uses camelCase and named composition functions.
+- Update `spec/`, both implementations, tests, examples, and public docs for a
+  shared behavior change.
+- Pass the caller-provided random source through every render. Never create,
+  restart, or retain one inside a component render.
+- Edit only canonical data under `assets/`, then synchronize package copies.
+- Preserve asset bytes and ordering because selection by seed observes order.
+- Do not add schema versions, algorithm versions, compatibility aliases, or
+  transitional package layouts without a demonstrated external requirement.
 
 ## Release Notes
-- This repo uses SCM-derived versions, tag-triggered draft release notes, and release-published trusted publishing.
-- For releases, push the tag and let the existing draft-release workflow create notes for review; do not manually author and publish release notes first.
+
+- Python and TypeScript release from one `vX.Y.Z` tag at the same version.
+- The tag workflow creates draft notes; publishing the reviewed GitHub Release
+  runs both artifact preflights before either registry publisher.
+- Do not manually publish rebuilt artifacts or publish notes ahead of the draft
+  workflow.

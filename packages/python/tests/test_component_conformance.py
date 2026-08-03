@@ -12,9 +12,12 @@ from wordsmith.core import Component, Empty, text
 
 
 _CONFORMANCE_ROOT = (
-    Path(__file__).resolve().parents[1] / "spec" / "conformance"
+    Path(__file__).resolve().parents[3] / "spec" / "conformance"
 )
-_CONSUMED_FIXTURES = {"component-sequences.json"}
+_CONSUMED_FIXTURES = {
+    "component-sequences.json",
+    "string-transforms.json",
+}
 
 
 class _CountingRandom(random.Random):
@@ -59,7 +62,6 @@ def _load_fixture(filename: str) -> dict[str, object]:
 
 
 _SEQUENCE_FIXTURE = _load_fixture("component-sequences.json")
-assert _SEQUENCE_FIXTURE["schemaVersion"] == 1
 _SEQUENCE_CASES = _SEQUENCE_FIXTURE["cases"]
 assert isinstance(_SEQUENCE_CASES, list)
 

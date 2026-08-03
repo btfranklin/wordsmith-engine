@@ -12,7 +12,8 @@ from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
 
-ASSET_PATH = Path("src/wordsmith/assets/Given Names.json")
+REPOSITORY_ROOT = Path(__file__).resolve().parents[3]
+ASSET_PATH = REPOSITORY_ROOT / "assets" / "Given Names.json"
 SPARQL_ENDPOINT = "https://query.wikidata.org/sparql"
 USER_AGENT = (
     "wordsmith-engine name-list refresh "
@@ -129,7 +130,8 @@ def main() -> None:
                 "Names are grouped by Wikidata language of work or name.",
                 "Unisex given names are intentionally included in both gender lists.",
                 "English labels are used for package-friendly display output.",
-                "Curated additions supplied by B.T. Franklin are included in the English-speaking group.",
+                "Curated additions supplied by B.T. Franklin are included "
+                "in the English-speaking group.",
             ],
         },
         "modern": {

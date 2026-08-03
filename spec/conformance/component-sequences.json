@@ -1,5 +1,4 @@
 {
-  "schemaVersion": 1,
   "cases": [
     {
       "name": "zero parts render empty",

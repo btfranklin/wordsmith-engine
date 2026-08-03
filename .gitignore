@@ -130,6 +130,12 @@ ENV/
 env.bak/
 venv.bak/
 
+# Node.js / TypeScript
+node_modules/
+.test-dist/
+.example-dist/
+*.tgz
+
 # Spyder project settings
 .spyderproject
 .spyproject

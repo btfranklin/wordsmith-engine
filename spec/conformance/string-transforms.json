@@ -1,0 +1,37 @@
+{
+  "capitalized": [
+    {"input": "the voyage of the SUN", "expected": "The Voyage Of The Sun"},
+    {"input": "o'brien", "expected": "O'Brien"},
+    {"input": "  alpha\tbeta  ", "expected": "  Alpha\tBeta  "}
+  ],
+  "firstUpper": [
+    {"input": "  élise", "expected": "  Élise"},
+    {"input": "123 ßeta", "expected": "123 SSeta"},
+    {"input": "🜁 alpha", "expected": "🜁 Alpha"},
+    {"input": "123 🜁", "expected": "123 🜁"}
+  ],
+  "titleCase": [
+    {"input": "the voyage of the sun", "expected": "The Voyage of the Sun"},
+    {"input": "the  voyage of the sun", "expected": "The Voyage of the Sun"},
+    {"input": "'the' end", "expected": "'The' End"},
+    {"input": "the ne'er-do-well", "expected": "The Ne'er-do-well"},
+    {"input": "the well-known map", "expected": "The Well-known Map"},
+    {"input": "go to", "expected": "Go To"},
+    {"input": "go to ", "expected": "Go to"}
+  ],
+  "possessiveForm": [
+    {"input": "James", "expected": "James'"},
+    {"input": "DORIS", "expected": "DORIS's"},
+    {"input": "Alex", "expected": "Alex's"}
+  ],
+  "startsWithVowel": [
+    {"input": "apple", "expected": true},
+    {"input": "  (hour)", "expected": true},
+    {"input": "honour", "expected": true},
+    {"input": "user", "expected": false},
+    {"input": "UFO", "expected": false},
+    {"input": "one", "expected": false},
+    {"input": "Éclair", "expected": false},
+    {"input": "123 🜁", "expected": false}
+  ]
+}

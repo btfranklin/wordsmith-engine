@@ -1,0 +1,69 @@
+{
+  "name": "wordsmith-engine",
+  "version": "0.4.0",
+  "description": "Composable, deterministic-friendly text-generation components for TypeScript and JavaScript.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "node scripts/clean-output.mjs dist && tsc -p tsconfig.json && node scripts/copy-assets.mjs",
+    "typecheck": "npm run build && tsc -p tsconfig.examples.json --noEmit",
+    "typecheck:compat": "tsc6 -p tsconfig.compat.json",
+    "lint": "biome check src tests examples scripts",
+    "test": "npm run build && node scripts/clean-output.mjs .test-dist && tsc -p tsconfig.test.json && node --test .test-dist/*.test.js",
+    "examples": "npm run build && node scripts/clean-output.mjs .example-dist && tsc -p tsconfig.examples.json && node scripts/run-examples.mjs",
+    "verify:assets": "node scripts/verify-assets.mjs",
+    "verify:package": "node scripts/verify-package.mjs",
+    "verify:release-tag": "node scripts/verify-release-tag.mjs",
+    "check:core": "npm run verify:assets && npm run lint && npm run typecheck && npm run test && npm run examples && npm run typecheck:compat",
+    "check": "npm run check:core && npm run verify:package",
+    "prepack": "npm run build"
+  },
+  "keywords": [
+    "procedural-generation",
+    "text-generation",
+    "name-generator",
+    "random",
+    "seeded-random",
+    "games",
+    "writing",
+    "typescript",
+    "javascript"
+  ],
+  "author": "B.T. Franklin",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/btfranklin/wordsmith-engine.git",
+    "directory": "packages/typescript"
+  },
+  "bugs": {
+    "url": "https://github.com/btfranklin/wordsmith-engine/issues"
+  },
+  "homepage": "https://github.com/btfranklin/wordsmith-engine#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@biomejs/biome": ">=2.5.6",
+    "@types/node": ">=26.1.2",
+    "@typescript/typescript6": ">=6.0.2",
+    "esbuild": ">=0.28.1",
+    "typescript": ">=7.0.2"
+  },
+  "allowScripts": {
+    "esbuild@0.28.1": true
+  }
+}

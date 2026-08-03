@@ -1,6 +1,6 @@
 # Name Assets
 
-`src/wordsmith/assets/Given Names.json` contains grouped given-name lists used by
+`assets/Given Names.json` contains the canonical grouped given-name lists used by
 `GivenName` and `AncientGivenName`.
 
 The generated data comes from Wikidata Query Service results, using English
@@ -24,5 +24,8 @@ group.
 Refresh the asset with:
 
 ```bash
+cd packages/python
 pdm run python scripts/update_name_assets.py
+cd ../..
+python tools/sync_assets.py
 ```
