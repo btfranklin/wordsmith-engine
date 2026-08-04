@@ -1,67 +1,35 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { test } from "node:test";
 import * as wordsmith from "../dist/index.js";
 
-const expectedExports = [
-  "Adjective",
-  "Adverb",
-  "AlienName",
-  "AlbumTitle",
-  "AncientGivenName",
-  "Article",
-  "AuthoredArtifact",
-  "BandName",
-  "BinaryGender",
-  "ChemicalCompoundName",
-  "Component",
-  "CriminalGangName",
-  "Determiner",
-  "ExoticCharacter",
-  "FantasyName",
-  "FictionalElementName",
-  "FictionalMineralName",
-  "GivenName",
-  "GivenNameCulture",
-  "HighConceptMovieTitle",
-  "LiteraryTitle",
-  "LocationAdjective",
-  "MartialSocialConcept",
-  "MovieTitle",
-  "NauticalShipName",
-  "NauticalShipNameColor",
-  "NauticalShipNameObject",
-  "Noun",
-  "NounForm",
-  "PersonName",
-  "PrimitiveWeapon",
-  "Pronoun",
-  "ReadableUniqueIdentifier",
-  "ShipNameAdjective",
-  "SimpleLiteraryTitle",
-  "SimpleMovieTitle",
-  "Surname",
-  "TimeOfDay",
-  "TownName",
-  "UCBerkeleyEmotion",
-  "UnusualLiteraryTitle",
-  "Verb",
-  "VerbTense",
-  "VillainousPersonNoun",
-  "component",
-  "concat",
-  "either",
-  "empty",
-  "join",
-  "literal",
-  "maybe",
-  "oneOf",
-  "seededRandom",
-  "weightedOneOf",
-  "ws",
-] as const;
+interface PublicApiFixture {
+  readonly pythonRuntime: readonly string[];
+  readonly typescriptRuntime: readonly string[];
+  readonly typescriptTypes: readonly string[];
+}
+
+const repositoryRoot = new URL("../../../", import.meta.url);
+const fixture = JSON.parse(
+  readFileSync(new URL("spec/conformance/public-api.json", repositoryRoot), "utf8"),
+) as PublicApiFixture;
 
 test("the root module exposes the complete documented runtime surface", () => {
-  assert.deepEqual(Object.keys(wordsmith).sort(), [...expectedExports].sort());
+  assert.deepEqual(
+    Object.keys(wordsmith).sort(),
+    [...fixture.typescriptRuntime].sort(),
+  );
+});
+
+test("the API document mentions every public symbol", () => {
+  const apiDocument = readFileSync(new URL("spec/API.md", repositoryRoot), "utf8");
+  for (const symbol of [
+    ...fixture.pythonRuntime,
+    ...fixture.typescriptRuntime,
+    ...fixture.typescriptTypes,
+  ]) {
+    assert.ok(apiDocument.includes(`\`${symbol}\``), `API.md is missing ${symbol}`);
+  }
 });
 
 test("the root module supports a real asset-backed composition", () => {

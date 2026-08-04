@@ -21,11 +21,9 @@ Unisex given names are intentionally included in both the male and female lists.
 Curated additions supplied by B.T. Franklin are included in the English-speaking
 group.
 
-Refresh the asset with:
+From the repository root, refresh and synchronize the asset with:
 
 ```bash
-cd packages/python
-pdm run python scripts/update_name_assets.py
-cd ../..
+python tools/update_name_assets.py
 python tools/sync_assets.py
 ```

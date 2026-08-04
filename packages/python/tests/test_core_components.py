@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+from pathlib import Path
 import random
+
+import pytest
 
 from wordsmith.core.components import (
     Literal,
@@ -13,6 +16,24 @@ from wordsmith.core.components import (
     weighted_one_of,
 )
 from wordsmith.util.strings import starts_with_vowel
+
+
+class _CountingRandom(random.Random):
+    def __init__(self) -> None:
+        super().__init__(0)
+        self.draw_count = 0
+
+    def random(self) -> float:
+        self.draw_count += 1
+        return super().random()
+
+
+def test_core_layer_does_not_depend_on_words() -> None:
+    core_root = Path(__file__).resolve().parents[1] / "src" / "wordsmith" / "core"
+    sources = "\n".join(
+        path.read_text(encoding="utf-8") for path in core_root.glob("*.py")
+    )
+    assert "wordsmith.words" not in sources
 
 
 def test_text_joining() -> None:
@@ -34,6 +55,35 @@ def test_maybe_probability_extremes() -> None:
 
     rng = random.Random(0)
     assert maybe("hello", probability=0.0).make_text(rng) == ""
+
+
+def test_probability_extremes_each_consume_one_draw() -> None:
+    for probability, expected in ((0.0, "second"), (1.0, "first")):
+        rng = _CountingRandom()
+        assert (
+            either("first", "second", first_probability=probability).make_text(rng)
+            == expected
+        )
+        assert rng.draw_count == 1
+
+    for probability, expected in ((0.0, ""), (1.0, "hello")):
+        rng = _CountingRandom()
+        assert maybe("hello", probability=probability).make_text(rng) == expected
+        assert rng.draw_count == 1
+
+
+def test_probability_validation_messages_are_preserved() -> None:
+    with pytest.raises(
+        ValueError,
+        match=r"^First option probability must be in the range 0\.0 to 1\.0\.$",
+    ):
+        either("first", "second", first_probability=-0.1)
+
+    with pytest.raises(
+        ValueError,
+        match=r"^Probability must be in the range 0\.0 to 1\.0\.$",
+    ):
+        maybe("hello", probability=1.1)
 
 
 def test_one_of_selection() -> None:
@@ -60,6 +110,20 @@ def test_prefixed_by_article_respects_vowel_sound() -> None:
 
     rng = random.Random(1)
     assert text("user").prefixed_by_article().make_text(rng) == "a user"
+
+    rng = random.Random(1)
+    assert (
+        text("unimportant detail").prefixed_by_article().make_text(rng)
+        == "an unimportant detail"
+    )
+
+
+def test_prefixed_by_determiner_respects_vowel_sound() -> None:
+    rng = random.Random(14)
+    assert (
+        text("onerous task").prefixed_by_determiner().make_text(rng)
+        == "an onerous task"
+    )
 
 
 def test_title_case_small_words() -> None:

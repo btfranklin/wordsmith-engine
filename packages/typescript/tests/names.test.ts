@@ -113,6 +113,25 @@ test("synthetic names require a positive integer syllable count", () => {
   assert.throws(() => new FantasyName({ syllableCount: 1.5 }), /greater than 0/);
 });
 
+test("synthetic name boolean options are validated at runtime", () => {
+  assert.throws(
+    () =>
+      new AlienName({
+        syllableCount: 3,
+        allowHyphen: "yes" as unknown as boolean,
+      }),
+    /allowHyphen must be a boolean/,
+  );
+  assert.throws(
+    () =>
+      new FantasyName({
+        syllableCount: 3,
+        allowApostrophe: 1 as unknown as boolean,
+      }),
+    /allowApostrophe must be a boolean/,
+  );
+});
+
 test("name components reject invalid custom RNG fractions", () => {
   assert.throws(
     () =>

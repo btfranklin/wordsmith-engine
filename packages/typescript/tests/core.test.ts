@@ -62,7 +62,12 @@ test("every shared conformance fixture is consumed", () => {
     readdirSync(conformanceDirectory)
       .filter((name) => name.endsWith(".json"))
       .sort(),
-    ["component-sequences.json", "string-transforms.json"],
+    [
+      "component-sequences.json",
+      "generator-traces.json",
+      "public-api.json",
+      "string-transforms.json",
+    ],
   );
 });
 
@@ -172,4 +177,19 @@ test("fluent transforms consume the shared string fixtures", () => {
       fixture.expected,
     );
   }
+});
+
+test("fluent article and determiner prefixes use vowel-sound selection", () => {
+  assert.equal(
+    component(() => "unimportant detail")
+      .prefixedByArticle()
+      .render(fractionSource([0])),
+    "an unimportant detail",
+  );
+  assert.equal(
+    component(() => "onerous task")
+      .prefixedByDeterminer()
+      .render(fractionSource([0])),
+    "an onerous task",
+  );
 });

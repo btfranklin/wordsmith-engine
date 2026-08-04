@@ -16,6 +16,8 @@ _CONFORMANCE_ROOT = (
 )
 _CONSUMED_FIXTURES = {
     "component-sequences.json",
+    "generator-traces.json",
+    "public-api.json",
     "string-transforms.json",
 }
 

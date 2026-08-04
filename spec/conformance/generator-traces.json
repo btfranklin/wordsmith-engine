@@ -1,0 +1,913 @@
+{
+  "cases": [
+    {
+      "name": "band-branch-1",
+      "intent": "Select the `The + adjective` band-name template.",
+      "generator": "BandName",
+      "fractions": [
+        0.07142857142857142
+      ],
+      "expected": "The Abrupt",
+      "expectedDraws": 2
+    },
+    {
+      "name": "band-branch-2",
+      "intent": "Select the `The + singular noun` band-name template.",
+      "generator": "BandName",
+      "fractions": [
+        0.21428571428571427
+      ],
+      "expected": "The Aardvark",
+      "expectedDraws": 2
+    },
+    {
+      "name": "band-branch-3",
+      "intent": "Select the `The + plural noun` band-name template.",
+      "generator": "BandName",
+      "fractions": [
+        0.35714285714285715
+      ],
+      "expected": "The Aardvarks",
+      "expectedDraws": 2
+    },
+    {
+      "name": "band-branch-4",
+      "intent": "Select the `adjective + singular noun` band-name template.",
+      "generator": "BandName",
+      "fractions": [
+        0.5
+      ],
+      "expected": "Abrupt Aardvark",
+      "expectedDraws": 3
+    },
+    {
+      "name": "band-branch-5",
+      "intent": "Select the `The + adjective + plural noun` band-name template.",
+      "generator": "BandName",
+      "fractions": [
+        0.6428571428571429
+      ],
+      "expected": "The Abrupt Aardvarks",
+      "expectedDraws": 3
+    },
+    {
+      "name": "band-branch-6",
+      "intent": "Select the `given name + and the + plural noun` band-name template.",
+      "generator": "BandName",
+      "fractions": [
+        0.7857142857142857
+      ],
+      "expected": "Aaquil and the Aardvarks",
+      "expectedDraws": 4
+    },
+    {
+      "name": "band-branch-7",
+      "intent": "Select the `possessive given name + plural noun` band-name template.",
+      "generator": "BandName",
+      "fractions": [
+        0.9285714285714286
+      ],
+      "expected": "Aaquil's Aardvarks",
+      "expectedDraws": 4
+    },
+    {
+      "name": "town-branch-1",
+      "intent": "Select the `surname + coastal place suffix` town-name template.",
+      "generator": "TownName",
+      "fractions": [
+        0.045
+      ],
+      "expected": "Smith Bay",
+      "expectedDraws": 3
+    },
+    {
+      "name": "town-branch-2",
+      "intent": "Select the `Fort, Port, or Cape + surname` town-name template.",
+      "generator": "TownName",
+      "fractions": [
+        0.14
+      ],
+      "expected": "Fort Smith",
+      "expectedDraws": 3
+    },
+    {
+      "name": "town-branch-3",
+      "intent": "Select the `surname + inland place suffix` town-name template.",
+      "generator": "TownName",
+      "fractions": [
+        0.215
+      ],
+      "expected": "Smith River",
+      "expectedDraws": 3
+    },
+    {
+      "name": "town-branch-4",
+      "intent": "Select the `Saint, Mount, or Lake + surname` town-name template.",
+      "generator": "TownName",
+      "fractions": [
+        0.265
+      ],
+      "expected": "Saint Smith",
+      "expectedDraws": 3
+    },
+    {
+      "name": "town-branch-5",
+      "intent": "Select the `New + surname-derived settlement` town-name template.",
+      "generator": "TownName",
+      "fractions": [
+        0.3
+      ],
+      "expected": "New Smithton",
+      "expectedDraws": 3
+    },
+    {
+      "name": "town-branch-6",
+      "intent": "Select the `location adjective + coastal suffix` town-name template.",
+      "generator": "TownName",
+      "fractions": [
+        0.33
+      ],
+      "expected": "Ancient Bay",
+      "expectedDraws": 3
+    },
+    {
+      "name": "town-branch-7",
+      "intent": "Select the `location adjective + inland suffix` town-name template.",
+      "generator": "TownName",
+      "fractions": [
+        0.365
+      ],
+      "expected": "Ancient River",
+      "expectedDraws": 3
+    },
+    {
+      "name": "town-branch-8",
+      "intent": "Select the concatenated `surname + settlement suffix` town-name template.",
+      "generator": "TownName",
+      "fractions": [
+        0.69
+      ],
+      "expected": "Smithton",
+      "expectedDraws": 3
+    },
+    {
+      "name": "nautical-branch-1",
+      "intent": "Select the English female given-name vessel form.",
+      "generator": "NauticalShipName",
+      "fractions": [
+        0.1111111111111111
+      ],
+      "expected": "Abbigail",
+      "expectedDraws": 2
+    },
+    {
+      "name": "nautical-branch-2",
+      "intent": "Select the martial-concept vessel form.",
+      "generator": "NauticalShipName",
+      "fractions": [
+        0.3055555555555556
+      ],
+      "expected": "Ambush",
+      "expectedDraws": 2
+    },
+    {
+      "name": "nautical-branch-3",
+      "intent": "Select the town-name vessel form.",
+      "generator": "NauticalShipName",
+      "fractions": [
+        0.4166666666666667
+      ],
+      "expected": "Smith Bay",
+      "expectedDraws": 4
+    },
+    {
+      "name": "nautical-branch-4",
+      "intent": "Select the ancient-or-fantasy personal-name vessel form.",
+      "generator": "NauticalShipName",
+      "fractions": [
+        0.4722222222222222
+      ],
+      "expected": "Adora",
+      "expectedDraws": 3
+    },
+    {
+      "name": "nautical-branch-5",
+      "intent": "Select the nautical-object vessel form.",
+      "generator": "NauticalShipName",
+      "fractions": [
+        0.5277777777777778
+      ],
+      "expected": "Blade",
+      "expectedDraws": 2
+    },
+    {
+      "name": "nautical-branch-6",
+      "intent": "Select the ship-name adjective vessel form.",
+      "generator": "NauticalShipName",
+      "fractions": [
+        0.5833333333333334
+      ],
+      "expected": "Adamantine",
+      "expectedDraws": 2
+    },
+    {
+      "name": "nautical-branch-7",
+      "intent": "Select the `color + nautical object or weapon` vessel form.",
+      "generator": "NauticalShipName",
+      "fractions": [
+        0.6388888888888888
+      ],
+      "expected": "Amber Blade",
+      "expectedDraws": 4
+    },
+    {
+      "name": "nautical-branch-8",
+      "intent": "Select the `ship adjective + nautical object or weapon` vessel form.",
+      "generator": "NauticalShipName",
+      "fractions": [
+        0.7222222222222222
+      ],
+      "expected": "Adamantine Blade",
+      "expectedDraws": 4
+    },
+    {
+      "name": "nautical-branch-9",
+      "intent": "Select the `time of day + martial concept or weapon` vessel form.",
+      "generator": "NauticalShipName",
+      "fractions": [
+        0.8055555555555556
+      ],
+      "expected": "Midnight Ambush",
+      "expectedDraws": 4
+    },
+    {
+      "name": "nautical-branch-10",
+      "intent": "Select the `town + nautical object or weapon` vessel form.",
+      "generator": "NauticalShipName",
+      "fractions": [
+        0.8611111111111112
+      ],
+      "expected": "Smith Bay Blade",
+      "expectedDraws": 6
+    },
+    {
+      "name": "nautical-branch-11",
+      "intent": "Select the `object or weapon + of + concept or town` vessel form.",
+      "generator": "NauticalShipName",
+      "fractions": [
+        0.9166666666666666
+      ],
+      "expected": "Blade of Ambush",
+      "expectedDraws": 5
+    },
+    {
+      "name": "nautical-branch-12",
+      "intent": "Select the possessive-name vessel form and its nested alternatives.",
+      "generator": "NauticalShipName",
+      "fractions": [
+        0.9722222222222222
+      ],
+      "expected": "Ambush's Blade",
+      "expectedDraws": 6
+    },
+    {
+      "name": "literary-branch-1",
+      "intent": "Route LiteraryTitle through its simple-title branch.",
+      "generator": "LiteraryTitle",
+      "fractions": [
+        0.39
+      ],
+      "expected": "The Borrowed Archive",
+      "expectedDraws": 4
+    },
+    {
+      "name": "literary-branch-2",
+      "intent": "Route LiteraryTitle through its unusual-title branch.",
+      "generator": "LiteraryTitle",
+      "fractions": [
+        0.89
+      ],
+      "expected": "A Manual for Answering the Borrowed Archive",
+      "expectedDraws": 8
+    },
+    {
+      "name": "simple-literary-branch-1",
+      "intent": "Select the required-modifier noun-phrase title template.",
+      "generator": "SimpleLiteraryTitle",
+      "fractions": [
+        0.07425742574257425
+      ],
+      "expected": "The Borrowed Archive",
+      "expectedDraws": 3
+    },
+    {
+      "name": "simple-literary-branch-2",
+      "intent": "Select the `noun phrase + of + resonant subject` title template.",
+      "generator": "SimpleLiteraryTitle",
+      "fractions": [
+        0.21039603960396042
+      ],
+      "expected": "The Borrowed Archive of Archives",
+      "expectedDraws": 6
+    },
+    {
+      "name": "simple-literary-branch-3",
+      "intent": "Select the `noun phrase + at + town` title template.",
+      "generator": "SimpleLiteraryTitle",
+      "fractions": [
+        0.3341584158415842
+      ],
+      "expected": "The Borrowed Archive at Smith Bay",
+      "expectedDraws": 7
+    },
+    {
+      "name": "simple-literary-branch-4",
+      "intent": "Select the paired abstract-subject title template.",
+      "generator": "SimpleLiteraryTitle",
+      "fractions": [
+        0.44554455445544555
+      ],
+      "expected": "Absence and Absence",
+      "expectedDraws": 5
+    },
+    {
+      "name": "simple-literary-branch-5",
+      "intent": "Select the `abstract subject + in + town` title template.",
+      "generator": "SimpleLiteraryTitle",
+      "fractions": [
+        0.5445544554455446
+      ],
+      "expected": "Absence in Smith Bay",
+      "expectedDraws": 6
+    },
+    {
+      "name": "simple-literary-branch-6",
+      "intent": "Select the `authored-artifact phrase + of + resonant subject` title template.",
+      "generator": "SimpleLiteraryTitle",
+      "fractions": [
+        0.6386138613861386
+      ],
+      "expected": "The Borrowed Almanac of Archives",
+      "expectedDraws": 6
+    },
+    {
+      "name": "simple-literary-branch-7",
+      "intent": "Select the `possessive person name + authored artifact` title template.",
+      "generator": "SimpleLiteraryTitle",
+      "fractions": [
+        0.7202970297029704
+      ],
+      "expected": "Aaquil Smith's Almanac",
+      "expectedDraws": 5
+    },
+    {
+      "name": "simple-literary-branch-8",
+      "intent": "Select the guide-or-study prefix title template.",
+      "generator": "SimpleLiteraryTitle",
+      "fractions": [
+        0.7945544554455446
+      ],
+      "expected": "A Field Guide to Archives",
+      "expectedDraws": 4
+    },
+    {
+      "name": "simple-literary-branch-9",
+      "intent": "Select the `time of day + with + resonant subject` title template.",
+      "generator": "SimpleLiteraryTitle",
+      "fractions": [
+        0.8613861386138615
+      ],
+      "expected": "Midnight with Archives",
+      "expectedDraws": 4
+    },
+    {
+      "name": "simple-literary-branch-10",
+      "intent": "Select the journey-prefix literary-title template.",
+      "generator": "SimpleLiteraryTitle",
+      "fractions": [
+        0.9207920792079209
+      ],
+      "expected": "Passage Through Archives",
+      "expectedDraws": 3
+    },
+    {
+      "name": "simple-literary-branch-11",
+      "intent": "Select the `town + literary place suffix` title template.",
+      "generator": "SimpleLiteraryTitle",
+      "fractions": [
+        0.9752475247524752
+      ],
+      "expected": "Smith Bay Almanac",
+      "expectedDraws": 5
+    },
+    {
+      "name": "unusual-literary-branch-1",
+      "intent": "Select the manual-prefix impossible-action title template.",
+      "generator": "UnusualLiteraryTitle",
+      "fractions": [
+        0.07947019867549669
+      ],
+      "expected": "A Manual for Answering the Borrowed Archive",
+      "expectedDraws": 7
+    },
+    {
+      "name": "unusual-literary-branch-2",
+      "intent": "Select the sentient noun phrase followed by `that + verb`.",
+      "generator": "UnusualLiteraryTitle",
+      "fractions": [
+        0.2317880794701987
+      ],
+      "expected": "The Borrowed Archive That Answers",
+      "expectedDraws": 5
+    },
+    {
+      "name": "unusual-literary-branch-3",
+      "intent": "Select the noun phrase followed by `between + plural object`.",
+      "generator": "UnusualLiteraryTitle",
+      "fractions": [
+        0.3708609271523179
+      ],
+      "expected": "The Borrowed Archive Between Archives",
+      "expectedDraws": 5
+    },
+    {
+      "name": "unusual-literary-branch-4",
+      "intent": "Select the conditional-prefix sentient-subject title template.",
+      "generator": "UnusualLiteraryTitle",
+      "fractions": [
+        0.49668874172185434
+      ],
+      "expected": "After the Borrowed Archive Answers",
+      "expectedDraws": 6
+    },
+    {
+      "name": "unusual-literary-branch-5",
+      "intent": "Select the `how or why + sentient subject + verb` title template.",
+      "generator": "UnusualLiteraryTitle",
+      "fractions": [
+        0.6092715231788081
+      ],
+      "expected": "How the Borrowed Archive Answers",
+      "expectedDraws": 6
+    },
+    {
+      "name": "unusual-literary-branch-6",
+      "intent": "Select the `abstract subject + after + abstract subject` title template.",
+      "generator": "UnusualLiteraryTitle",
+      "fractions": [
+        0.7119205298013245
+      ],
+      "expected": "Absence After Absence",
+      "expectedDraws": 5
+    },
+    {
+      "name": "unusual-literary-branch-7",
+      "intent": "Select the `place suffix + for + resonant subject` title template.",
+      "generator": "UnusualLiteraryTitle",
+      "fractions": [
+        0.8079470198675497
+      ],
+      "expected": "Almanac for Archives",
+      "expectedDraws": 4
+    },
+    {
+      "name": "unusual-literary-branch-8",
+      "intent": "Select the `authored-artifact phrase + against + abstraction` title template.",
+      "generator": "UnusualLiteraryTitle",
+      "fractions": [
+        0.8940397350993378
+      ],
+      "expected": "The Borrowed Almanac Against Absence",
+      "expectedDraws": 6
+    },
+    {
+      "name": "unusual-literary-branch-9",
+      "intent": "Select the nested `noun phrase + inside + noun phrase` title template.",
+      "generator": "UnusualLiteraryTitle",
+      "fractions": [
+        0.9668874172185431
+      ],
+      "expected": "The Borrowed Archive Inside the Borrowed Archive",
+      "expectedDraws": 7
+    },
+    {
+      "name": "album-branch-1",
+      "intent": "Route AlbumTitle through the short-title family and select a plural noun.",
+      "generator": "AlbumTitle",
+      "fractions": [
+        0.175
+      ],
+      "expected": "Aardvarks",
+      "expectedDraws": 4
+    },
+    {
+      "name": "album-branch-2",
+      "intent": "Route AlbumTitle through the fragment family and select `no + noun`.",
+      "generator": "AlbumTitle",
+      "fractions": [
+        0.475
+      ],
+      "expected": "No Aardvark",
+      "expectedDraws": 5
+    },
+    {
+      "name": "album-branch-3",
+      "intent": "Route AlbumTitle through the documentary family and select `town + sessions`.",
+      "generator": "AlbumTitle",
+      "fractions": [
+        0.71
+      ],
+      "expected": "Smith Bay Sessions",
+      "expectedDraws": 6
+    },
+    {
+      "name": "album-branch-4",
+      "intent": "Route AlbumTitle through the collision family and select `noun / noun`.",
+      "generator": "AlbumTitle",
+      "fractions": [
+        0.9099999999999999
+      ],
+      "expected": "Aardvark / Aardvark",
+      "expectedDraws": 4
+    },
+    {
+      "name": "simple-movie-branch-1",
+      "intent": "Select the person-name movie-title template.",
+      "generator": "SimpleMovieTitle",
+      "fractions": [
+        0.07352941176470588
+      ],
+      "expected": "Aaquil Smith",
+      "expectedDraws": 4
+    },
+    {
+      "name": "simple-movie-branch-2",
+      "intent": "Select the town-name movie-title template.",
+      "generator": "SimpleMovieTitle",
+      "fractions": [
+        0.21323529411764705
+      ],
+      "expected": "Smith Bay",
+      "expectedDraws": 4
+    },
+    {
+      "name": "simple-movie-branch-3",
+      "intent": "Select the `The + adjective + noun` movie-title template.",
+      "generator": "SimpleMovieTitle",
+      "fractions": [
+        0.3419117647058823
+      ],
+      "expected": "The Abrupt Aardvark",
+      "expectedDraws": 3
+    },
+    {
+      "name": "simple-movie-branch-4",
+      "intent": "Select the `The + noun + of + town` movie-title template.",
+      "generator": "SimpleMovieTitle",
+      "fractions": [
+        0.46691176470588236
+      ],
+      "expected": "The Aardvark of Smith Bay",
+      "expectedDraws": 5
+    },
+    {
+      "name": "simple-movie-branch-5",
+      "intent": "Select the `time of day + in + town` movie-title template.",
+      "generator": "SimpleMovieTitle",
+      "fractions": [
+        0.5845588235294118
+      ],
+      "expected": "Midnight in Smith Bay",
+      "expectedDraws": 5
+    },
+    {
+      "name": "simple-movie-branch-6",
+      "intent": "Select the `martial concept + at + town` movie-title template.",
+      "generator": "SimpleMovieTitle",
+      "fractions": [
+        0.6911764705882352
+      ],
+      "expected": "Ambush at Smith Bay",
+      "expectedDraws": 5
+    },
+    {
+      "name": "simple-movie-branch-7",
+      "intent": "Select the `emotion + and + martial concept` movie-title template.",
+      "generator": "SimpleMovieTitle",
+      "fractions": [
+        0.7904411764705882
+      ],
+      "expected": "Admiration and Ambush",
+      "expectedDraws": 3
+    },
+    {
+      "name": "simple-movie-branch-8",
+      "intent": "Select the `possessive person name + authored artifact` movie template.",
+      "generator": "SimpleMovieTitle",
+      "fractions": [
+        0.8823529411764706
+      ],
+      "expected": "Aaquil Smith's Almanac",
+      "expectedDraws": 5
+    },
+    {
+      "name": "simple-movie-branch-9",
+      "intent": "Select the `The + authored artifact + of + person name` movie template.",
+      "generator": "SimpleMovieTitle",
+      "fractions": [
+        0.9632352941176471
+      ],
+      "expected": "The Almanac of Aaquil Smith",
+      "expectedDraws": 5
+    },
+    {
+      "name": "high-concept-movie-branch-1",
+      "intent": "Select the dramatic-place-prefix high-concept template.",
+      "generator": "HighConceptMovieTitle",
+      "fractions": [
+        0.11956521739130437
+      ],
+      "expected": "Escape From Smith Bay",
+      "expectedDraws": 5
+    },
+    {
+      "name": "high-concept-movie-branch-2",
+      "intent": "Select the `temporal prefix + article noun + present verb` template.",
+      "generator": "HighConceptMovieTitle",
+      "fractions": [
+        0.3369565217391305
+      ],
+      "expected": "Before an Aardvark Abashes",
+      "expectedDraws": 5
+    },
+    {
+      "name": "high-concept-movie-branch-3",
+      "intent": "Select the `temporal prefix + person name + present verb` template.",
+      "generator": "HighConceptMovieTitle",
+      "fractions": [
+        0.5217391304347826
+      ],
+      "expected": "Before Aaquil Smith Abashes",
+      "expectedDraws": 6
+    },
+    {
+      "name": "high-concept-movie-branch-4",
+      "intent": "Select the `The + mystery noun + of + town` template.",
+      "generator": "HighConceptMovieTitle",
+      "fractions": [
+        0.6847826086956522
+      ],
+      "expected": "The Case of Smith Bay",
+      "expectedDraws": 5
+    },
+    {
+      "name": "high-concept-movie-branch-5",
+      "intent": "Select the `The + ordinal + artifact or noun` template.",
+      "generator": "HighConceptMovieTitle",
+      "fractions": [
+        0.8260869565217391
+      ],
+      "expected": "The First Almanac",
+      "expectedDraws": 4
+    },
+    {
+      "name": "high-concept-movie-branch-6",
+      "intent": "Select the `The + noun + that + past verb` template.",
+      "generator": "HighConceptMovieTitle",
+      "fractions": [
+        0.9456521739130435
+      ],
+      "expected": "The Aardvark That Abashed",
+      "expectedDraws": 3
+    },
+    {
+      "name": "movie-branch-1",
+      "intent": "Route MovieTitle through the simple-title family.",
+      "generator": "MovieTitle",
+      "fractions": [
+        0.275
+      ],
+      "expected": "Aaquil Smith",
+      "expectedDraws": 5
+    },
+    {
+      "name": "movie-branch-2",
+      "intent": "Route MovieTitle through the high-concept family.",
+      "generator": "MovieTitle",
+      "fractions": [
+        0.7000000000000001
+      ],
+      "expected": "Escape From Smith Bay",
+      "expectedDraws": 6
+    },
+    {
+      "name": "movie-branch-3",
+      "intent": "Route MovieTitle through the literary-title family.",
+      "generator": "MovieTitle",
+      "fractions": [
+        0.925
+      ],
+      "expected": "The Borrowed Archive",
+      "expectedDraws": 5
+    },
+    {
+      "name": "criminal-personal-branch",
+      "intent": "Select the personal possessive gang-name branch.",
+      "generator": "CriminalGangName",
+      "fractions": [
+        0.125
+      ],
+      "expected": "Aaquil's Bandits",
+      "expectedDraws": 5
+    },
+    {
+      "name": "criminal-collective-branch-1",
+      "intent": "Select the `martial concept + villain plural` collective branch.",
+      "generator": "CriminalGangName",
+      "fractions": [
+        0.5,
+        0.08333333333333333
+      ],
+      "expected": "the Ambush Bandits",
+      "expectedDraws": 4
+    },
+    {
+      "name": "criminal-collective-branch-2",
+      "intent": "Select the `weapon + villain plural` collective branch.",
+      "generator": "CriminalGangName",
+      "fractions": [
+        0.5,
+        0.25
+      ],
+      "expected": "the Sword Bandits",
+      "expectedDraws": 4
+    },
+    {
+      "name": "criminal-collective-branch-3",
+      "intent": "Select the `villain plural + of + town` collective branch.",
+      "generator": "CriminalGangName",
+      "fractions": [
+        0.5,
+        0.4166666666666667
+      ],
+      "expected": "the Bandits of Smith Bay",
+      "expectedDraws": 6
+    },
+    {
+      "name": "criminal-collective-branch-4",
+      "intent": "Select the `town + villain plural` collective branch.",
+      "generator": "CriminalGangName",
+      "fractions": [
+        0.5,
+        0.5833333333333334
+      ],
+      "expected": "the Smith Bay Bandits",
+      "expectedDraws": 6
+    },
+    {
+      "name": "criminal-collective-branch-5",
+      "intent": "Select the `adjective + villain plural` collective branch.",
+      "generator": "CriminalGangName",
+      "fractions": [
+        0.5,
+        0.75
+      ],
+      "expected": "the Abrupt Bandits",
+      "expectedDraws": 4
+    },
+    {
+      "name": "criminal-collective-branch-6",
+      "intent": "Select the `adjective + villain plural + of + town` collective branch.",
+      "generator": "CriminalGangName",
+      "fractions": [
+        0.5,
+        0.9166666666666666
+      ],
+      "expected": "the Abrupt Bandits of Smith Bay",
+      "expectedDraws": 7
+    },
+    {
+      "name": "element-root-branch-1",
+      "intent": "Select an authored elemental root before applying the element suffix.",
+      "generator": "FictionalElementName",
+      "fractions": [
+        0.3125
+      ],
+      "expected": "aerium",
+      "expectedDraws": 4
+    },
+    {
+      "name": "element-root-branch-2",
+      "intent": "Select an alien-name root before applying the element suffix.",
+      "generator": "FictionalElementName",
+      "fractions": [
+        0.6875
+      ],
+      "expected": "aabbium",
+      "expectedDraws": 6
+    },
+    {
+      "name": "element-root-branch-3",
+      "intent": "Select a fantasy-name root before applying the element suffix.",
+      "generator": "FictionalElementName",
+      "fractions": [
+        0.8125
+      ],
+      "expected": "aelium",
+      "expectedDraws": 4
+    },
+    {
+      "name": "element-root-branch-4",
+      "intent": "Select a surname root before applying the element suffix.",
+      "generator": "FictionalElementName",
+      "fractions": [
+        0.9375
+      ],
+      "expected": "smithium",
+      "expectedDraws": 3
+    },
+    {
+      "name": "mineral-root-branch-1",
+      "intent": "Select an authored mineral root before applying the mineral suffix.",
+      "generator": "FictionalMineralName",
+      "fractions": [
+        0.2857142857142857
+      ],
+      "expected": "aurelite",
+      "expectedDraws": 4
+    },
+    {
+      "name": "mineral-root-branch-2",
+      "intent": "Select a fantasy-name root before applying the mineral suffix.",
+      "generator": "FictionalMineralName",
+      "fractions": [
+        0.7142857142857143
+      ],
+      "expected": "aelaite",
+      "expectedDraws": 4
+    },
+    {
+      "name": "mineral-root-branch-3",
+      "intent": "Select a surname root before applying the mineral suffix.",
+      "generator": "FictionalMineralName",
+      "fractions": [
+        0.9285714285714286
+      ],
+      "expected": "smithite",
+      "expectedDraws": 3
+    },
+    {
+      "name": "element-real-name-retry",
+      "intent": "Reject a real-element collision (helium), then accept aerium on the next attempt.",
+      "generator": "FictionalElementName",
+      "fractions": [
+        0.1,
+        0.5227272727272727,
+        0.5909090909090909,
+        0.1,
+        0.1,
+        0.01,
+        0.01,
+        0.1
+      ],
+      "expected": "aerium",
+      "expectedDraws": 8
+    },
+    {
+      "name": "element-root-fallback",
+      "intent": "Exhaust all 24 invalid element-root attempts and use the lumin fallback root.",
+      "generator": "FictionalElementName",
+      "fractions": [
+        0.6875
+      ],
+      "cycle": true,
+      "expected": "luminine",
+      "expectedDraws": 97
+    },
+    {
+      "name": "mineral-root-fallback",
+      "intent": "Exhaust all 24 invalid mineral-root attempts and use the aurel fallback root.",
+      "generator": "FictionalMineralName",
+      "fractions": [
+        0.8735
+      ],
+      "cycle": true,
+      "expected": "aurelore",
+      "expectedDraws": 49
+    },
+    {
+      "name": "element-real-name-exhaustion-fallback",
+      "intent": "Reject helium for all 16 element-name attempts and return the luminum exclusion fallback.",
+      "generator": "FictionalElementName",
+      "fractions": [
+        0.1,
+        0.5227272727272727,
+        0.5909090909090909,
+        0.1
+      ],
+      "cycle": true,
+      "expected": "luminum",
+      "expectedDraws": 64
+    }
+  ]
+}

@@ -31,15 +31,9 @@ jobs:
             - name: Install dependencies
               working-directory: packages/python
               run: pdm install --group dev
-            - name: Verify canonical assets
+            - name: Validate Python package
               working-directory: packages/python
-              run: pdm run check-assets
-            - name: Lint with Ruff
-              working-directory: packages/python
-              run: pdm run lint
-            - name: Test with pytest
-              working-directory: packages/python
-              run: pdm run test
+              run: pdm run check-core
 
     package:
         needs: build

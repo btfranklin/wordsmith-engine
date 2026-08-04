@@ -17,6 +17,6 @@ def load_json(filename: str) -> Any:
             .joinpath(filename)
             .read_text(encoding="utf-8")
         )
-    except FileNotFoundError:
-        return []
+    except FileNotFoundError as error:
+        raise FileNotFoundError(f"Wordsmith asset not found: {filename}") from error
     return json.loads(payload)

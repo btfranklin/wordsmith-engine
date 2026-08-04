@@ -5,12 +5,16 @@ from __future__ import annotations
 import random
 from typing import TypeVar
 
+import pytest
+
 from tests.utils import assert_in_options
 from wordsmith.words import (
     Adjective,
     Adverb,
+    Article,
     AuthoredArtifact,
     ChemicalCompoundName,
+    Determiner,
     LocationAdjective,
     MartialSocialConcept,
     NauticalShipNameColor,
@@ -118,6 +122,12 @@ def test_pronoun_outputs() -> None:
     assert value in {"he", "she", "it"}
 
 
+def test_articles_and_determiners_apply_vowel_context() -> None:
+    assert Article(is_before_vowel=True).make_text(ChoiceRandom("a")) == "an"
+    assert Article().make_text(ChoiceRandom("a")) == "a"
+    assert Determiner(is_before_vowel=True).make_text(ChoiceRandom("a")) == "an"
+
+
 def test_chemical_compound_from_assets() -> None:
     rng = random.Random(4)
     value = ChemicalCompoundName().make_text(rng)
@@ -185,3 +195,23 @@ def test_villainous_person_pluralization_rules() -> None:
 def test_primitive_weapon_pluralization_rules() -> None:
     assert PrimitiveWeapon(is_plural=True).make_text(ChoiceRandom("knife")) == "knives"
     assert PrimitiveWeapon(is_plural=True).make_text(ChoiceRandom("spear")) == "spears"
+
+
+def test_public_word_boolean_options_require_booleans() -> None:
+    invalid_components = (
+        lambda: Pronoun(is_singular=1, is_third_person=False),
+        lambda: Pronoun(is_singular=True, is_third_person="no"),
+        lambda: Article(is_before_vowel=1),
+        lambda: Determiner(is_before_vowel="yes"),
+        lambda: VillainousPersonNoun(is_plural=1),
+        lambda: PrimitiveWeapon(is_plural="yes"),
+    )
+
+    for make_component in invalid_components:
+        with pytest.raises(TypeError, match="must be a boolean"):
+            make_component()
+
+    with pytest.raises(TypeError):
+        Pronoun()  # type: ignore[call-arg]
+    with pytest.raises(TypeError):
+        VillainousPersonNoun()  # type: ignore[call-arg]

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
+from datetime import date
 import json
 from pathlib import Path
 import re
@@ -12,7 +13,7 @@ from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
 
-REPOSITORY_ROOT = Path(__file__).resolve().parents[3]
+REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 ASSET_PATH = REPOSITORY_ROOT / "assets" / "Given Names.json"
 SPARQL_ENDPOINT = "https://query.wikidata.org/sparql"
 USER_AGENT = (
@@ -107,10 +108,12 @@ CURATED_UNISEX_ADDITIONS = {
 }
 
 DISALLOWED_LABEL_PARTS = re.compile(r"[.,:;/()[\]{}]|\\bQ\\d+\\b")
+NameGroups = dict[str, dict[str, list[str]]]
+WikidataBinding = dict[str, dict[str, str]]
 
 
 def main() -> None:
-    names = {
+    names: NameGroups = {
         group: {
             gender: fetch_names(languages, classes)
             for gender, classes in GENDER_CLASSES.items()
@@ -119,28 +122,7 @@ def main() -> None:
     }
 
     apply_curated_additions(names)
-
-    payload = {
-        "_meta": {
-            "source": "Wikidata Query Service",
-            "source_url": "https://query.wikidata.org/",
-            "license": "CC0-1.0",
-            "refreshed_on": "2026-06-18",
-            "notes": [
-                "Names are grouped by Wikidata language of work or name.",
-                "Unisex given names are intentionally included in both gender lists.",
-                "English labels are used for package-friendly display output.",
-                "Curated additions supplied by B.T. Franklin are included "
-                "in the English-speaking group.",
-            ],
-        },
-        "modern": {
-            key: value
-            for key, value in names.items()
-            if key != "ancient"
-        },
-        "ancient": names["ancient"],
-    }
+    payload = build_payload(names)
 
     ASSET_PATH.write_text(
         json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
@@ -160,17 +142,52 @@ def main() -> None:
     )
 
 
+def build_payload(
+    names: NameGroups,
+    refreshed_on: date | None = None,
+) -> dict[str, object]:
+    """Build the canonical asset payload without performing network or file I/O."""
+    refresh_date = refreshed_on if refreshed_on is not None else date.today()
+    return {
+        "_meta": {
+            "source": "Wikidata Query Service",
+            "source_url": "https://query.wikidata.org/",
+            "license": "CC0-1.0",
+            "refreshed_on": refresh_date.isoformat(),
+            "notes": [
+                "Names are grouped by Wikidata language of work or name.",
+                "Unisex given names are intentionally included in both gender lists.",
+                "English labels are used for package-friendly display output.",
+                "Curated additions supplied by B.T. Franklin are included "
+                "in the English-speaking group.",
+            ],
+        },
+        "modern": {
+            key: value
+            for key, value in names.items()
+            if key != "ancient"
+        },
+        "ancient": names["ancient"],
+    }
+
+
 def fetch_names(languages: Iterable[str], classes: Iterable[str]) -> list[str]:
     query = build_query(languages, classes)
-    bindings = run_query(query)
-    return sorted(
-        {
-            normalized
-            for binding in bindings
-            if (normalized := normalize_name(binding["label"]["value"]))
-        },
-        key=str.casefold,
+    return names_from_bindings(run_query(query))
+
+
+def names_from_bindings(bindings: Iterable[WikidataBinding]) -> list[str]:
+    """Normalize and order Wikidata names without performing network I/O."""
+    return sorted_unique_names(
+        normalized
+        for binding in bindings
+        if (normalized := normalize_name(binding["label"]["value"]))
     )
+
+
+def sorted_unique_names(values: Iterable[str]) -> list[str]:
+    """Deduplicate names and deterministically resolve case-fold sort collisions."""
+    return sorted(set(values), key=lambda value: (value.casefold(), value))
 
 
 def build_query(languages: Iterable[str], classes: Iterable[str]) -> str:
@@ -191,7 +208,7 @@ LIMIT 20000
 """
 
 
-def run_query(query: str) -> list[dict[str, dict[str, str]]]:
+def run_query(query: str) -> list[WikidataBinding]:
     encoded = urlencode({"query": query, "format": "json"})
     request = Request(
         f"{SPARQL_ENDPOINT}?{encoded}",
@@ -226,19 +243,17 @@ def normalize_name(value: str) -> str | None:
     return name
 
 
-def apply_curated_additions(names: dict[str, dict[str, list[str]]]) -> None:
+def apply_curated_additions(names: NameGroups) -> None:
     for group, genders in CURATED_GENDERED_ADDITIONS.items():
         for gender, additions in genders.items():
-            names[group][gender] = sorted(
-                {*names[group][gender], *additions},
-                key=str.casefold,
+            names[group][gender] = sorted_unique_names(
+                (*names[group][gender], *additions)
             )
 
     for group, additions in CURATED_UNISEX_ADDITIONS.items():
         for gender in ("male", "female"):
-            names[group][gender] = sorted(
-                {*names[group][gender], *additions},
-                key=str.casefold,
+            names[group][gender] = sorted_unique_names(
+                (*names[group][gender], *additions)
             )
 
 

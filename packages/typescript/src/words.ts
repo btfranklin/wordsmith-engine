@@ -3,10 +3,14 @@ import adverbData from "./assets/Adverbs.json" with { type: "json" };
 import chemicalCompoundData from "./assets/Chemical Compound Names.json" with {
   type: "json",
 };
+import curatedWordListsJson from "./assets/Curated Word Lists.json" with {
+  type: "json",
+};
 import nounData from "./assets/Nouns.json" with { type: "json" };
 import verbData from "./assets/Verbs.json" with { type: "json" };
 
 import { Component } from "./core.js";
+import { selectArticle, selectDeterminer } from "./core-grammar.js";
 import { choose, type RandomSource } from "./random.js";
 
 export const NounForm = Object.freeze({
@@ -36,364 +40,26 @@ const VERBS = verbData as unknown as readonly (readonly [
   string,
 ])[];
 
-const AUTHORED_ARTIFACTS = [
-  "almanac",
-  "atlas",
-  "book",
-  "catalog",
-  "codex",
-  "field guide",
-  "inventory",
-  "letter",
-  "manual",
-  "notebook",
-  "record",
-  "score",
-] as const;
-const LOCATION_ADJECTIVES = [
-  "ancient",
-  "beautiful",
-  "blissful",
-  "breezy",
-  "charming",
-  "cloudy",
-  "colorful",
-  "dangerous",
-  "dreamy",
-  "dry",
-  "enchanted",
-  "enchanting",
-  "fertile",
-  "floral",
-  "foggy",
-  "forgotten",
-  "freezing",
-  "frozen",
-  "ghostly",
-  "gloomy",
-  "glorious",
-  "grand",
-  "grassy",
-  "haunted",
-  "hilly",
-  "looming",
-  "majestic",
-  "misty",
-  "moonshine",
-  "muddy",
-  "mysterious",
-  "mystical",
-  "peaceful",
-  "quiet",
-  "rainy",
-  "reedy",
-  "rocky",
-  "sandy",
-  "shady",
-  "silent",
-  "snowy",
-  "stony",
-  "stormy",
-  "sunny",
-  "windswept",
-  "windy",
-] as const;
-const MARTIAL_SOCIAL_CONCEPTS = [
-  "ambush",
-  "anger",
-  "betrayal",
-  "bravery",
-  "conquest",
-  "courage",
-  "death",
-  "deception",
-  "delight",
-  "despair",
-  "devastation",
-  "discipline",
-  "domination",
-  "famine",
-  "freedom",
-  "fury",
-  "glory",
-  "hatred",
-  "honor",
-  "independence",
-  "justice",
-  "liberation",
-  "liberty",
-  "mercy",
-  "murder",
-  "pestilence",
-  "plunder",
-  "pride",
-  "rage",
-  "regret",
-  "reprisal",
-  "retribution",
-  "revenge",
-  "righteousness",
-  "slaughter",
-  "terror",
-  "transgression",
-  "treachery",
-  "treason",
-  "triumph",
-  "vengeance",
-  "victory",
-  "wrath",
-] as const;
-const UC_BERKELEY_EMOTIONS = [
-  "admiration",
-  "adoration",
-  "appreciation",
-  "amusement",
-  "anxiety",
-  "awe",
-  "awkwardness",
-  "boredom",
-  "calmness",
-  "confusion",
-  "craving",
-  "disgust",
-  "empathy",
-  "entrancement",
-  "envy",
-  "excitement",
-  "fear",
-  "horror",
-  "interest",
-  "joy",
-  "nostalgia",
-  "romance",
-  "sadness",
-  "satisfaction",
-  "lust",
-  "sympathy",
-  "triumph",
-] as const;
-const VILLAINOUS_PERSON_NOUNS = [
-  "bandit",
-  "brigand",
-  "bruiser",
-  "buccaneer",
-  "burglar",
-  "charlatan",
-  "corsair",
-  "criminal",
-  "crook",
-  "deceiver",
-  "delinquent",
-  "demon",
-  "desperado",
-  "devil",
-  "dodger",
-  "gunman",
-  "hood",
-  "scoundrel",
-  "sinner",
-  "blackguard",
-  "brute",
-  "creep",
-  "dog",
-  "filcher",
-  "good-for-nothing",
-  "goon",
-  "grifter",
-  "hellion",
-  "highwayman",
-  "hijacker",
-  "hoodlum",
-  "hooligan",
-  "imp",
-  "knave",
-  "libertine",
-  "looter",
-  "lowlife",
-  "maggot",
-  "malefactor",
-  "marauder",
-  "mischief-maker",
-  "miscreant",
-  "mountebank",
-  "mugger",
-  "murderer",
-  "ne'er-do-well",
-  "offender",
-  "outlaw",
-  "pilferer",
-  "pirate",
-  "profligate",
-  "punk",
-  "prowler",
-  "plunderer",
-  "racketeer",
-  "rapscallion",
-  "rascal",
-  "ravager",
-  "reprobate",
-  "robber",
-  "rogue",
-  "rook",
-  "ruffian",
-  "scalawag",
-  "shark",
-  "swindler",
-  "thief",
-  "thug",
-  "troublemaker",
-  "wretch",
-  "vagabond",
-  "varlet",
-  "villain",
-] as const;
-const PRIMITIVE_WEAPONS = [
-  "sword",
-  "blade",
-  "mace",
-  "hammer",
-  "knife",
-  "dagger",
-  "axe",
-  "halberd",
-  "glaive",
-  "spear",
-  "lance",
-  "pike",
-  "bow",
-  "crossbow",
-] as const;
-const NAUTICAL_SHIP_NAME_OBJECTS = [
-  "blade",
-  "breeze",
-  "concubine",
-  "consort",
-  "crown",
-  "dagger",
-  "dancer",
-  "demon",
-  "destiny",
-  "devil",
-  "disciple",
-  "dragon",
-  "dream",
-  "dryad",
-  "falcon",
-  "flame",
-  "fox",
-  "ghost",
-  "gypsy",
-  "harpy",
-  "heart",
-  "hound",
-  "jewel",
-  "knave",
-  "knight",
-  "kraken",
-  "lance",
-  "mage",
-  "maiden",
-  "nightmare",
-  "nymph",
-  "paladin",
-  "pearl",
-  "princess",
-  "queen",
-  "revenant",
-  "rogue",
-  "rose",
-  "serpent",
-  "shield",
-  "spear",
-  "spirit",
-  "stallion",
-  "star",
-  "storm",
-  "sword",
-  "treasure",
-  "trinity",
-  "warlock",
-  "wench",
-  "widow",
-  "witch",
-  "wizard",
-  "wolf",
-] as const;
-const NAUTICAL_SHIP_NAME_COLORS = [
-  "amber",
-  "black",
-  "blue",
-  "bronze",
-  "copper",
-  "golden",
-  "gray",
-  "green",
-  "ivory",
-  "jade",
-  "obsidian",
-  "red",
-  "silver",
-  "white",
-] as const;
-const SHIP_NAME_ADJECTIVES = [
-  "adamantine",
-  "adventurous",
-  "ancient",
-  "angry",
-  "beastly",
-  "beautiful",
-  "courageous",
-  "dancing",
-  "dastardly",
-  "draconian",
-  "elder",
-  "enchanted",
-  "enchanting",
-  "heroic",
-  "immortal",
-  "indestructible",
-  "invincible",
-  "magnificent",
-  "malicious",
-  "mighty",
-  "nefarious",
-  "perfect",
-  "pious",
-  "precious",
-  "priceless",
-  "relentless",
-  "righteous",
-  "saintly",
-  "sinful",
-  "sinister",
-  "sylvan",
-  "terrible",
-  "terrific",
-  "unstoppable",
-  "unyielding",
-  "valiant",
-  "vengeful",
-  "virtuous",
-  "wandering",
-  "windward",
-  "wrathful",
-  "yearning",
-  "youthful",
-] as const;
-const TIMES_OF_DAY = [
-  "midnight",
-  "night",
-  "morning",
-  "dawn",
-  "sunrise",
-  "daytime",
-  "midday",
-  "afternoon",
-  "evening",
-  "dusk",
-  "twilight",
-  "sunset",
-] as const;
+const AUTHORED_ARTIFACTS: readonly string[] = curatedWordListsJson.authoredArtifacts;
+const LOCATION_ADJECTIVES: readonly string[] = curatedWordListsJson.locationAdjectives;
+const MARTIAL_SOCIAL_CONCEPTS: readonly string[] =
+  curatedWordListsJson.martialSocialConcepts;
+const UC_BERKELEY_EMOTIONS: readonly string[] = curatedWordListsJson.ucBerkeleyEmotions;
+const VILLAINOUS_PERSON_NOUNS: readonly string[] =
+  curatedWordListsJson.villainousPersonNouns;
+const PRIMITIVE_WEAPONS: readonly string[] = curatedWordListsJson.primitiveWeapons;
+const NAUTICAL_SHIP_NAME_OBJECTS: readonly string[] =
+  curatedWordListsJson.nauticalShipNameObjects;
+const NAUTICAL_SHIP_NAME_COLORS: readonly string[] =
+  curatedWordListsJson.nauticalShipNameColors;
+const SHIP_NAME_ADJECTIVES: readonly string[] = curatedWordListsJson.shipNameAdjectives;
+const TIMES_OF_DAY: readonly string[] = curatedWordListsJson.timesOfDay;
+
+function assertBoolean(value: unknown, name: string): asserts value is boolean {
+  if (typeof value !== "boolean") {
+    throw new TypeError(`${name} must be a boolean.`);
+  }
+}
 
 abstract class OptionComponent extends Component {
   readonly #options: readonly string[];
@@ -515,6 +181,8 @@ export class Pronoun extends Component {
     isThirdPerson,
   }: { readonly isSingular: boolean; readonly isThirdPerson: boolean }) {
     super();
+    assertBoolean(isSingular, "isSingular");
+    assertBoolean(isThirdPerson, "isThirdPerson");
     this.isSingular = isSingular;
     this.isThirdPerson = isThirdPerson;
     Object.freeze(this);
@@ -533,13 +201,13 @@ export class Article extends Component {
 
   constructor({ isBeforeVowel = false }: { readonly isBeforeVowel?: boolean } = {}) {
     super();
+    assertBoolean(isBeforeVowel, "isBeforeVowel");
     this.isBeforeVowel = isBeforeVowel;
     Object.freeze(this);
   }
 
   render(rng: RandomSource): string {
-    const value = choose(rng, ["a", "the"]);
-    return value === "a" && this.isBeforeVowel ? "an" : value;
+    return selectArticle(rng, { isBeforeVowel: this.isBeforeVowel });
   }
 }
 
@@ -548,13 +216,13 @@ export class Determiner extends Component {
 
   constructor({ isBeforeVowel = false }: { readonly isBeforeVowel?: boolean } = {}) {
     super();
+    assertBoolean(isBeforeVowel, "isBeforeVowel");
     this.isBeforeVowel = isBeforeVowel;
     Object.freeze(this);
   }
 
   render(rng: RandomSource): string {
-    const value = choose(rng, ["a", "the", "my", "your", "our", "her", "his"]);
-    return value === "a" && this.isBeforeVowel ? "an" : value;
+    return selectDeterminer(rng, { isBeforeVowel: this.isBeforeVowel });
   }
 }
 
@@ -563,6 +231,7 @@ export class VillainousPersonNoun extends Component {
 
   constructor({ isPlural }: { readonly isPlural: boolean }) {
     super();
+    assertBoolean(isPlural, "isPlural");
     this.isPlural = isPlural;
     Object.freeze(this);
   }
@@ -590,6 +259,7 @@ export class PrimitiveWeapon extends Component {
 
   constructor({ isPlural = false }: { readonly isPlural?: boolean } = {}) {
     super();
+    assertBoolean(isPlural, "isPlural");
     this.isPlural = isPlural;
     Object.freeze(this);
   }

@@ -33,6 +33,7 @@ Run TypeScript commands from `packages/typescript/`:
 
 Synchronize canonical assets from the repository root with
 `python tools/sync_assets.py`; verify them with `--check`.
+Refresh canonical given-name data with `python tools/update_name_assets.py`.
 
 ## Implementation Rules
 

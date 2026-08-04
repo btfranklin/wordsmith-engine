@@ -10,6 +10,10 @@ from typing import ClassVar
 from wordsmith.core.base import Component
 from wordsmith.util import load_json
 
+_CURATED_WORD_LISTS: dict[str, list[str]] = load_json(
+    "Curated Word Lists.json"
+)
+
 
 @dataclass(frozen=True)
 class Adjective(Component):
@@ -81,6 +85,12 @@ class Pronoun(Component):
     is_singular: bool
     is_third_person: bool
 
+    def __post_init__(self) -> None:
+        if not isinstance(self.is_singular, bool):
+            raise TypeError("is_singular must be a boolean")
+        if not isinstance(self.is_third_person, bool):
+            raise TypeError("is_third_person must be a boolean")
+
     def make_text(self, rng: random.Random) -> str:
         if self.is_third_person:
             if self.is_singular:
@@ -106,20 +116,7 @@ class ChemicalCompoundName(Component):
 class AuthoredArtifact(Component):
     """Random authored or documented artifact."""
 
-    _options: ClassVar[list[str]] = [
-        "almanac",
-        "atlas",
-        "book",
-        "catalog",
-        "codex",
-        "field guide",
-        "inventory",
-        "letter",
-        "manual",
-        "notebook",
-        "record",
-        "score",
-    ]
+    _options: ClassVar[list[str]] = _CURATED_WORD_LISTS["authoredArtifacts"]
 
     def make_text(self, rng: random.Random) -> str:
         return rng.choice(self._options)
@@ -129,54 +126,7 @@ class AuthoredArtifact(Component):
 class LocationAdjective(Component):
     """Random location adjective."""
 
-    _options: ClassVar[list[str]] = [
-        "ancient",
-        "beautiful",
-        "blissful",
-        "breezy",
-        "charming",
-        "cloudy",
-        "colorful",
-        "dangerous",
-        "dreamy",
-        "dry",
-        "enchanted",
-        "enchanting",
-        "fertile",
-        "floral",
-        "foggy",
-        "forgotten",
-        "freezing",
-        "frozen",
-        "ghostly",
-        "gloomy",
-        "glorious",
-        "grand",
-        "grassy",
-        "haunted",
-        "hilly",
-        "looming",
-        "majestic",
-        "misty",
-        "moonshine",
-        "muddy",
-        "mysterious",
-        "mystical",
-        "peaceful",
-        "quiet",
-        "rainy",
-        "reedy",
-        "rocky",
-        "sandy",
-        "shady",
-        "silent",
-        "snowy",
-        "stony",
-        "stormy",
-        "sunny",
-        "windswept",
-        "windy",
-    ]
+    _options: ClassVar[list[str]] = _CURATED_WORD_LISTS["locationAdjectives"]
 
     def make_text(self, rng: random.Random) -> str:
         return rng.choice(self._options)
@@ -186,51 +136,7 @@ class LocationAdjective(Component):
 class MartialSocialConcept(Component):
     """Random martial or social concept."""
 
-    _options: ClassVar[list[str]] = [
-        "ambush",
-        "anger",
-        "betrayal",
-        "bravery",
-        "conquest",
-        "courage",
-        "death",
-        "deception",
-        "delight",
-        "despair",
-        "devastation",
-        "discipline",
-        "domination",
-        "famine",
-        "freedom",
-        "fury",
-        "glory",
-        "hatred",
-        "honor",
-        "independence",
-        "justice",
-        "liberation",
-        "liberty",
-        "mercy",
-        "murder",
-        "pestilence",
-        "plunder",
-        "pride",
-        "rage",
-        "regret",
-        "reprisal",
-        "retribution",
-        "revenge",
-        "righteousness",
-        "slaughter",
-        "terror",
-        "transgression",
-        "treachery",
-        "treason",
-        "triumph",
-        "vengeance",
-        "victory",
-        "wrath",
-    ]
+    _options: ClassVar[list[str]] = _CURATED_WORD_LISTS["martialSocialConcepts"]
 
     def make_text(self, rng: random.Random) -> str:
         return rng.choice(self._options)
@@ -240,35 +146,7 @@ class MartialSocialConcept(Component):
 class UCBerkeleyEmotion(Component):
     """Random emotion from the UC Berkeley dataset."""
 
-    _options: ClassVar[list[str]] = [
-        "admiration",
-        "adoration",
-        "appreciation",
-        "amusement",
-        "anxiety",
-        "awe",
-        "awkwardness",
-        "boredom",
-        "calmness",
-        "confusion",
-        "craving",
-        "disgust",
-        "empathy",
-        "entrancement",
-        "envy",
-        "excitement",
-        "fear",
-        "horror",
-        "interest",
-        "joy",
-        "nostalgia",
-        "romance",
-        "sadness",
-        "satisfaction",
-        "lust",
-        "sympathy",
-        "triumph",
-    ]
+    _options: ClassVar[list[str]] = _CURATED_WORD_LISTS["ucBerkeleyEmotions"]
 
     def make_text(self, rng: random.Random) -> str:
         return rng.choice(self._options)
@@ -280,81 +158,11 @@ class VillainousPersonNoun(Component):
 
     is_plural: bool
 
-    _options: ClassVar[list[str]] = [
-        "bandit",
-        "brigand",
-        "bruiser",
-        "buccaneer",
-        "burglar",
-        "charlatan",
-        "corsair",
-        "criminal",
-        "crook",
-        "deceiver",
-        "delinquent",
-        "demon",
-        "desperado",
-        "devil",
-        "dodger",
-        "gunman",
-        "hood",
-        "scoundrel",
-        "sinner",
-        "blackguard",
-        "brute",
-        "creep",
-        "dog",
-        "filcher",
-        "good-for-nothing",
-        "goon",
-        "grifter",
-        "hellion",
-        "highwayman",
-        "hijacker",
-        "hoodlum",
-        "hooligan",
-        "imp",
-        "knave",
-        "libertine",
-        "looter",
-        "lowlife",
-        "maggot",
-        "malefactor",
-        "marauder",
-        "mischief-maker",
-        "miscreant",
-        "mountebank",
-        "mugger",
-        "murderer",
-        "ne'er-do-well",
-        "offender",
-        "outlaw",
-        "pilferer",
-        "pirate",
-        "profligate",
-        "punk",
-        "prowler",
-        "plunderer",
-        "racketeer",
-        "rapscallion",
-        "rascal",
-        "ravager",
-        "reprobate",
-        "robber",
-        "rogue",
-        "rook",
-        "ruffian",
-        "scalawag",
-        "shark",
-        "swindler",
-        "thief",
-        "thug",
-        "troublemaker",
-        "wretch",
-        "vagabond",
-        "varlet",
-        "villain",
-    ]
+    _options: ClassVar[list[str]] = _CURATED_WORD_LISTS["villainousPersonNouns"]
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.is_plural, bool):
+            raise TypeError("is_plural must be a boolean")
 
     def make_text(self, rng: random.Random) -> str:
         text = rng.choice(self._options)
@@ -387,22 +195,11 @@ class PrimitiveWeapon(Component):
 
     is_plural: bool = False
 
-    _options: ClassVar[list[str]] = [
-        "sword",
-        "blade",
-        "mace",
-        "hammer",
-        "knife",
-        "dagger",
-        "axe",
-        "halberd",
-        "glaive",
-        "spear",
-        "lance",
-        "pike",
-        "bow",
-        "crossbow",
-    ]
+    _options: ClassVar[list[str]] = _CURATED_WORD_LISTS["primitiveWeapons"]
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.is_plural, bool):
+            raise TypeError("is_plural must be a boolean")
 
     def make_text(self, rng: random.Random) -> str:
         value = rng.choice(self._options)
@@ -418,62 +215,7 @@ class PrimitiveWeapon(Component):
 class NauticalShipNameObject(Component):
     """Random ship name object."""
 
-    _options: ClassVar[list[str]] = [
-        "blade",
-        "breeze",
-        "concubine",
-        "consort",
-        "crown",
-        "dagger",
-        "dancer",
-        "demon",
-        "destiny",
-        "devil",
-        "disciple",
-        "dragon",
-        "dream",
-        "dryad",
-        "falcon",
-        "flame",
-        "fox",
-        "ghost",
-        "gypsy",
-        "harpy",
-        "heart",
-        "hound",
-        "jewel",
-        "knave",
-        "knight",
-        "kraken",
-        "lance",
-        "mage",
-        "maiden",
-        "nightmare",
-        "nymph",
-        "paladin",
-        "pearl",
-        "princess",
-        "queen",
-        "revenant",
-        "rogue",
-        "rose",
-        "serpent",
-        "shield",
-        "spear",
-        "spirit",
-        "stallion",
-        "star",
-        "storm",
-        "sword",
-        "treasure",
-        "trinity",
-        "warlock",
-        "wench",
-        "widow",
-        "witch",
-        "wizard",
-        "wolf",
-    ]
+    _options: ClassVar[list[str]] = _CURATED_WORD_LISTS["nauticalShipNameObjects"]
 
     def make_text(self, rng: random.Random) -> str:
         return rng.choice(self._options)
@@ -483,22 +225,7 @@ class NauticalShipNameObject(Component):
 class NauticalShipNameColor(Component):
     """Random ship name color."""
 
-    _options: ClassVar[list[str]] = [
-        "amber",
-        "black",
-        "blue",
-        "bronze",
-        "copper",
-        "golden",
-        "gray",
-        "green",
-        "ivory",
-        "jade",
-        "obsidian",
-        "red",
-        "silver",
-        "white",
-    ]
+    _options: ClassVar[list[str]] = _CURATED_WORD_LISTS["nauticalShipNameColors"]
 
     def make_text(self, rng: random.Random) -> str:
         return rng.choice(self._options)
@@ -508,51 +235,7 @@ class NauticalShipNameColor(Component):
 class ShipNameAdjective(Component):
     """Random ship name adjective."""
 
-    _options: ClassVar[list[str]] = [
-        "adamantine",
-        "adventurous",
-        "ancient",
-        "angry",
-        "beastly",
-        "beautiful",
-        "courageous",
-        "dancing",
-        "dastardly",
-        "draconian",
-        "elder",
-        "enchanted",
-        "enchanting",
-        "heroic",
-        "immortal",
-        "indestructible",
-        "invincible",
-        "magnificent",
-        "malicious",
-        "mighty",
-        "nefarious",
-        "perfect",
-        "pious",
-        "precious",
-        "priceless",
-        "relentless",
-        "righteous",
-        "saintly",
-        "sinful",
-        "sinister",
-        "sylvan",
-        "terrible",
-        "terrific",
-        "unstoppable",
-        "unyielding",
-        "valiant",
-        "vengeful",
-        "virtuous",
-        "wandering",
-        "windward",
-        "wrathful",
-        "yearning",
-        "youthful",
-    ]
+    _options: ClassVar[list[str]] = _CURATED_WORD_LISTS["shipNameAdjectives"]
 
     def make_text(self, rng: random.Random) -> str:
         return rng.choice(self._options)
@@ -562,20 +245,7 @@ class ShipNameAdjective(Component):
 class TimeOfDay(Component):
     """Random time-of-day word."""
 
-    _options: ClassVar[list[str]] = [
-        "midnight",
-        "night",
-        "morning",
-        "dawn",
-        "sunrise",
-        "daytime",
-        "midday",
-        "afternoon",
-        "evening",
-        "dusk",
-        "twilight",
-        "sunset",
-    ]
+    _options: ClassVar[list[str]] = _CURATED_WORD_LISTS["timesOfDay"]
 
     def make_text(self, rng: random.Random) -> str:
         return rng.choice(self._options)

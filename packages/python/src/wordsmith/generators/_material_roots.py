@@ -13,10 +13,12 @@ from wordsmith.core.components import weighted_one_of
 from wordsmith.names.alien_name import AlienName
 from wordsmith.names.fantasy_name import FantasyName
 from wordsmith.names.surname import Surname
+from wordsmith.util.resources import load_json
 
 
 _CONSONANT_RUN = re.compile(r"[bcdfghjklmnpqrstvwxz]{5,}")
 _NON_LETTERS = re.compile(r"[^a-z]")
+MATERIAL_NAME_PARTS = load_json("Material Name Parts.json")
 
 
 def clean_material_root(value: str) -> str | None:
@@ -56,43 +58,9 @@ def make_material_root(
 class ElementalRoot(Component):
     """Generate a short root that reads like a fictional element source."""
 
-    _prefixes: ClassVar[list[str]] = [
-        "aer",
-        "astr",
-        "aur",
-        "cal",
-        "cer",
-        "chrom",
-        "cry",
-        "dyn",
-        "eth",
-        "ferr",
-        "grav",
-        "hel",
-        "irid",
-        "lumin",
-        "myth",
-        "nyx",
-        "plasm",
-        "quant",
-        "selen",
-        "umbr",
-        "xen",
-        "zeph",
-    ]
-    _middles: ClassVar[list[str]] = [
-        "",
-        "a",
-        "al",
-        "ar",
-        "en",
-        "er",
-        "i",
-        "il",
-        "on",
-        "or",
-        "ul",
-    ]
+    _prefixes: ClassVar[list[str]] = MATERIAL_NAME_PARTS["elementPrefixes"]
+    _middles: ClassVar[list[str]] = MATERIAL_NAME_PARTS["elementMiddles"]
+
     def make_text(self, rng: random.Random) -> str:
         return rng.choice(self._prefixes) + rng.choice(self._middles)
 
@@ -101,42 +69,8 @@ class ElementalRoot(Component):
 class MineralRoot(Component):
     """Generate a short root that reads like a fictional mineral source."""
 
-    _prefixes: ClassVar[list[str]] = [
-        "aurel",
-        "bas",
-        "cairn",
-        "celest",
-        "cinder",
-        "dusk",
-        "ember",
-        "fels",
-        "garn",
-        "glint",
-        "hal",
-        "iron",
-        "jade",
-        "laz",
-        "moon",
-        "opal",
-        "quartz",
-        "rune",
-        "sable",
-        "shard",
-        "thorn",
-        "vein",
-        "verd",
-    ]
-    _middles: ClassVar[list[str]] = [
-        "",
-        "a",
-        "el",
-        "en",
-        "er",
-        "il",
-        "in",
-        "or",
-        "ul",
-    ]
+    _prefixes: ClassVar[list[str]] = MATERIAL_NAME_PARTS["mineralPrefixes"]
+    _middles: ClassVar[list[str]] = MATERIAL_NAME_PARTS["mineralMiddles"]
 
     def make_text(self, rng: random.Random) -> str:
         return rng.choice(self._prefixes) + rng.choice(self._middles)

@@ -121,3 +121,11 @@ def test_alien_name_requires_positive_syllables() -> None:
 def test_fantasy_name_requires_positive_syllables() -> None:
     with pytest.raises(ValueError):
         FantasyName(syllable_count=0)
+
+
+def test_synthetic_name_options_require_booleans() -> None:
+    for name_type in (AlienName, FantasyName):
+        with pytest.raises(TypeError, match="allow_hyphen must be a boolean"):
+            name_type(syllable_count=3, allow_hyphen=1)
+        with pytest.raises(TypeError, match="allow_apostrophe must be a boolean"):
+            name_type(syllable_count=3, allow_apostrophe="yes")

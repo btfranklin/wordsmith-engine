@@ -22,13 +22,21 @@ contract, both implementations, tests, and documentation agree.
 
 Each implementation follows the same dependency direction:
 
-1. Core defines components, composition, transformations, choices, and random
-   helpers.
-2. Words and grammar depend on core and package-local assets.
-3. Names depend on core, words where appropriate, and package-local assets.
-4. Generators compose core, words, names, and other generators.
-5. Specials are standalone features whose behavior does not fit a component
+1. Package-local support provides resource loading, string operations, and
+   random primitives. Python names this layer `util`; TypeScript keeps the
+   equivalent string and random helpers in internal modules.
+2. Core defines components, composition, transformations, choices, and the
+   private article/determiner selection primitive on top of that support.
+3. Words and grammar depend on core, support, and package-local assets.
+4. Names depend on core, words where appropriate, support, and package-local
+   assets.
+5. Generators compose core, words, names, and other generators.
+6. Specials are standalone features whose behavior does not fit a component
    family.
+
+Support is an implementation boundary rather than a second component layer.
+Probability evaluation has one primitive per language so validation and draw
+consumption cannot drift between core combinators and procedural generators.
 
 TypeScript keeps its concrete random generator private. Public code sees only
 `RandomSource.random()`. Python continues to accept `random.Random` through its
@@ -52,10 +60,17 @@ algorithm, without version dispatch or legacy paths.
 - Use uniform selection for assets, enum values, and local option arrays.
 - Keep domain-specific cleanup and bounded retries in small private helpers.
 - Keep public components immutable and defer all random selection until render.
+- Keep substantial shared lookup vocabularies in neutral assets while leaving
+  authored composition recipes and weights idiomatic in each implementation.
 
 Python uses `one_of`, `weighted_one_of`, `either`, `maybe`, `|`, and `+`.
 TypeScript uses `oneOf`, `weightedOneOf`, `either`, `maybe`, `join`, and
 `concat`. These spellings share behavior, not syntax.
+
+TypeScript keeps the stable `generators.ts` barrel while implementation modules
+are grouped internally by materials, places and groups, nautical names,
+literary titles, albums, and movies. This mirrors domain ownership without
+making Python's file layout canonical.
 
 ## Language boundary
 

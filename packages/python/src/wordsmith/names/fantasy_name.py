@@ -7,7 +7,11 @@ import random
 from typing import ClassVar
 
 from wordsmith.core.base import Component
-from wordsmith.util import first_upper, random_bool
+from wordsmith.util import first_upper, load_json, random_bool
+
+_SYNTHETIC_NAME_PARTS: dict[str, dict[str, list[str]]] = load_json(
+    "Synthetic Name Parts.json"
+)
 
 
 @dataclass(frozen=True)
@@ -18,95 +22,20 @@ class FantasyName(Component):
     allow_hyphen: bool = True
     allow_apostrophe: bool = True
 
-    _prefixes: ClassVar[list[str]] = [
-        "ael",
-        "am",
-        "ant",
-        "bel",
-        "cal",
-        "cass",
-        "cor",
-        "daph",
-        "dor",
-        "el",
-        "eph",
-        "gal",
-        "hel",
-        "il",
-        "is",
-        "lys",
-        "mar",
-        "mel",
-        "myr",
-        "ner",
-        "or",
-        "pel",
-        "sar",
-        "sel",
-        "ser",
-        "soph",
-        "tal",
-        "ther",
-        "val",
-    ]
-    _middles: ClassVar[list[str]] = [
-        "a",
-        "ae",
-        "an",
-        "ar",
-        "ath",
-        "el",
-        "en",
-        "er",
-        "ia",
-        "il",
-        "in",
-        "ir",
-        "or",
-        "ra",
-        "ren",
-        "the",
-        "um",
-        "ur",
-        "yra",
-    ]
-    _endings: ClassVar[list[str]] = [
-        "a",
-        "ae",
-        "an",
-        "ar",
-        "as",
-        "el",
-        "en",
-        "eth",
-        "ia",
-        "iel",
-        "ion",
-        "is",
-        "or",
-        "os",
-        "oth",
-        "um",
-        "us",
-    ]
-    _compound_endings: ClassVar[list[str]] = [
-        "adon",
-        "ander",
-        "ara",
-        "arius",
-        "astra",
-        "athon",
-        "eia",
-        "eron",
-        "etor",
-        "ion",
-        "oria",
-        "orian",
+    _prefixes: ClassVar[list[str]] = _SYNTHETIC_NAME_PARTS["fantasy"]["prefixes"]
+    _middles: ClassVar[list[str]] = _SYNTHETIC_NAME_PARTS["fantasy"]["middles"]
+    _endings: ClassVar[list[str]] = _SYNTHETIC_NAME_PARTS["fantasy"]["endings"]
+    _compound_endings: ClassVar[list[str]] = _SYNTHETIC_NAME_PARTS["fantasy"][
+        "compoundEndings"
     ]
 
     def __post_init__(self) -> None:
         if self.syllable_count < 1:
             raise ValueError("Syllable count must be greater than 0")
+        if not isinstance(self.allow_hyphen, bool):
+            raise TypeError("allow_hyphen must be a boolean")
+        if not isinstance(self.allow_apostrophe, bool):
+            raise TypeError("allow_apostrophe must be a boolean")
 
     def make_text(self, rng: random.Random) -> str:
         pieces = [rng.choice(self._prefixes)]

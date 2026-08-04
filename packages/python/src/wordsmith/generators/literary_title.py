@@ -12,12 +12,16 @@ from wordsmith.core.components import maybe, one_of, weighted_one_of
 from wordsmith.generators.town_name import TownName
 from wordsmith.names.given_name_culture import GivenNameCulture
 from wordsmith.names.person_name import PersonName
+from wordsmith.util.resources import load_json
 from wordsmith.words.base import (
     AuthoredArtifact,
     MartialSocialConcept,
     TimeOfDay,
     UCBerkeleyEmotion,
 )
+
+
+LITERARY_TITLE_PARTS = load_json("Literary Title Parts.json")
 
 
 class TitleVerbForm(Enum):
@@ -34,53 +38,8 @@ class LiteraryTitleObject(Component):
 
     is_plural: bool = False
 
-    _singular_options: ClassVar[list[str]] = [
-        "archive",
-        "bell",
-        "bridge",
-        "camera",
-        "cipher",
-        "clock",
-        "compass",
-        "door",
-        "garden",
-        "harbor",
-        "key",
-        "lantern",
-        "machine",
-        "map",
-        "mirror",
-        "moon",
-        "orchard",
-        "room",
-        "signal",
-        "staircase",
-        "station",
-        "thread",
-        "window",
-    ]
-    _plural_options: ClassVar[list[str]] = [
-        "archives",
-        "bells",
-        "bridges",
-        "cities",
-        "clocks",
-        "doors",
-        "gardens",
-        "harbors",
-        "lanterns",
-        "machines",
-        "maps",
-        "mirrors",
-        "moons",
-        "orchards",
-        "rooms",
-        "signals",
-        "staircases",
-        "stations",
-        "threads",
-        "windows",
-    ]
+    _singular_options: ClassVar[list[str]] = LITERARY_TITLE_PARTS["objects"]
+    _plural_options: ClassVar[list[str]] = LITERARY_TITLE_PARTS["pluralObjects"]
 
     def make_text(self, rng: random.Random) -> str:
         options = self._plural_options if self.is_plural else self._singular_options
@@ -91,26 +50,7 @@ class LiteraryTitleObject(Component):
 class SentientLiteraryTitleObject(Component):
     """Concrete image that can plausibly act in an unusual title."""
 
-    _options: ClassVar[list[str]] = [
-        "archive",
-        "bell",
-        "city",
-        "clock",
-        "door",
-        "garden",
-        "ghost",
-        "harbor",
-        "house",
-        "lantern",
-        "machine",
-        "map",
-        "mirror",
-        "moon",
-        "river",
-        "signal",
-        "station",
-        "window",
-    ]
+    _options: ClassVar[list[str]] = LITERARY_TITLE_PARTS["sentientObjects"]
 
     def make_text(self, rng: random.Random) -> str:
         return rng.choice(self._options)
@@ -120,31 +60,7 @@ class SentientLiteraryTitleObject(Component):
 class TitleQuality(Component):
     """Evocative modifier tuned for literary titles."""
 
-    _options: ClassVar[list[str]] = [
-        "borrowed",
-        "bright",
-        "buried",
-        "distant",
-        "divided",
-        "forgotten",
-        "hidden",
-        "hollow",
-        "last",
-        "little",
-        "lost",
-        "minor",
-        "paper",
-        "red",
-        "restless",
-        "second",
-        "secret",
-        "silver",
-        "sleeping",
-        "strange",
-        "summer",
-        "vanishing",
-        "winter",
-    ]
+    _options: ClassVar[list[str]] = LITERARY_TITLE_PARTS["qualities"]
 
     def make_text(self, rng: random.Random) -> str:
         return rng.choice(self._options)
@@ -154,22 +70,7 @@ class TitleQuality(Component):
 class TitleAbstraction(Component):
     """Abstract word curated for literary-title weight."""
 
-    _options: ClassVar[list[str]] = [
-        "absence",
-        "arrival",
-        "beauty",
-        "ceremony",
-        "distance",
-        "forgiveness",
-        "hunger",
-        "memory",
-        "mercy",
-        "noise",
-        "patience",
-        "promise",
-        "silence",
-        "weather",
-    ]
+    _options: ClassVar[list[str]] = LITERARY_TITLE_PARTS["abstractions"]
 
     def make_text(self, rng: random.Random) -> str:
         return rng.choice(self._options)
@@ -223,22 +124,7 @@ class TitleVerb(Component):
 
     form: TitleVerbForm = TitleVerbForm.FINITE
 
-    _options: ClassVar[list[list[str]]] = [
-        ["answer", "answers", "answering"],
-        ["arrive", "arrives", "arriving"],
-        ["burn", "burns", "burning"],
-        ["dream", "dreams", "dreaming of"],
-        ["find", "finds", "finding"],
-        ["forget", "forgets", "forgetting"],
-        ["listen", "listens", "listening to"],
-        ["remember", "remembers", "remembering"],
-        ["return", "returns", "returning to"],
-        ["sing", "sings", "singing to"],
-        ["speak", "speaks", "speaking with"],
-        ["vanish", "vanishes", "vanishing"],
-        ["wait", "waits", "waiting"],
-        ["wake", "wakes", "waking"],
-    ]
+    _options: ClassVar[list[list[str]]] = LITERARY_TITLE_PARTS["verbs"]
 
     def make_text(self, rng: random.Random) -> str:
         verb_row = rng.choice(self._options)
@@ -267,18 +153,7 @@ class ImpossibleAction(Component):
 class PlaceSuffix(Component):
     """Place-inflected title noun."""
 
-    _options: ClassVar[list[str]] = [
-        "almanac",
-        "blues",
-        "chronicle",
-        "dispatch",
-        "elegy",
-        "lantern",
-        "ledger",
-        "nocturne",
-        "parable",
-        "refrain",
-    ]
+    _options: ClassVar[list[str]] = LITERARY_TITLE_PARTS["placeSuffixes"]
 
     def make_text(self, rng: random.Random) -> str:
         return rng.choice(self._options)

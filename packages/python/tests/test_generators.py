@@ -116,6 +116,13 @@ def test_literary_title_repeatable() -> None:
     assert_repeatable(LiteraryTitle())
 
 
+def test_literary_title_has_fixed_deep_replay_vector() -> None:
+    assert (
+        LiteraryTitle().make_text(random.Random(22))
+        == "A Manual for Teaching the Garden to Vanish"
+    )
+
+
 def test_literary_titles_have_title_shape() -> None:
     rng = random.Random(20260617)
     titles = [LiteraryTitle().make_text(rng) for _ in range(250)]

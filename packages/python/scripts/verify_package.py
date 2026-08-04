@@ -8,22 +8,16 @@ import json
 import subprocess
 import tarfile
 import tempfile
+import tomllib
 import venv
 import zipfile
 from pathlib import Path
 
 
-ASSET_NAMES = {
-    "Adjectives.json",
-    "Adverbs.json",
-    "Chemical Compound Names.json",
-    "Common Surnames.json",
-    "Exotic Character Sets.json",
-    "Given Names.json",
-    "Nouns.json",
-    "Verbs.json",
-}
 CANONICAL_ASSETS = Path(__file__).resolve().parents[3] / "assets"
+ASSET_NAMES = {path.name for path in CANONICAL_ASSETS.glob("*.json")}
+if not ASSET_NAMES:
+    raise RuntimeError(f"No canonical assets found in {CANONICAL_ASSETS}")
 
 
 def parse_arguments() -> argparse.Namespace:
@@ -49,6 +43,8 @@ def wheel_version(wheel: Path) -> str:
             path for path in members if path.endswith(".dist-info/METADATA")
         )
         metadata = email.message_from_bytes(archive.read(metadata_path))
+        if metadata.get_all("Requires-Dist"):
+            raise AssertionError("Wheel declares runtime dependencies")
         required_suffixes = {
             "wordsmith/__init__.py",
             "wordsmith/py.typed",
@@ -64,6 +60,16 @@ def wheel_version(wheel: Path) -> str:
             )
             if archive.read(asset_path) != (CANONICAL_ASSETS / name).read_bytes():
                 raise AssertionError(f"Wheel asset bytes differ for {name}")
+        packaged_assets = {
+            Path(path).name
+            for path in members
+            if "/wordsmith/assets/" in f"/{path}" and path.endswith(".json")
+        }
+        if packaged_assets != ASSET_NAMES:
+            raise AssertionError(
+                "Wheel asset names differ: "
+                f"expected {sorted(ASSET_NAMES)}, found {sorted(packaged_assets)}"
+            )
         if any("/tests/" in f"/{path}" or "/spec/" in f"/{path}" for path in members):
             raise AssertionError("Wheel contains test or specification files")
 
@@ -90,6 +96,12 @@ def verify_sdist(sdist: Path, version: str) -> None:
     if missing:
         raise AssertionError(f"Source distribution is missing {sorted(missing)}")
     with tarfile.open(sdist, "r:gz") as archive:
+        pyproject_file = archive.extractfile(f"{root}/pyproject.toml")
+        if pyproject_file is None:
+            raise AssertionError("Source distribution is missing pyproject.toml")
+        pyproject = tomllib.loads(pyproject_file.read().decode("utf-8"))
+        if pyproject.get("project", {}).get("dependencies"):
+            raise AssertionError("Source distribution declares runtime dependencies")
         for name in ASSET_NAMES:
             packaged = archive.extractfile(f"{root}/src/wordsmith/assets/{name}")
             if packaged is None or packaged.read() != (
@@ -98,6 +110,16 @@ def verify_sdist(sdist: Path, version: str) -> None:
                 raise AssertionError(
                     f"Source distribution asset bytes differ for {name}"
                 )
+    packaged_assets = {
+        Path(path).name
+        for path in members
+        if path.startswith(f"{root}/src/wordsmith/assets/") and path.endswith(".json")
+    }
+    if packaged_assets != ASSET_NAMES:
+        raise AssertionError(
+            "Source distribution asset names differ: "
+            f"expected {sorted(ASSET_NAMES)}, found {sorted(packaged_assets)}"
+        )
     if any("/tests/" in f"/{path}" or "/spec/" in f"/{path}" for path in members):
         raise AssertionError("Source distribution contains test or specification files")
 

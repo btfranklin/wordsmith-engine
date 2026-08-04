@@ -35,6 +35,12 @@ repeatable within an unchanged TypeScript package, asset set, component tree,
 configuration, and call order; Python and TypeScript do not promise identical
 output from the same seed.
 
+A custom `RandomSource` must return a finite fraction in `[0, 1)` from each
+`random()` call. Custom `component()` callbacks are replayable only when they
+use that source and fixed captured configuration; clocks and external mutable
+state remain the caller's responsibility. Pin the Node.js runtime as well as
+the package when durable replay includes non-English host case conversion.
+
 ## Compose components
 
 ```typescript
@@ -54,6 +60,10 @@ preserving whitespace-only results. `ws` is a tagged-template spelling of
 
 `ReadableUniqueIdentifier` intentionally includes the current clock and is
 therefore outside the seed-only replay guarantee.
+
+The [generator gallery](https://github.com/btfranklin/wordsmith-engine/blob/main/packages/typescript/examples/generator-gallery.ts)
+shows representative names, vessels, fictional materials, and exotic characters
+generated from independently derived named streams.
 
 ## Development
 

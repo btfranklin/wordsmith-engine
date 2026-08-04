@@ -8,6 +8,7 @@ import random
 from wordsmith.core.base import Component
 from wordsmith.core.components import weighted_one_of
 from wordsmith.generators._material_roots import (
+    MATERIAL_NAME_PARTS,
     make_material_root,
     mineral_root_source,
 )
@@ -24,13 +25,10 @@ class FictionalMineralName(Component):
 
 def _mineral_suffix() -> Component:
     return weighted_one_of(
-        (8, "ite"),
-        (2, "ine"),
-        (1.5, "spar"),
-        (1, "ore"),
-        (0.7, "stone"),
-        (0.5, "glass"),
-        (0.25, "cryst"),
+        *(
+            (weight, suffix)
+            for weight, suffix in MATERIAL_NAME_PARTS["mineralSuffixes"]
+        )
     )
 
 

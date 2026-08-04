@@ -45,24 +45,35 @@ excludes = ["tests/**"]
 dev = [
     "pytest>=9.1.1",
     "ruff>=0.16.1",
+    "mypy>=2.3.0",
 ]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 
+[tool.mypy]
+strict = true
+
 [tool.pdm.scripts]
 test = "pytest"
+examples = "python scripts/run_examples.py"
 lint = "ruff check src tests examples scripts ../../tools"
+typecheck = "mypy src tests/typecheck/public_api_consumer.py"
 check-assets = {composite = [
     "python ../../tools/validate_assets.py",
     "python ../../tools/sync_assets.py --check",
 ]}
 build-package = "pdm build"
 verify-package = "python scripts/verify_package.py"
-check = {composite = [
-    "lint",
-    "test",
+check-core = {composite = [
     "check-assets",
+    "lint",
+    "typecheck",
+    "test",
+    "examples",
+]}
+check = {composite = [
+    "check-core",
     "build-package",
     "verify-package",
 ]}

@@ -7,7 +7,11 @@ import random
 from typing import ClassVar
 
 from wordsmith.core.base import Component
-from wordsmith.util import first_upper, random_bool
+from wordsmith.util import first_upper, load_json, random_bool
+
+_SYNTHETIC_NAME_PARTS: dict[str, dict[str, list[str]]] = load_json(
+    "Synthetic Name Parts.json"
+)
 
 
 @dataclass(frozen=True)
@@ -18,161 +22,20 @@ class AlienName(Component):
     allow_hyphen: bool = True
     allow_apostrophe: bool = True
 
-    _open_ended_syllables: ClassVar[list[str]] = [
-        "a",
-        "ba",
-        "be",
-        "bi",
-        "bo",
-        "bu",
-        "by",
-        "ca",
-        "cha",
-        "che",
-        "chi",
-        "co",
-        "cho",
-        "chu",
-        "chy",
-        "da",
-        "de",
-        "di",
-        "do",
-        "du",
-        "dy",
-        "e",
-        "fa",
-        "fe",
-        "fi",
-        "fo",
-        "fu",
-        "fy",
-        "ga",
-        "ge",
-        "gi",
-        "go",
-        "gu",
-        "gy",
-        "ha",
-        "he",
-        "hi",
-        "ho",
-        "hu",
-        "hy",
-        "i",
-        "ja",
-        "je",
-        "ji",
-        "jo",
-        "ju",
-        "jy",
-        "ka",
-        "ke",
-        "ki",
-        "ko",
-        "ku",
-        "ky",
-        "la",
-        "le",
-        "li",
-        "lo",
-        "lu",
-        "ly",
-        "ma",
-        "me",
-        "mi",
-        "mo",
-        "mu",
-        "my",
-        "na",
-        "ne",
-        "ni",
-        "no",
-        "nu",
-        "ny",
-        "o",
-        "pa",
-        "pe",
-        "pi",
-        "po",
-        "pu",
-        "py",
-        "qua",
-        "que",
-        "ra",
-        "re",
-        "ri",
-        "ro",
-        "ru",
-        "ry",
-        "sa",
-        "se",
-        "si",
-        "so",
-        "su",
-        "ta",
-        "te",
-        "ti",
-        "to",
-        "tu",
-        "ty",
-        "u",
-        "va",
-        "ve",
-        "vi",
-        "vo",
-        "vu",
-        "vy",
-        "wa",
-        "we",
-        "wi",
-        "wo",
-        "wu",
-        "wy",
-        "xa",
-        "xe",
-        "xi",
-        "xo",
-        "xu",
-        "ya",
-        "ye",
-        "yi",
-        "yo",
-        "yu",
-        "za",
-        "ze",
-        "zi",
-        "zo",
-        "zu",
+    _open_ended_syllables: ClassVar[list[str]] = _SYNTHETIC_NAME_PARTS["alien"][
+        "openEndedSyllables"
     ]
-    _ending_sounds: ClassVar[list[str]] = [
-        "bb",
-        "c",
-        "ck",
-        "ch",
-        "d",
-        "dd",
-        "l",
-        "ll",
-        "m",
-        "mm",
-        "n",
-        "nn",
-        "p",
-        "pp",
-        "r",
-        "rr",
-        "s",
-        "ss",
-        "t",
-        "tt",
-        "w",
-        "x",
+    _ending_sounds: ClassVar[list[str]] = _SYNTHETIC_NAME_PARTS["alien"][
+        "endingSounds"
     ]
 
     def __post_init__(self) -> None:
         if self.syllable_count < 1:
             raise ValueError("Syllable count must be greater than 0")
+        if not isinstance(self.allow_hyphen, bool):
+            raise TypeError("allow_hyphen must be a boolean")
+        if not isinstance(self.allow_apostrophe, bool):
+            raise TypeError("allow_apostrophe must be a boolean")
 
     def make_text(self, rng: random.Random) -> str:
         will_use_hyphen = (

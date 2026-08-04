@@ -7,8 +7,9 @@ import random
 from typing import Iterable
 
 from wordsmith.core.base import Component
+from wordsmith.core._grammar import select_article, select_determiner
+from wordsmith.util.randoms import random_bool
 from wordsmith.util.strings import first_upper, starts_with_vowel, title_case
-from wordsmith.words.articles import Article, Determiner
 
 ComponentLike = Component | str
 
@@ -23,12 +24,6 @@ def _coerce_component(value: ComponentLike) -> Component:
 
 def _normalize_components(values: Iterable[ComponentLike]) -> tuple[Component, ...]:
     return tuple(_coerce_component(value) for value in values)
-
-
-def _roll_probability(rng: random.Random, probability: float) -> bool:
-    if not 0.0 <= probability <= 1.0:
-        raise ValueError("Probability must be in the range 0.0 to 1.0.")
-    return rng.random() < probability
 
 
 @dataclass(frozen=True)
@@ -117,11 +112,7 @@ class Either(Component):
             )
 
     def make_text(self, rng: random.Random) -> str:
-        choice = (
-            self.first
-            if _roll_probability(rng, self.first_probability)
-            else self.second
-        )
+        choice = self.first if random_bool(rng, self.first_probability) else self.second
         return choice.make_text(rng)
 
 
@@ -137,11 +128,7 @@ class Maybe(Component):
             raise ValueError("Probability must be in the range 0.0 to 1.0.")
 
     def make_text(self, rng: random.Random) -> str:
-        return (
-            self.option.make_text(rng)
-            if _roll_probability(rng, self.probability)
-            else ""
-        )
+        return self.option.make_text(rng) if random_bool(rng, self.probability) else ""
 
 
 @dataclass(frozen=True)
@@ -182,7 +169,7 @@ class PrefixedByArticle(Component):
 
     def make_text(self, rng: random.Random) -> str:
         text = self.wrapped.make_text(rng)
-        article = Article(is_before_vowel=starts_with_vowel(text)).make_text(rng)
+        article = select_article(rng, is_before_vowel=starts_with_vowel(text))
         return f"{article} {text}"
 
 
@@ -194,7 +181,7 @@ class PrefixedByDeterminer(Component):
 
     def make_text(self, rng: random.Random) -> str:
         text = self.wrapped.make_text(rng)
-        determiner = Determiner(is_before_vowel=starts_with_vowel(text)).make_text(rng)
+        determiner = select_determiner(rng, is_before_vowel=starts_with_vowel(text))
         return f"{determiner} {text}"
 
 

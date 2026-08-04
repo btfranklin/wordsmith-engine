@@ -3,6 +3,27 @@
 from __future__ import annotations
 
 VOWELS = {"a", "e", "i", "o", "u"}
+_VOWEL_SOUND_PREFIXES = ("heir", "honest", "honor", "honour", "hour", "onei", "oner")
+_VOWEL_SOUND_WORDS = {"herb", "herbs"}
+_CONSONANT_SOUND_PREFIXES = (
+    "euro",
+    "once",
+    "one",
+    "ufo",
+    "unicorn",
+    "unicycl",
+    "uniform",
+    "unilateral",
+    "union",
+    "unique",
+    "unisex",
+    "unison",
+    "unit",
+    "univ",
+    "use",
+    "user",
+    "usual",
+)
 
 
 def starts_with_vowel(text: str) -> bool:
@@ -18,12 +39,9 @@ def starts_with_vowel(text: str) -> bool:
         return False
 
     word = "".join(word_chars).lower()
-    silent_h_prefixes = ("honest", "honor", "honour", "hour", "heir", "herb")
-    hard_u_prefixes = ("uni", "use", "user", "ufo", "euro", "one", "once")
-
-    if word.startswith(silent_h_prefixes):
+    if word in _VOWEL_SOUND_WORDS or word.startswith(_VOWEL_SOUND_PREFIXES):
         return True
-    if word.startswith(hard_u_prefixes):
+    if word.startswith(_CONSONANT_SOUND_PREFIXES):
         return False
     return word[0] in VOWELS
 

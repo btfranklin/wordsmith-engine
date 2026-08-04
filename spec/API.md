@@ -1,30 +1,40 @@
 # Public API Mapping
 
-The Python and TypeScript packages are equal implementations of one behavior
-with language-appropriate spelling. Python renders a component with
-`component(rng)`; TypeScript uses `component.render(rng)`.
+Python and TypeScript are equal implementations with language-appropriate
+spelling. Python renders a component with `Component.__call__`; TypeScript uses
+`Component.render`.
 
-## Core
+## Core semantics
 
-| Python | TypeScript |
-| --- | --- |
-| `Component.make_text` / `Component.__call__` | `Component.render` |
-| `text(*parts, sep=value)` | `join(parts, value)` |
-| `left + right` | `concat(left, right)` |
-| `left \| right` | `join([left, right], " ")` |
-| component subclass | `component(renderFunction)` |
-| `one_of` | `oneOf` |
-| `weighted_one_of` | `weightedOneOf` |
-| `either(..., first_probability=)` | `either(..., firstProbability)` |
-| `maybe(..., probability=)` | `maybe(..., { probability })` |
-| — | `ws` tagged template |
-| — | `seededRandom(seed)` |
+| Meaning | Python | TypeScript |
+| --- | --- | --- |
+| Component base | `Component` | `Component` |
+| Custom component | `Component` subclass | `component` with a `RenderFunction` |
+| Fixed text | `Literal` | `literal` |
+| Empty text | `Empty` | `empty` |
+| Joined sequence | `Text` / `text` | `join` |
+| Concatenation | `Component.__add__` | `concat` |
+| Space joining | `Component.__or__` | `join` with a space |
+| Uniform choice | `OneOf` / `one_of` | `oneOf` |
+| Weighted choice | `WeightedOneOf` / `weighted_one_of` | `weightedOneOf` |
+| Binary choice | `Either` / `either` | `either` |
+| Optional text | `Maybe` / `maybe` | `maybe` with `MaybeOptions` |
+| Exact template | — | `ws` |
+| Seeded source | `random.Random` | `seededRandom` with a `Seed` |
 
-Fluent transformations map directly from `snake_case` to `camelCase`:
-`capitalized`, `first_upper`/`firstUpper`, `title_case`/`titleCase`,
-`prefixed_by_article`/`prefixedByArticle`,
-`prefixed_by_determiner`/`prefixedByDeterminer`, and
-`possessive_form`/`possessiveForm`.
+TypeScript also exports the core types `ComponentLike`, `RandomSource`, and
+`WeightedOption`. Its `RandomSource.random()` method returns a finite fraction
+in `[0, 1)`.
+
+Python exposes its concrete transformation wrappers because they are part of
+the established package surface: `Capitalized`, `FirstUppercased`,
+`TitleCased`, `PrefixedByArticle`, `PrefixedByDeterminer`, and `PossessiveForm`.
+TypeScript represents the same transformations as immutable fluent components.
+
+Fluent spellings map as follows: `capitalized` to `capitalized`, `first_upper`
+to `firstUpper`, `title_case` to `titleCase`, `prefixed_by_article` to
+`prefixedByArticle`, `prefixed_by_determiner` to `prefixedByDeterminer`, and
+`possessive_form` to `possessiveForm`.
 
 ## Words and grammar
 
@@ -35,16 +45,16 @@ Both packages export `Adjective`, `Adverb`, `Article`, `AuthoredArtifact`,
 `TimeOfDay`, `UCBerkeleyEmotion`, `Verb`, `VerbTense`, and
 `VillainousPersonNoun`.
 
-TypeScript uses immutable object parameters for configured components, such as
-`new Noun({ form })`, `new Pronoun({ isSingular, isThirdPerson })`, and
-`new PrimitiveWeapon({ isPlural })`. Enum members use lower camel case.
+TypeScript uses object parameters, such as `new Noun({ form })` and
+`new Pronoun({ isSingular, isThirdPerson })`. Enum values use lower camel case.
 
 ## Names
 
 Both packages export `AlienName`, `AncientGivenName`, `BinaryGender`,
 `FantasyName`, `GivenName`, `GivenNameCulture`, `PersonName`, and `Surname`.
-TypeScript uses object parameters, including
-`new AlienName({ syllableCount, allowHyphen, allowApostrophe })`.
+TypeScript additionally exports the declaration-only configuration types
+`AlienNameOptions`, `AncientGivenNameOptions`, `FantasyNameOptions`,
+`GivenNameOptions`, and `PersonNameOptions`.
 
 ## Composite generators
 
@@ -55,12 +65,14 @@ Both packages export `AlbumTitle`, `BandName`, `CriminalGangName`,
 
 ## Specials
 
+Both packages export `ExoticCharacter` and `ReadableUniqueIdentifier`.
+
 | Python | TypeScript |
 | --- | --- |
-| `ExoticCharacter.random_character(rng)` | `ExoticCharacter.randomCharacter(rng)` |
-| `ExoticCharacter.random_character_from_set(name, rng)` | `ExoticCharacter.randomCharacterFromSet(name, rng)` |
-| `ReadableUniqueIdentifier.make_identifier(rng)` | `ReadableUniqueIdentifier.makeIdentifier(rng)` |
+| `ExoticCharacter.random_character` | `ExoticCharacter.randomCharacter` |
+| `ExoticCharacter.random_character_from_set` | `ExoticCharacter.randomCharacterFromSet` |
+| `ReadableUniqueIdentifier.make_identifier` | `ReadableUniqueIdentifier.makeIdentifier` |
 
-TypeScript requires the caller-owned RNG argument. Python retains its existing
-optional system-RNG convenience for backward compatibility with the published
-Python API.
+TypeScript requires a caller-owned RNG. Python retains its existing optional
+system-RNG convenience. `ReadableUniqueIdentifier` remains time-based and is
+outside seed-only replay.

@@ -1,3 +1,4 @@
+import { selectArticle, selectDeterminer } from "./core-grammar.js";
 import { choose, type RandomSource, randomBoolean, randomFraction } from "./random.js";
 import { capitalized, firstUpper, startsWithVowel, titleCase } from "./strings.js";
 
@@ -25,10 +26,9 @@ export abstract class Component {
   prefixedByArticle(): Component {
     return component((rng) => {
       const rendered = this.render(rng);
-      let article = choose(rng, ["a", "the"]);
-      if (article === "a" && startsWithVowel(rendered)) {
-        article = "an";
-      }
+      const article = selectArticle(rng, {
+        isBeforeVowel: startsWithVowel(rendered),
+      });
       return `${article} ${rendered}`;
     });
   }
@@ -36,10 +36,9 @@ export abstract class Component {
   prefixedByDeterminer(): Component {
     return component((rng) => {
       const rendered = this.render(rng);
-      let determiner = choose(rng, ["a", "the", "my", "your", "our", "her", "his"]);
-      if (determiner === "a" && startsWithVowel(rendered)) {
-        determiner = "an";
-      }
+      const determiner = selectDeterminer(rng, {
+        isBeforeVowel: startsWithVowel(rendered),
+      });
       return `${determiner} ${rendered}`;
     });
   }

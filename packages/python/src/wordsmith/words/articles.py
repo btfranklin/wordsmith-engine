@@ -5,6 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 import random
 
+from wordsmith.core._grammar import select_article, select_determiner
 from wordsmith.core.base import Component
 
 
@@ -14,11 +15,12 @@ class Article(Component):
 
     is_before_vowel: bool = False
 
+    def __post_init__(self) -> None:
+        if not isinstance(self.is_before_vowel, bool):
+            raise TypeError("is_before_vowel must be a boolean")
+
     def make_text(self, rng: random.Random) -> str:
-        value = rng.choice(["a", "the"])
-        if value == "a" and self.is_before_vowel:
-            value = "an"
-        return value
+        return select_article(rng, is_before_vowel=self.is_before_vowel)
 
 
 @dataclass(frozen=True)
@@ -27,8 +29,9 @@ class Determiner(Component):
 
     is_before_vowel: bool = False
 
+    def __post_init__(self) -> None:
+        if not isinstance(self.is_before_vowel, bool):
+            raise TypeError("is_before_vowel must be a boolean")
+
     def make_text(self, rng: random.Random) -> str:
-        value = rng.choice(["a", "the", "my", "your", "our", "her", "his"])
-        if value == "a" and self.is_before_vowel:
-            value = "an"
-        return value
+        return select_determiner(rng, is_before_vowel=self.is_before_vowel)

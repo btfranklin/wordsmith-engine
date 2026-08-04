@@ -54,6 +54,11 @@ seeds are otherwise preserved exactly, without trimming, case folding, or
 Unicode normalization. Fractional, non-finite, and unsafe numeric seeds are
 rejected.
 
+A TypeScript `RandomSource.random()` implementation returns a finite number in
+the half-open interval `[0, 1)`. Choice and probability operations validate that
+domain before using a draw. Probability checks consume one draw even at the
+exact probabilities zero and one, because draw order is replay-observable.
+
 The caller owns each source's scope and lifetime. A source intended for one
 Wordsmith stream must remain isolated from unrelated random consumers, and the
 caller discards it after the related Wordsmith calls finish. Wordsmith does not
@@ -70,6 +75,13 @@ component tree, configuration, assets, and call order produce exactly the same
 output at any nesting depth. Durable replay across upgrades requires callers to
 pin the package release; the project does not keep parallel versioned random
 algorithms.
+
+The built-in guarantee assumes that custom render callbacks are pure with
+respect to the supplied random source and fixed captured configuration. A
+callback that reads a clock, mutable external state, or another random source
+defines its own nondeterminism. Host runtimes also own non-English Unicode case
+mappings, so durable replay that transforms non-English text requires pinning
+the Python or Node.js runtime in addition to the package.
 
 ## Shared Assets
 
@@ -212,6 +224,15 @@ must consume every fixture file in its tests.
 Probe nodes are conformance-test instrumentation, not public runtime
 components. They verify laziness, single evaluation, left-to-right evaluation,
 and random-source forwarding.
+
+`generator-traces.json` uses a shared scripted stream of fractions to verify
+public generator outputs, draw counts, branch boundaries, and retry behavior.
+It does not use either language's seeded PRNG and therefore does not create a
+cross-language seed guarantee.
+
+`public-api.json` is the machine-readable inventory of runtime exports,
+TypeScript declaration-only exports, and semantic language mappings. `API.md`
+is its human-readable companion.
 
 ## Change Control
 

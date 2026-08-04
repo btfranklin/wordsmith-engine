@@ -1,6 +1,35 @@
 const LETTER = /\p{L}/u;
 const CASED_LETTER = /[\p{Ll}\p{Lu}\p{Lt}]/u;
 const VOWELS = new Set(["a", "e", "i", "o", "u"]);
+const VOWEL_SOUND_PREFIXES = [
+  "heir",
+  "honest",
+  "honor",
+  "honour",
+  "hour",
+  "onei",
+  "oner",
+] as const;
+const VOWEL_SOUND_WORDS = new Set(["herb", "herbs"]);
+const CONSONANT_SOUND_PREFIXES = [
+  "euro",
+  "once",
+  "one",
+  "ufo",
+  "unicorn",
+  "unicycl",
+  "uniform",
+  "unilateral",
+  "union",
+  "unique",
+  "unisex",
+  "unison",
+  "unit",
+  "univ",
+  "use",
+  "user",
+  "usual",
+] as const;
 
 export function startsWithVowel(text: string): boolean {
   const letters: string[] = [];
@@ -17,17 +46,12 @@ export function startsWithVowel(text: string): boolean {
 
   const word = letters.join("").toLowerCase();
   if (
-    ["honest", "honor", "honour", "hour", "heir", "herb"].some((prefix) =>
-      word.startsWith(prefix),
-    )
+    VOWEL_SOUND_WORDS.has(word) ||
+    VOWEL_SOUND_PREFIXES.some((prefix) => word.startsWith(prefix))
   ) {
     return true;
   }
-  if (
-    ["uni", "use", "user", "ufo", "euro", "one", "once"].some((prefix) =>
-      word.startsWith(prefix),
-    )
-  ) {
+  if (CONSONANT_SOUND_PREFIXES.some((prefix) => word.startsWith(prefix))) {
     return false;
   }
   return VOWELS.has(word[0] ?? "");

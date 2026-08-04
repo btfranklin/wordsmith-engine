@@ -55,10 +55,7 @@ jobs:
               run: pdm install --group dev
             - name: Validate Python package
               working-directory: packages/python
-              run: |
-                  pdm run check-assets
-                  pdm run lint
-                  pdm run test
+              run: pdm run check-core
             - name: Build exact Python artifacts
               working-directory: packages/python
               run: pdm build --dest release-dist

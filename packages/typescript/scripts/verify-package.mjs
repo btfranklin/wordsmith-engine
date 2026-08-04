@@ -1,6 +1,13 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import {
+  mkdirSync,
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { isAbsolute, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -11,16 +18,10 @@ const packageMetadata = JSON.parse(
 );
 const canonicalAssetRoot = new URL("../../../assets/", import.meta.url);
 const temporaryDirectory = mkdtempSync(join(tmpdir(), "wordsmith-engine-npm-"));
-const assetNames = [
-  "Adjectives.json",
-  "Adverbs.json",
-  "Chemical Compound Names.json",
-  "Common Surnames.json",
-  "Exotic Character Sets.json",
-  "Given Names.json",
-  "Nouns.json",
-  "Verbs.json",
-];
+const assetNames = readdirSync(canonicalAssetRoot)
+  .filter((name) => name.endsWith(".json"))
+  .sort();
+assert.ok(assetNames.length > 0, "no canonical JSON assets were found");
 
 function argumentValue(name) {
   const index = process.argv.indexOf(name);
@@ -32,52 +33,53 @@ function argumentValue(name) {
   return isAbsolute(value) ? value : resolve(process.cwd(), value);
 }
 
-try {
+function inspectArchive(packagePath) {
+  const metadata = JSON.parse(
+    execFileSync("tar", ["-xOf", packagePath, "package/package.json"], {
+      encoding: "utf8",
+    }),
+  );
+  const paths = new Set(
+    execFileSync("tar", ["-tzf", packagePath], { encoding: "utf8" })
+      .split("\n")
+      .filter((path) => path.startsWith("package/") && !path.endsWith("/"))
+      .map((path) => path.slice("package/".length)),
+  );
+  return { metadata, paths };
+}
+
+function packArchive(destination) {
+  mkdirSync(destination, { recursive: true });
+  const packOutput = execFileSync(
+    "npm",
+    ["pack", "--json", "--pack-destination", destination],
+    { cwd: packageRoot, encoding: "utf8" },
+  );
+  const packMetadata = JSON.parse(packOutput);
+  const packed = Array.isArray(packMetadata)
+    ? packMetadata[0]
+    : Object.values(packMetadata)[0];
+  assert.ok(packed, "npm pack did not return package metadata");
+  assert.equal(packed.name, "wordsmith-engine");
+  assert.equal(packed.version, packageMetadata.version);
+  return join(destination, packed.filename);
+}
+
+function selectArchive() {
   const requestedDestination = argumentValue("--pack-destination");
   const requestedPackage = argumentValue("--package");
   assert.ok(
     requestedDestination === undefined || requestedPackage === undefined,
     "--pack-destination and --package cannot be combined",
   );
+  if (requestedPackage !== undefined) return requestedPackage;
+  return packArchive(requestedDestination ?? temporaryDirectory);
+}
 
-  let packagePath;
-  let verifiedVersion;
-  let paths;
-  if (requestedPackage !== undefined) {
-    packagePath = requestedPackage;
-    const archiveMetadata = JSON.parse(
-      execFileSync("tar", ["-xOf", packagePath, "package/package.json"], {
-        encoding: "utf8",
-      }),
-    );
-    assert.equal(archiveMetadata.name, "wordsmith-engine");
-    assert.equal(archiveMetadata.version, packageMetadata.version);
-    verifiedVersion = archiveMetadata.version;
-    paths = new Set(
-      execFileSync("tar", ["-tzf", packagePath], { encoding: "utf8" })
-        .split("\n")
-        .filter((path) => path.startsWith("package/") && !path.endsWith("/"))
-        .map((path) => path.slice("package/".length)),
-    );
-  } else {
-    const packDestination = requestedDestination ?? temporaryDirectory;
-    mkdirSync(packDestination, { recursive: true });
-    const packOutput = execFileSync(
-      "npm",
-      ["pack", "--json", "--pack-destination", packDestination],
-      { cwd: packageRoot, encoding: "utf8" },
-    );
-    const packMetadata = JSON.parse(packOutput);
-    const packed = Array.isArray(packMetadata)
-      ? packMetadata[0]
-      : Object.values(packMetadata)[0];
-    assert.ok(packed, "npm pack did not return package metadata");
-    assert.equal(packed.name, "wordsmith-engine");
-    assert.equal(packed.version, packageMetadata.version);
-    verifiedVersion = packed.version;
-    paths = new Set(packed.files.map(({ path }) => path));
-    packagePath = join(packDestination, packed.filename);
-  }
+function verifyArchiveShape(packagePath) {
+  const { metadata, paths } = inspectArchive(packagePath);
+  assert.equal(metadata.name, "wordsmith-engine");
+  assert.equal(metadata.version, packageMetadata.version);
 
   for (const required of [
     "LICENSE",
@@ -104,7 +106,10 @@ try {
     [...paths].every((path) => !path.endsWith(".d.ts.map")),
     "package contains an unusable declaration map",
   );
+  return metadata.version;
+}
 
+function installArchive(packagePath) {
   const consumerDirectory = join(temporaryDirectory, "consumer");
   mkdirSync(consumerDirectory);
   writeFileSync(
@@ -115,6 +120,10 @@ try {
     cwd: consumerDirectory,
     stdio: "pipe",
   });
+  return consumerDirectory;
+}
+
+function verifyRuntimeConsumer(consumerDirectory) {
   writeFileSync(
     join(consumerDirectory, "check.mjs"),
     `
@@ -128,6 +137,9 @@ try {
     cwd: consumerDirectory,
     stdio: "pipe",
   });
+}
+
+function verifyDeclarationConsumer(consumerDirectory) {
   writeFileSync(
     join(consumerDirectory, "check.ts"),
     `
@@ -155,7 +167,9 @@ try {
     ["-p", "tsconfig.json"],
     { cwd: consumerDirectory, stdio: "pipe" },
   );
+}
 
+function verifyBrowserConsumer(consumerDirectory) {
   writeFileSync(
     join(consumerDirectory, "browser-entry.js"),
     `
@@ -178,7 +192,9 @@ try {
     { cwd: consumerDirectory, stdio: "pipe" },
   );
   execFileSync("node", [browserBundle], { stdio: "pipe" });
+}
 
+function verifyInstalledPackage(consumerDirectory) {
   const installedPackageRoot = join(consumerDirectory, "node_modules/wordsmith-engine");
   for (const assetName of assetNames) {
     assert.deepEqual(
@@ -190,7 +206,15 @@ try {
   const installed = JSON.parse(
     readFileSync(join(installedPackageRoot, "package.json"), "utf8"),
   );
-  assert.equal(installed.dependencies, undefined);
+  for (const field of [
+    "dependencies",
+    "optionalDependencies",
+    "peerDependencies",
+    "bundledDependencies",
+    "bundleDependencies",
+  ]) {
+    assert.equal(installed[field], undefined, `package declares ${field}`);
+  }
   const sourceMap = JSON.parse(
     readFileSync(join(installedPackageRoot, "dist/index.js.map"), "utf8"),
   );
@@ -200,10 +224,21 @@ try {
       sourceMap.sourcesContent.every((source) => typeof source === "string"),
     "JavaScript source map does not embed its TypeScript sources",
   );
+}
 
-  process.stdout.write(
-    `${JSON.stringify({ package: packagePath, version: verifiedVersion })}\n`,
-  );
+function reportVerification(packagePath, version) {
+  process.stdout.write(`${JSON.stringify({ package: packagePath, version })}\n`);
+}
+
+try {
+  const packagePath = selectArchive();
+  const verifiedVersion = verifyArchiveShape(packagePath);
+  const consumerDirectory = installArchive(packagePath);
+  verifyRuntimeConsumer(consumerDirectory);
+  verifyDeclarationConsumer(consumerDirectory);
+  verifyBrowserConsumer(consumerDirectory);
+  verifyInstalledPackage(consumerDirectory);
+  reportVerification(packagePath, verifiedVersion);
 } finally {
   rmSync(temporaryDirectory, { recursive: true, force: true });
 }

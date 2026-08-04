@@ -65,12 +65,20 @@ Every nested render receives the same caller-owned random source. Python uses
 safe-integer seeds. Isolate that source from unrelated random consumers and
 discard it after the related Wordsmith calls finish.
 
+Custom TypeScript random sources return finite fractions in `[0, 1)`. Custom
+components remain replayable only when their render functions depend on that
+source and fixed captured configuration rather than clocks, external state, or
+other random consumers.
+
 Higher-level generators should derive stable named seeds for independent
 Wordsmith streams. Seed identity belongs to the caller. The same seed is not
 expected to produce the same text across Python and TypeScript.
 
 Replay also depends on package content, assets, component structure, and call
 order. Pin the package release when stored seeds must reproduce durable output.
+When non-English text passes through host-provided case conversion, pin the
+Python or Node.js runtime as well because Unicode mappings can change between
+runtime releases.
 `ReadableUniqueIdentifier` additionally includes the current time and is
 therefore outside seed-only replay.
 
@@ -97,7 +105,19 @@ packages/
 assets/          Canonical shared data
 spec/            Shared behavior and conformance fixtures
 docs/            Architecture, quality, and asset provenance
+tools/           Repository-wide maintenance and validation
 ```
+
+Install each package's development dependencies, then run the complete
+repository gate from the root:
+
+```bash
+python tools/check.py
+```
+
+The root command does not install or update dependencies. It runs each
+package's own complete check in sequence and stops at the first failure.
+Package-specific checks remain available:
 
 ```bash
 cd packages/python

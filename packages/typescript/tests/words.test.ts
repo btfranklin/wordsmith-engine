@@ -79,3 +79,28 @@ test("handwritten pluralization rules match Python", () => {
   );
   assert.equal(new PrimitiveWeapon({ isPlural: true }).render(source(0.65)), "spears");
 });
+
+test("public word boolean options are validated at runtime", () => {
+  const invalidFactories = [
+    () =>
+      new Pronoun({
+        isSingular: 1 as unknown as boolean,
+        isThirdPerson: false,
+      }),
+    () =>
+      new Pronoun({
+        isSingular: true,
+        isThirdPerson: "no" as unknown as boolean,
+      }),
+    () => new Article({ isBeforeVowel: 1 as unknown as boolean }),
+    () => new Determiner({ isBeforeVowel: "yes" as unknown as boolean }),
+    () => new VillainousPersonNoun({ isPlural: 1 as unknown as boolean }),
+    () => new PrimitiveWeapon({ isPlural: "yes" as unknown as boolean }),
+    () => new Pronoun({} as { isSingular: boolean; isThirdPerson: boolean }),
+    () => new VillainousPersonNoun({} as { isPlural: boolean }),
+  ] as const;
+
+  for (const makeComponent of invalidFactories) {
+    assert.throws(makeComponent, /must be a boolean/);
+  }
+});
