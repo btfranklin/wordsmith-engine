@@ -1,6 +1,6 @@
 {
   "name": "wordsmith-engine",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Composable, deterministic-friendly text-generation components for TypeScript and JavaScript.",
   "type": "module",
   "main": "./dist/index.js",
