@@ -31,6 +31,12 @@ the established package surface: `Capitalized`, `FirstUppercased`,
 `TitleCased`, `PrefixedByArticle`, `PrefixedByDeterminer`, and `PossessiveForm`.
 TypeScript represents the same transformations as immutable fluent components.
 
+Python's direct `Text`, `OneOf`, and `WeightedOneOf` constructors accept
+sequences of components, including lists and tuples. They store the parts,
+options, and weights as tuples. A later change to an input list does not change
+the component. Use `text`, `one_of`, or `weighted_one_of` to mix strings with
+components.
+
 Fluent spellings map as follows: `capitalized` to `capitalized`, `first_upper`
 to `firstUpper`, `title_case` to `titleCase`, `prefixed_by_article` to
 `prefixedByArticle`, `prefixed_by_determiner` to `prefixedByDeterminer`, and

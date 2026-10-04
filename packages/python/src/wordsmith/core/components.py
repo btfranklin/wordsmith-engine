@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass
 import random
 import sys
@@ -45,12 +46,16 @@ class Empty(Component):
         return ""
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, init=False)
 class Text(Component):
     """Join multiple components into a single text value."""
 
     parts: tuple[Component, ...]
     sep: str = ""
+
+    def __init__(self, parts: Sequence[Component], sep: str = "") -> None:
+        object.__setattr__(self, "parts", tuple(parts))
+        object.__setattr__(self, "sep", sep)
 
     def make_text(self, rng: random.Random) -> str:
         rendered_parts = []
@@ -62,13 +67,14 @@ class Text(Component):
         return self.sep.join(rendered_parts)
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, init=False)
 class OneOf(Component):
     """Choose one of the provided components at random."""
 
     options: tuple[Component, ...]
 
-    def __post_init__(self) -> None:
+    def __init__(self, options: Sequence[Component]) -> None:
+        object.__setattr__(self, "options", tuple(options))
         if not self.options:
             raise ValueError("OneOf requires at least one option.")
 
@@ -76,14 +82,20 @@ class OneOf(Component):
         return rng.choice(self.options).make_text(rng)
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, init=False)
 class WeightedOneOf(Component):
     """Choose one of the provided components using weighted probabilities."""
 
     options: tuple[Component, ...]
     weights: tuple[float, ...]
 
-    def __post_init__(self) -> None:
+    def __init__(
+        self,
+        options: Sequence[Component],
+        weights: Sequence[float],
+    ) -> None:
+        object.__setattr__(self, "options", tuple(options))
+        object.__setattr__(self, "weights", tuple(weights))
         if not self.options:
             raise ValueError("WeightedOneOf requires at least one option.")
         if len(self.options) != len(self.weights):

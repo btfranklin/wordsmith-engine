@@ -4,13 +4,13 @@ from __future__ import annotations
 
 import random
 
-from wordsmith import Component, either, maybe, one_of
+from wordsmith import Component, Literal, Text, either, maybe, one_of
 
 
 def build_title() -> Component:
     descriptor = one_of("quiet", "restless", "golden", "shattered")
     subject = either("river", "city", first_probability=0.7)
-    return ("The" | descriptor | subject).title_case()
+    return Text([Literal("The"), descriptor, subject], sep=" ").title_case()
 
 
 def build_line() -> Component:

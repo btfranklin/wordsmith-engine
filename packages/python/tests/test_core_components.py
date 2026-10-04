@@ -11,6 +11,9 @@ import pytest
 
 from wordsmith.core.components import (
     Literal,
+    OneOf,
+    Text,
+    WeightedOneOf,
     either,
     maybe,
     one_of,
@@ -41,6 +44,57 @@ def test_core_layer_does_not_depend_on_words() -> None:
 def test_text_joining() -> None:
     component = text("alpha", "beta", "gamma", sep="-")
     assert component.make_text(random.Random(0)) == "alpha-beta-gamma"
+
+
+def test_text_constructor_snapshots_list_parts() -> None:
+    parts = [Literal("alpha"), Literal("beta")]
+    component = Text(parts, sep="-")
+    parts[0] = Literal("changed")
+    parts.append(Literal("gamma"))
+
+    assert component.parts == (Literal("alpha"), Literal("beta"))
+    assert component.make_text(random.Random(0)) == "alpha-beta"
+    assert Text(component.parts, sep="-").make_text(random.Random(0)) == "alpha-beta"
+
+
+def test_one_of_constructor_snapshots_list_options() -> None:
+    options = [Literal("alpha")]
+    component = OneOf(options)
+    options[0] = Literal("changed")
+    options.clear()
+
+    assert component.options == (Literal("alpha"),)
+    assert component.make_text(random.Random(0)) == "alpha"
+    assert OneOf(component.options).make_text(random.Random(0)) == "alpha"
+
+
+def test_weighted_one_of_constructor_snapshots_options_and_weights() -> None:
+    options = [Literal("zero"), Literal("positive")]
+    weights = [0.0, 1.0]
+    component = WeightedOneOf(options, weights)
+    options[1] = Literal("changed")
+    options.clear()
+    weights[:] = [1.0, 0.0]
+
+    assert component.options == (Literal("zero"), Literal("positive"))
+    assert component.weights == (0.0, 1.0)
+    rng = _CountingRandom()
+    assert component.make_text(rng) == "positive"
+    assert rng.draw_count == 1
+    assert (
+        WeightedOneOf(component.options, component.weights).make_text(random.Random(0))
+        == "positive"
+    )
+
+
+def test_direct_constructors_preserve_collection_validation() -> None:
+    assert Text([]).make_text(random.Random(0)) == ""
+    with pytest.raises(ValueError, match="at least one option"):
+        OneOf([])
+    with pytest.raises(ValueError, match="at least one option"):
+        WeightedOneOf([], [])
+    with pytest.raises(ValueError, match="matching options and weights"):
+        WeightedOneOf([Literal("alpha")], [])
 
 
 def test_either_probability_extremes() -> None:

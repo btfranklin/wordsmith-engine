@@ -17,12 +17,15 @@ from wordsmith import (
     Literal,
     Noun,
     NounForm,
+    OneOf,
     PersonName,
     PrimitiveWeapon,
     Pronoun,
+    Text,
     Verb,
     VerbTense,
     VillainousPersonNoun,
+    WeightedOneOf,
     either,
     maybe,
     one_of,
@@ -39,8 +42,20 @@ def render_public_components(rng: random.Random) -> list[str]:
         gender=BinaryGender.FEMALE,
         culture=GivenNameCulture.ENGLISH_SPEAKING,
     )
+    literal_parts = [Literal("quiet"), Literal("bright")]
+    direct_text = Text(literal_parts, sep=" ")
+    stored_parts: tuple[Component, ...] = direct_text.parts
+    direct_choice = WeightedOneOf(literal_parts, [2.0, 1.0])
+    stored_options: tuple[Component, ...] = direct_choice.options
+    stored_weights: tuple[float, ...] = direct_choice.weights
 
     components: list[Component] = [
+        direct_text,
+        Text(stored_parts, sep=" "),
+        OneOf(literal_parts),
+        OneOf(stored_parts),
+        direct_choice,
+        WeightedOneOf(stored_options, stored_weights),
         Literal("the"),
         text("the", Adjective(), noun, sep=" "),
         one_of("quiet", Adjective()),
