@@ -7,6 +7,8 @@ from datetime import date
 import json
 from pathlib import Path
 import re
+from stat import S_IMODE
+from tempfile import NamedTemporaryFile
 import time
 import unicodedata
 from urllib.parse import urlencode
@@ -121,13 +123,14 @@ def main() -> None:
         for group, languages in GROUP_LANGUAGES.items()
     }
 
+    for group, genders in names.items():
+        for gender, values in genders.items():
+            if not values:
+                raise ValueError(f"Wikidata returned no names for {group}.{gender}")
+
     apply_curated_additions(names)
     payload = build_payload(names)
-
-    ASSET_PATH.write_text(
-        json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8",
-    )
+    write_payload(payload)
 
     print("modern")
     for group, genders in payload["modern"].items():
@@ -140,6 +143,29 @@ def main() -> None:
         f"{len(payload['ancient']['male'])} male, "
         f"{len(payload['ancient']['female'])} female"
     )
+
+
+def write_payload(payload: dict[str, object]) -> None:
+    """Replace the asset only after the complete file has been written."""
+    temporary_path: Path | None = None
+    try:
+        with NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            dir=ASSET_PATH.parent,
+            prefix=".given-names-",
+            suffix=".tmp",
+            delete=False,
+        ) as temporary_file:
+            temporary_path = Path(temporary_file.name)
+            if ASSET_PATH.exists():
+                temporary_path.chmod(S_IMODE(ASSET_PATH.stat().st_mode))
+            json.dump(payload, temporary_file, ensure_ascii=False, indent=2)
+            temporary_file.write("\n")
+        temporary_path.replace(ASSET_PATH)
+    finally:
+        if temporary_path is not None:
+            temporary_path.unlink(missing_ok=True)
 
 
 def build_payload(

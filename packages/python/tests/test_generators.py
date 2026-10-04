@@ -18,6 +18,7 @@ from wordsmith.generators import (
     NauticalShipName,
     TownName,
     LiteraryTitle,
+    UnusualLiteraryTitle,
 )
 from wordsmith.names import AlienName, FantasyName
 from tests.utils import assert_nonempty, assert_repeatable
@@ -162,9 +163,63 @@ def test_literary_titles_avoid_bare_singular_motifs_after_of() -> None:
         "Thread",
         "Window",
     )
-    awkward_pattern = re.compile(rf" of ({'|'.join(singular_motifs)})(?:$|\\b)")
+    awkward_pattern = re.compile(rf" of ({'|'.join(singular_motifs)})(?:$|\b)")
+
+    assert awkward_pattern.search("The Book of Archive at Midnight") is not None
+    assert awkward_pattern.search("The Book of Archives at Midnight") is None
+    assert awkward_pattern.search("The Book of the Archive at Midnight") is None
+    assert awkward_pattern.search("The Book of an Archive at Midnight") is None
 
     assert all(awkward_pattern.search(title) is None for title in titles)
+
+
+@pytest.mark.parametrize(
+    ("verb_fraction", "gerund", "preposition"),
+    (
+        (1.1 / 14, "Arriving", "at"),
+        (11.1 / 14, "Vanishing", "from"),
+        (12.1 / 14, "Waiting", "for"),
+    ),
+)
+@pytest.mark.parametrize("action_fraction", (0.0, 0.2))
+def test_literary_action_phrases_keep_required_prepositions(
+    monkeypatch: pytest.MonkeyPatch,
+    verb_fraction: float,
+    gerund: str,
+    preposition: str,
+    action_fraction: float,
+) -> None:
+    fractions = iter(
+        [
+            0.0,
+            0.0,
+            action_fraction,
+            verb_fraction,
+            0.9 if action_fraction == 0.0 else 0.0,
+            0.0,
+        ]
+    )
+    draw_count = 0
+
+    def next_fraction() -> float:
+        nonlocal draw_count
+        draw_count += 1
+        return next(fractions)
+
+    rng = random.Random(0)
+    monkeypatch.setattr(rng, "random", next_fraction)
+    monkeypatch.setattr(
+        rng, "choice", lambda options: options[int(rng.random() * len(options))]
+    )
+    title = UnusualLiteraryTitle().make_text(rng)
+
+    assert re.search(
+        rf"\b{gerund} {preposition} ", title, re.IGNORECASE
+    ) is not None
+    assert re.search(
+        rf"\b{gerund} (?!{preposition}\b)", title, re.IGNORECASE
+    ) is None
+    assert draw_count == 6
 
 
 def test_album_titles_have_shape_variety() -> None:

@@ -58,6 +58,10 @@ article/determiner helpers, title casing, first-letter uppercasing, and
 possessive forms. Only an exact empty result is omitted during composition;
 whitespace-only text is preserved.
 
+Title casing uppercases the first alphabetic character in a word that requires
+capitalization. Both packages turn `123hello world` into `123Hello World` and
+preserve the digit prefix.
+
 ## Deterministic streams
 
 Every nested render receives the same caller-owned random source. Python uses

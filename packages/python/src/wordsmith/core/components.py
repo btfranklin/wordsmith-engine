@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import random
+import sys
 from typing import Iterable
 
 from wordsmith.core.base import Component
@@ -93,7 +94,19 @@ class WeightedOneOf(Component):
             raise ValueError("WeightedOneOf requires at least one positive weight.")
 
     def make_text(self, rng: random.Random) -> str:
-        choice = rng.choices(self.options, weights=self.weights, k=1)[0]
+        nonzero = tuple(
+            index
+            for index, weight in enumerate(self.weights)
+            if weight != 0.0
+        )
+        options = tuple(self.options[index] for index in nonzero)
+        weights = tuple(self.weights[index] for index in nonzero)
+        total = sum(weights)
+        # Keep very small weights at a scale that preserves their ratios.
+        if 0.0 < total <= sys.float_info.min:
+            scale = max(weights)
+            weights = tuple(weight / scale for weight in weights)
+        choice = rng.choices(options, weights=weights, k=1)[0]
         return choice.make_text(rng)
 
 

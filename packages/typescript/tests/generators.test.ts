@@ -82,3 +82,37 @@ test("a deeply layered generator has a fixed same-language replay vector", () =>
   assert.equal(first, second);
   assert.equal(first, "Adamantine Nightmare");
 });
+
+test("literary action phrases keep required prepositions", () => {
+  const verbs = [
+    [1.1 / 14, "Arriving", "at"],
+    [11.1 / 14, "Vanishing", "from"],
+    [12.1 / 14, "Waiting", "for"],
+  ] as const;
+
+  for (const [verbFraction, gerund, preposition] of verbs) {
+    for (const actionFraction of [0, 0.2]) {
+      const fractions = [
+        0,
+        0,
+        actionFraction,
+        verbFraction,
+        actionFraction === 0 ? 0.9 : 0,
+        0,
+      ];
+      let drawCount = 0;
+      const title = new UnusualLiteraryTitle().render({
+        random() {
+          const fraction = fractions[drawCount];
+          assert.ok(fraction !== undefined, "The scripted stream is empty.");
+          drawCount += 1;
+          return fraction;
+        },
+      });
+
+      assert.match(title, new RegExp(`\\b${gerund} ${preposition} `, "i"));
+      assert.doesNotMatch(title, new RegExp(`\\b${gerund} (?!${preposition}\\b)`, "i"));
+      assert.equal(drawCount, 6);
+    }
+  }
+});

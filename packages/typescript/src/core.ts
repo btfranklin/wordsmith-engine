@@ -160,16 +160,30 @@ export function weightedOneOf(...pairs: readonly WeightedOption[]): Component {
     throw new RangeError("weightedOneOf requires a finite positive total weight.");
   }
 
+  let selectable = snapshot.filter(([weight]) => weight > 0);
+  let selectionTotal = total;
+  // Rescale totals at or below the smallest normal positive number.
+  if (total <= 2 ** -1022) {
+    const scale = selectable.reduce(
+      (largest, [weight]) => Math.max(largest, weight),
+      0,
+    );
+    selectable = selectable.map(
+      ([weight, option]) => [weight / scale, option] as const,
+    );
+    selectionTotal = selectable.reduce((sum, [weight]) => sum + weight, 0);
+  }
+
   return component((rng) => {
-    const target = randomFraction(rng) * total;
+    const target = randomFraction(rng) * selectionTotal;
     let cumulative = 0;
-    for (const [weight, option] of snapshot) {
+    for (const [weight, option] of selectable) {
       cumulative += weight;
       if (target < cumulative) {
         return option.render(rng);
       }
     }
-    return (snapshot.at(-1) as readonly [number, Component])[1].render(rng);
+    return (selectable.at(-1) as readonly [number, Component])[1].render(rng);
   });
 }
 
@@ -203,11 +217,15 @@ function isMaybeOptions(value: unknown): value is MaybeOptions {
     value === null ||
     typeof value !== "object" ||
     Array.isArray(value) ||
-    Object.getPrototypeOf(value) !== Object.prototype
+    value instanceof Component
   ) {
     return false;
   }
-  return Object.keys(value).every((key) => key === "probability");
+  return (
+    "probability" in value ||
+    (Object.getPrototypeOf(value) === Object.prototype &&
+      Object.keys(value).length === 0)
+  );
 }
 
 export function maybe(

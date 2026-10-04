@@ -58,6 +58,14 @@ to right through the same random source. They omit exact empty strings while
 preserving whitespace-only results. `ws` is a tagged-template spelling of
 `concat`: it preserves template text exactly and adds no spacing or cleanup.
 
+The `titleCase()` method uppercases the first alphabetic character in each word
+that requires capitalization. A prefix stays in place: `123hello world` becomes
+`123Hello World`, as it does in Python.
+
+`maybe` accepts a final options object with a `probability` member. Class
+instances and objects with extra members are supported. Only `probability`
+controls the choice. A component with a `probability` member remains a child.
+
 `ReadableUniqueIdentifier` intentionally includes the current clock and is
 therefore outside the seed-only replay guarantee.
 

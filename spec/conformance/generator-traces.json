@@ -908,6 +908,698 @@
       "cycle": true,
       "expected": "luminum",
       "expectedDraws": 64
+    },
+    {
+      "name": "literarytitle-boundary-0-78-below",
+      "intent": "Select the LiteraryTitle family below the 0.78 probability boundary.",
+      "generator": "LiteraryTitle",
+      "fractions": [
+        0.7799999999999999
+      ],
+      "expected": "The Borrowed Archive",
+      "expectedDraws": 4
+    },
+    {
+      "name": "literarytitle-boundary-0-78-at",
+      "intent": "Select the LiteraryTitle family at the 0.78 probability boundary.",
+      "generator": "LiteraryTitle",
+      "fractions": [
+        0.78
+      ],
+      "expected": "A Manual for Answering the Borrowed Archive",
+      "expectedDraws": 8
+    },
+    {
+      "name": "literarytitle-boundary-0-78-above",
+      "intent": "Select the LiteraryTitle family above the 0.78 probability boundary.",
+      "generator": "LiteraryTitle",
+      "fractions": [
+        0.7800000000000001
+      ],
+      "expected": "A Manual for Answering the Borrowed Archive",
+      "expectedDraws": 8
+    },
+    {
+      "name": "movietitle-boundary-0-55-below",
+      "intent": "Select the MovieTitle family below the 0.55 probability boundary.",
+      "generator": "MovieTitle",
+      "fractions": [
+        0.5499999999999999
+      ],
+      "expected": "Aaquil Smith",
+      "expectedDraws": 5
+    },
+    {
+      "name": "movietitle-boundary-0-55-at",
+      "intent": "Select the MovieTitle family at the 0.55 probability boundary.",
+      "generator": "MovieTitle",
+      "fractions": [
+        0.55
+      ],
+      "expected": "Escape From Smith Bay",
+      "expectedDraws": 6
+    },
+    {
+      "name": "movietitle-boundary-0-55-above",
+      "intent": "Select the MovieTitle family above the 0.55 probability boundary.",
+      "generator": "MovieTitle",
+      "fractions": [
+        0.5500000000000002
+      ],
+      "expected": "Escape From Smith Bay",
+      "expectedDraws": 6
+    },
+    {
+      "name": "movietitle-boundary-0-85-below",
+      "intent": "Select the MovieTitle family below cumulative probability 0.55 + 0.30, using its floating-point value.",
+      "generator": "MovieTitle",
+      "fractions": [
+        0.85
+      ],
+      "expected": "Escape From Smith Bay",
+      "expectedDraws": 6
+    },
+    {
+      "name": "movietitle-boundary-0-85-at",
+      "intent": "Select the MovieTitle family at cumulative probability 0.55 + 0.30, using its floating-point value.",
+      "generator": "MovieTitle",
+      "fractions": [
+        0.8500000000000001
+      ],
+      "expected": "The Borrowed Archive",
+      "expectedDraws": 5
+    },
+    {
+      "name": "movietitle-boundary-0-85-above",
+      "intent": "Select the MovieTitle family above cumulative probability 0.55 + 0.30, using its floating-point value.",
+      "generator": "MovieTitle",
+      "fractions": [
+        0.8500000000000002
+      ],
+      "expected": "The Borrowed Archive",
+      "expectedDraws": 5
+    },
+    {
+      "name": "album-short-weight-2-below",
+      "intent": "Select a nested short-album template below cumulative weight 2 of 8.8.",
+      "generator": "AlbumTitle",
+      "fractions": [
+        0,
+        0,
+        0.22727272727272724
+      ],
+      "expected": "Aardvarks",
+      "expectedDraws": 4
+    },
+    {
+      "name": "album-short-weight-2-at",
+      "intent": "Select a nested short-album template at cumulative weight 2 of 8.8.",
+      "generator": "AlbumTitle",
+      "fractions": [
+        0,
+        0,
+        0.22727272727272727
+      ],
+      "expected": "Abrupt Aardvark",
+      "expectedDraws": 5
+    },
+    {
+      "name": "album-short-weight-2-above",
+      "intent": "Select a nested short-album template above cumulative weight 2 of 8.8.",
+      "generator": "AlbumTitle",
+      "fractions": [
+        0,
+        0,
+        0.2272727272727273
+      ],
+      "expected": "Abrupt Aardvark",
+      "expectedDraws": 5
+    },
+    {
+      "name": "album-short-weight-4-below",
+      "intent": "Select a nested short-album template below cumulative weight 4 of 8.8.",
+      "generator": "AlbumTitle",
+      "fractions": [
+        0,
+        0,
+        0.4545454545454545
+      ],
+      "expected": "Abrupt Aardvark",
+      "expectedDraws": 5
+    },
+    {
+      "name": "album-short-weight-4-at",
+      "intent": "Select a nested short-album template at cumulative weight 4 of 8.8.",
+      "generator": "AlbumTitle",
+      "fractions": [
+        0,
+        0,
+        0.45454545454545453
+      ],
+      "expected": "Midnight Aardvarks",
+      "expectedDraws": 5
+    },
+    {
+      "name": "album-short-weight-4-above",
+      "intent": "Select a nested short-album template above cumulative weight 4 of 8.8.",
+      "generator": "AlbumTitle",
+      "fractions": [
+        0,
+        0,
+        0.4545454545454546
+      ],
+      "expected": "Midnight Aardvarks",
+      "expectedDraws": 5
+    },
+    {
+      "name": "given-name-omitted-options",
+      "intent": "Select gender before culture when both options are omitted.",
+      "generator": "GivenName",
+      "fractions": [
+        0.9,
+        0.1,
+        0
+      ],
+      "expected": "Abbigail",
+      "expectedDraws": 3
+    },
+    {
+      "name": "given-name-omitted-culture",
+      "intent": "Use the fixed gender and draw the omitted culture before the name.",
+      "generator": "GivenName",
+      "configuration": {
+        "gender": "female"
+      },
+      "fractions": [
+        0.8,
+        0
+      ],
+      "expected": "A'isha",
+      "expectedDraws": 2
+    },
+    {
+      "name": "given-name-omitted-gender",
+      "intent": "Draw the omitted gender and use the fixed culture.",
+      "generator": "GivenName",
+      "configuration": {
+        "culture": "latin_american"
+      },
+      "fractions": [
+        0.9,
+        0
+      ],
+      "expected": "Abelim",
+      "expectedDraws": 2
+    },
+    {
+      "name": "given-name-fixed-options",
+      "intent": "Use fixed gender and culture without option-selection draws.",
+      "generator": "GivenName",
+      "configuration": {
+        "gender": "male",
+        "culture": "latin_american"
+      },
+      "fractions": [
+        0
+      ],
+      "expected": "Aarón",
+      "expectedDraws": 1
+    },
+    {
+      "name": "ancient-name-omitted-gender",
+      "intent": "Draw the omitted gender before the ancient given name.",
+      "generator": "AncientGivenName",
+      "fractions": [
+        0.9,
+        0
+      ],
+      "expected": "Adora",
+      "expectedDraws": 2
+    },
+    {
+      "name": "ancient-name-fixed-gender",
+      "intent": "Use the fixed ancient-name gender without a gender-selection draw.",
+      "generator": "AncientGivenName",
+      "configuration": {
+        "gender": "female"
+      },
+      "fractions": [
+        0
+      ],
+      "expected": "Adora",
+      "expectedDraws": 1
+    },
+    {
+      "name": "person-name-omitted-options",
+      "intent": "Draw gender, culture, given name, and surname in order.",
+      "generator": "PersonName",
+      "fractions": [
+        0.9,
+        0.1,
+        0,
+        0
+      ],
+      "expected": "Abbigail Smith",
+      "expectedDraws": 4
+    },
+    {
+      "name": "person-name-fixed-options",
+      "intent": "Pass the fixed gender and culture to the given name before selecting the surname.",
+      "generator": "PersonName",
+      "configuration": {
+        "gender": "male",
+        "culture": "eastern"
+      },
+      "fractions": [
+        0,
+        0
+      ],
+      "expected": "'Ahdi Smith",
+      "expectedDraws": 2
+    },
+    {
+      "name": "person-name-fixed-culture",
+      "intent": "Pass the fixed culture while drawing gender, given name, and surname in order.",
+      "generator": "PersonName",
+      "configuration": {
+        "culture": "latin_american"
+      },
+      "fractions": [
+        0.9,
+        0,
+        0
+      ],
+      "expected": "Abelim Smith",
+      "expectedDraws": 3
+    },
+    {
+      "name": "alien-one-syllable",
+      "intent": "Skip punctuation draws for one syllable and omit the optional ending.",
+      "generator": "AlienName",
+      "configuration": {
+        "syllableCount": 1
+      },
+      "fractions": [
+        0,
+        0.9
+      ],
+      "expected": "A",
+      "expectedDraws": 2
+    },
+    {
+      "name": "alien-one-syllable-ending",
+      "intent": "Skip punctuation draws for one syllable and add the optional ending.",
+      "generator": "AlienName",
+      "configuration": {
+        "syllableCount": 1
+      },
+      "fractions": [
+        0,
+        0,
+        0
+      ],
+      "expected": "Abb",
+      "expectedDraws": 3
+    },
+    {
+      "name": "alien-two-syllables",
+      "intent": "Skip punctuation draws for two syllables and omit the optional ending.",
+      "generator": "AlienName",
+      "configuration": {
+        "syllableCount": 2
+      },
+      "fractions": [
+        0,
+        0,
+        0.9
+      ],
+      "expected": "Aa",
+      "expectedDraws": 3
+    },
+    {
+      "name": "alien-two-syllables-ending",
+      "intent": "Skip punctuation draws for two syllables and add the optional ending.",
+      "generator": "AlienName",
+      "configuration": {
+        "syllableCount": 2
+      },
+      "fractions": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "expected": "Aabb",
+      "expectedDraws": 4
+    },
+    {
+      "name": "alien-punctuation-disabled",
+      "intent": "Skip both punctuation branches when both options are false.",
+      "generator": "AlienName",
+      "configuration": {
+        "syllableCount": 3,
+        "allowHyphen": false,
+        "allowApostrophe": false
+      },
+      "fractions": [
+        0,
+        0,
+        0,
+        0.9
+      ],
+      "expected": "Aaa",
+      "expectedDraws": 4
+    },
+    {
+      "name": "alien-punctuation-not-selected",
+      "intent": "Consume both punctuation checks without selecting either separator.",
+      "generator": "AlienName",
+      "configuration": {
+        "syllableCount": 3
+      },
+      "fractions": [
+        0.9,
+        0.9,
+        0,
+        0,
+        0,
+        0.9
+      ],
+      "expected": "Aaa",
+      "expectedDraws": 6
+    },
+    {
+      "name": "alien-hyphen-selected",
+      "intent": "Insert a hyphen while the apostrophe option is false.",
+      "generator": "AlienName",
+      "configuration": {
+        "syllableCount": 3,
+        "allowApostrophe": false
+      },
+      "fractions": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0.9
+      ],
+      "expected": "A-aa",
+      "expectedDraws": 6
+    },
+    {
+      "name": "alien-apostrophe-selected",
+      "intent": "Insert an apostrophe while the hyphen option is false.",
+      "generator": "AlienName",
+      "configuration": {
+        "syllableCount": 3,
+        "allowHyphen": false
+      },
+      "fractions": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0.9
+      ],
+      "expected": "A'aa",
+      "expectedDraws": 6
+    },
+    {
+      "name": "alien-both-separators",
+      "intent": "Insert a hyphen and apostrophe at different syllable positions.",
+      "generator": "AlienName",
+      "configuration": {
+        "syllableCount": 3
+      },
+      "fractions": [
+        0,
+        0,
+        0,
+        0.9,
+        0,
+        0,
+        0,
+        0.9
+      ],
+      "expected": "A-a'a",
+      "expectedDraws": 8
+    },
+    {
+      "name": "alien-separator-conflict",
+      "intent": "Give the apostrophe priority when both separators select the same position.",
+      "generator": "AlienName",
+      "configuration": {
+        "syllableCount": 3
+      },
+      "fractions": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0.9
+      ],
+      "expected": "A'aa",
+      "expectedDraws": 8
+    },
+    {
+      "name": "alien-three-syllables-ending",
+      "intent": "Add the optional ending after three syllables with punctuation disabled.",
+      "generator": "AlienName",
+      "configuration": {
+        "syllableCount": 3,
+        "allowHyphen": false,
+        "allowApostrophe": false
+      },
+      "fractions": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "expected": "Aaabb",
+      "expectedDraws": 5
+    },
+    {
+      "name": "fantasy-one-syllable",
+      "intent": "Render only the prefix and skip ending and punctuation draws.",
+      "generator": "FantasyName",
+      "configuration": {
+        "syllableCount": 1
+      },
+      "fractions": [
+        0
+      ],
+      "expected": "Ael",
+      "expectedDraws": 1
+    },
+    {
+      "name": "fantasy-four-syllables-compound",
+      "intent": "Select a compound ending and skip punctuation checks below five syllables.",
+      "generator": "FantasyName",
+      "configuration": {
+        "syllableCount": 4
+      },
+      "fractions": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "expected": "Aelaaadon",
+      "expectedDraws": 5
+    },
+    {
+      "name": "fantasy-four-syllables-regular",
+      "intent": "Select a regular ending and skip punctuation checks below five syllables.",
+      "generator": "FantasyName",
+      "configuration": {
+        "syllableCount": 4
+      },
+      "fractions": [
+        0,
+        0,
+        0,
+        0.9,
+        0
+      ],
+      "expected": "Aelaaa",
+      "expectedDraws": 5
+    },
+    {
+      "name": "fantasy-five-syllables-disabled",
+      "intent": "Select a compound ending and skip both disabled punctuation options.",
+      "generator": "FantasyName",
+      "configuration": {
+        "syllableCount": 5,
+        "allowHyphen": false,
+        "allowApostrophe": false
+      },
+      "fractions": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "expected": "Aelaaaadon",
+      "expectedDraws": 6
+    },
+    {
+      "name": "fantasy-punctuation-not-selected",
+      "intent": "Select a regular ending and consume both punctuation checks without insertion.",
+      "generator": "FantasyName",
+      "configuration": {
+        "syllableCount": 5
+      },
+      "fractions": [
+        0,
+        0,
+        0,
+        0,
+        0.9,
+        0,
+        0.9,
+        0.9
+      ],
+      "expected": "Aelaaaa",
+      "expectedDraws": 8
+    },
+    {
+      "name": "fantasy-hyphen-selected",
+      "intent": "Insert a hyphen, then consume an unsuccessful apostrophe check.",
+      "generator": "FantasyName",
+      "configuration": {
+        "syllableCount": 5
+      },
+      "fractions": [
+        0,
+        0,
+        0,
+        0,
+        0.9,
+        0,
+        0,
+        0,
+        0.9
+      ],
+      "expected": "Ae-laaaa",
+      "expectedDraws": 9
+    },
+    {
+      "name": "fantasy-apostrophe-selected",
+      "intent": "Consume an unsuccessful hyphen check, then insert an apostrophe.",
+      "generator": "FantasyName",
+      "configuration": {
+        "syllableCount": 5
+      },
+      "fractions": [
+        0,
+        0,
+        0,
+        0,
+        0.9,
+        0,
+        0.9,
+        0,
+        0
+      ],
+      "expected": "Ae'laaaa",
+      "expectedDraws": 9
+    },
+    {
+      "name": "fantasy-both-separators",
+      "intent": "Insert an apostrophe into the text after hyphen insertion.",
+      "generator": "FantasyName",
+      "configuration": {
+        "syllableCount": 5
+      },
+      "fractions": [
+        0,
+        0,
+        0,
+        0,
+        0.9,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "expected": "Ae'-laaaa",
+      "expectedDraws": 10
+    },
+    {
+      "name": "fantasy-compound-with-punctuation-checks",
+      "intent": "Select a compound ending and consume unsuccessful hyphen and apostrophe checks.",
+      "generator": "FantasyName",
+      "configuration": {
+        "syllableCount": 5
+      },
+      "fractions": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0.9,
+        0.9
+      ],
+      "expected": "Aelaaaadon",
+      "expectedDraws": 8
+    },
+    {
+      "name": "literary-gerund-arriving-at",
+      "intent": "Keep the required preposition in the arriving at action phrase.",
+      "generator": "UnusualLiteraryTitle",
+      "fractions": [
+        0,
+        0,
+        0,
+        0.07857142857142858,
+        0.9,
+        0
+      ],
+      "expected": "A Manual for Arriving at the Archive",
+      "expectedDraws": 6
+    },
+    {
+      "name": "literary-gerund-vanishing-from",
+      "intent": "Keep the required preposition in the vanishing from action phrase.",
+      "generator": "UnusualLiteraryTitle",
+      "fractions": [
+        0,
+        0,
+        0,
+        0.7928571428571428,
+        0.9,
+        0
+      ],
+      "expected": "A Manual for Vanishing From the Archive",
+      "expectedDraws": 6
+    },
+    {
+      "name": "literary-gerund-waiting-for",
+      "intent": "Keep the required preposition in the waiting for action phrase.",
+      "generator": "UnusualLiteraryTitle",
+      "fractions": [
+        0,
+        0,
+        0,
+        0.8642857142857142,
+        0.9,
+        0
+      ],
+      "expected": "A Manual for Waiting for the Archive",
+      "expectedDraws": 6
     }
   ]
 }

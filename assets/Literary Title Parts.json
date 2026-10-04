@@ -121,7 +121,7 @@
   ],
   "verbs": [
     ["answer", "answers", "answering"],
-    ["arrive", "arrives", "arriving"],
+    ["arrive", "arrives", "arriving at"],
     ["burn", "burns", "burning"],
     ["dream", "dreams", "dreaming of"],
     ["find", "finds", "finding"],
@@ -131,8 +131,8 @@
     ["return", "returns", "returning to"],
     ["sing", "sings", "singing to"],
     ["speak", "speaks", "speaking with"],
-    ["vanish", "vanishes", "vanishing"],
-    ["wait", "waits", "waiting"],
+    ["vanish", "vanishes", "vanishing from"],
+    ["wait", "waits", "waiting for"],
     ["wake", "wakes", "waking"]
   ]
 }

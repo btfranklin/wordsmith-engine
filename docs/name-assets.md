@@ -21,6 +21,11 @@ Unisex given names are intentionally included in both the male and female lists.
 Curated additions supplied by B.T. Franklin are included in the English-speaking
 group.
 
+The updater stops if any culture or gender query returns no names. Curated
+additions do not hide an empty query result. The updater writes a complete
+temporary file before it replaces the canonical asset, so a failed refresh
+preserves the previous file.
+
 From the repository root, refresh and synchronize the asset with:
 
 ```bash

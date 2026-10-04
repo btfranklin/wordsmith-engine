@@ -37,6 +37,11 @@ Default random sources, exception classes, identifier casing, and other
 language-specific ergonomics are outside this contract. The project does not
 promise that the same seed produces identical output across languages.
 
+Weighted choices exclude options with zero weight. Positive weights determine
+the relative selection probabilities. Very small positive totals are rescaled
+to preserve those ratios without an additional random draw. Selection preserves
+the order of the remaining options.
+
 ## Random Source Ownership
 
 Every component renders with a caller-owned random source. The same source is
@@ -163,6 +168,11 @@ component methods, including `.titleCase()`, `.firstUpper()`,
 `component(renderFunction)` for custom behavior so callers do not need to
 subclass an internal base class or manually reproduce the fluent surface.
 
+TypeScript `maybe` accepts a final options object with a `probability` member.
+The object can be a class instance and can contain other members. An empty plain
+object selects the default probability. A `Component` remains a child even if
+it has a member named `probability`.
+
 The TypeScript `ws` tagged template alternates its cooked literal segments and
 component-like interpolations through `concat`. It preserves authored spaces,
 punctuation, newlines, and indentation exactly. It never trims, dedents,
@@ -181,7 +191,10 @@ The fluent transformation methods are semantic peers across languages:
 - `firstUpper` uppercases the first Unicode alphabetic code point and leaves
   the rest untouched; an uppercase mapping may expand to multiple code points.
 - `titleCase` implements Wordsmith's fixed English small-word and punctuation
-  rules and collapses empty fields created by repeated ASCII spaces.
+  rules and collapses empty fields created by repeated ASCII spaces. When a
+  word requires capitalization, it lowercases the word core and uppercases its
+  first alphabetic code point. A digit, hyphen, symbol, or tab before that letter
+  remains in place.
 - `prefixedByArticle` and `prefixedByDeterminer` use the documented English
   vowel-sound exceptions.
 - `possessiveForm` appends only an apostrophe to text ending in lowercase `s`;
@@ -227,8 +240,21 @@ and random-source forwarding.
 
 `generator-traces.json` uses a shared scripted stream of fractions to verify
 public generator outputs, draw counts, branch boundaries, and retry behavior.
+Fractions immediately below, at, and above a boundary protect its probability.
 It does not use either language's seeded PRNG and therefore does not create a
 cross-language seed guarantee.
+
+A trace can supply `configuration` for `GivenName`, `AncientGivenName`,
+`PersonName`, `AlienName`, or `FantasyName`. Configuration uses the shared keys
+`gender`, `culture`, `syllableCount`, `allowHyphen`, and `allowApostrophe` where
+the selected generator supports them. Enum values use the published string
+values. Python consumers map these keys to their snake_case arguments.
+Synthetic names require `syllableCount`; omitted boolean options keep their
+public defaults. Consumers reject unknown keys and invalid values.
+
+Parity traces and output-quality tests have separate roles. A trace can confirm
+that both implementations return the same text without confirming its English
+grammar. Focused quality tests check required prepositions and noun forms.
 
 `public-api.json` is the machine-readable inventory of runtime exports,
 TypeScript declaration-only exports, and semantic language mappings. `API.md`

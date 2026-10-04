@@ -109,7 +109,7 @@ def title_case(text: str) -> str:
         if index not in {0, last_index} and core_lower in small_words:
             core_cased = core_lower
         else:
-            core_cased = core_lower.capitalize()
+            core_cased = first_upper(core_lower)
 
         result.append(f"{leading}{core_cased}{trailing}")
 

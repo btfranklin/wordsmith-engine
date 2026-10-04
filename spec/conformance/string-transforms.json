@@ -16,6 +16,13 @@
     {"input": "'the' end", "expected": "'The' End"},
     {"input": "the ne'er-do-well", "expected": "The Ne'er-do-well"},
     {"input": "the well-known map", "expected": "The Well-known Map"},
+    {"input": "123hello world", "expected": "123Hello World"},
+    {"input": "-hello world", "expected": "-Hello World"},
+    {"input": "🜁hello world", "expected": "🜁Hello World"},
+    {"input": "😀hello world", "expected": "😀Hello World"},
+    {"input": "hello \tworld", "expected": "Hello \tWorld"},
+    {"input": "\"-hello\" world", "expected": "\"-Hello\" World"},
+    {"input": "'ßeta' world", "expected": "'SSeta' World"},
     {"input": "go to", "expected": "Go To"},
     {"input": "go to ", "expected": "Go to"}
   ],

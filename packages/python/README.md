@@ -17,6 +17,10 @@ ship_name = ("The" | Adjective() | Noun()).title_case()
 print(ship_name(rng))
 ```
 
+The `title_case()` method uppercases the first alphabetic character in each word
+that requires capitalization. A prefix stays in place: `123hello world` becomes
+`123Hello World`, as it does in TypeScript.
+
 Pass the same caller-owned `random.Random` through every related Wordsmith
 render. Isolate that RNG from unrelated consumers when its output must be
 replayable.

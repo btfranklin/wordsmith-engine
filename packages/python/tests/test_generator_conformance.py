@@ -1,4 +1,4 @@
-"""Shared scripted-RNG conformance tests for composite generators."""
+"""Shared scripted-RNG conformance tests for generators."""
 
 from __future__ import annotations
 
@@ -10,15 +10,22 @@ import random
 import pytest
 
 from wordsmith import (
+    AlienName,
     AlbumTitle,
+    AncientGivenName,
     BandName,
+    BinaryGender,
     CriminalGangName,
+    FantasyName,
     FictionalElementName,
     FictionalMineralName,
+    GivenName,
+    GivenNameCulture,
     HighConceptMovieTitle,
     LiteraryTitle,
     MovieTitle,
     NauticalShipName,
+    PersonName,
     SimpleLiteraryTitle,
     SimpleMovieTitle,
     TownName,
@@ -54,6 +61,48 @@ _GENERATORS: dict[str, type[Component]] = {
         UnusualLiteraryTitle,
     )
 }
+
+
+def _build_generator(name: str, configuration: object) -> Component:
+    assert isinstance(configuration, dict)
+    if name in {"GivenName", "AncientGivenName", "PersonName"}:
+        allowed_keys = (
+            {"gender"} if name == "AncientGivenName" else {"gender", "culture"}
+        )
+        assert configuration.keys() <= allowed_keys
+        gender = (
+            BinaryGender(configuration["gender"])
+            if "gender" in configuration
+            else None
+        )
+        if name == "AncientGivenName":
+            return AncientGivenName(gender=gender)
+        culture = (
+            GivenNameCulture(configuration["culture"])
+            if "culture" in configuration
+            else None
+        )
+        if name == "GivenName":
+            return GivenName(gender=gender, culture=culture)
+        return PersonName(gender=gender, culture=culture)
+    if name in {"AlienName", "FantasyName"}:
+        assert configuration.keys() <= {
+            "syllableCount", "allowHyphen", "allowApostrophe",
+        }
+        syllable_count = configuration["syllableCount"]
+        allow_hyphen = configuration.get("allowHyphen", True)
+        allow_apostrophe = configuration.get("allowApostrophe", True)
+        assert type(syllable_count) is int
+        assert isinstance(allow_hyphen, bool)
+        assert isinstance(allow_apostrophe, bool)
+        name_type = AlienName if name == "AlienName" else FantasyName
+        return name_type(
+            syllable_count=syllable_count,
+            allow_hyphen=allow_hyphen,
+            allow_apostrophe=allow_apostrophe,
+        )
+    assert configuration == {}
+    return _GENERATORS[name]()
 
 
 class _ScriptedRandom(random.Random):
@@ -159,5 +208,6 @@ def test_generator_trace(case: object) -> None:
         cycle=case.get("cycle", False) is True,
     )
 
-    assert _GENERATORS[generator_name]().make_text(rng) == expected
+    generator = _build_generator(generator_name, case.get("configuration", {}))
+    assert generator.make_text(rng) == expected
     assert rng.draw_count == expected_draws

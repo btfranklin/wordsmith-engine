@@ -30,10 +30,26 @@ test("ExoticCharacter preserves astral characters as one code point", () => {
 });
 
 test("ExoticCharacter rejects unknown set names", () => {
-  assert.throws(
-    () => ExoticCharacter.randomCharacterFromSet("invalid", fractionSource([0])),
-    /Invalid character set requested/,
-  );
+  let draws = 0;
+  const rng: RandomSource = {
+    random: () => {
+      draws += 1;
+      return 0;
+    },
+  };
+  for (const name of [
+    "invalid",
+    "__proto__",
+    "constructor",
+    "toString",
+    "hasOwnProperty",
+  ]) {
+    assert.throws(
+      () => ExoticCharacter.randomCharacterFromSet(name, rng),
+      /Invalid character set requested/,
+    );
+  }
+  assert.equal(draws, 0);
 });
 
 test("ReadableUniqueIdentifier combines a seeded prefix with clock time", () => {

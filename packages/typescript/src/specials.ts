@@ -48,11 +48,10 @@ export class ExoticCharacter {
   }
 
   static randomCharacterFromSet(setName: string, rng: RandomSource): string {
-    const characterSet = exoticCharacterSets[setName];
-    if (characterSet === undefined) {
+    if (!Object.hasOwn(exoticCharacterSets, setName)) {
       throw new RangeError(`Invalid character set requested: ${setName}`);
     }
-    return choose(rng, characterSet);
+    return choose(rng, exoticCharacterSets[setName] as readonly string[]);
   }
 }
 

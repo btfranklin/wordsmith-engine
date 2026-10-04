@@ -36,6 +36,14 @@ to `firstUpper`, `title_case` to `titleCase`, `prefixed_by_article` to
 `prefixedByArticle`, `prefixed_by_determiner` to `prefixedByDeterminer`, and
 `possessive_form` to `possessiveForm`.
 
+Both title-case methods uppercase the first alphabetic code point in a word
+that requires capitalization. For example, `123hello world` becomes
+`123Hello World`.
+
+TypeScript `MaybeOptions` can be a class instance or an object with extra
+members. Only its `probability` member controls rendering. An empty plain object
+uses the default probability; components remain children.
+
 ## Words and grammar
 
 Both packages export `Adjective`, `Adverb`, `Article`, `AuthoredArtifact`,

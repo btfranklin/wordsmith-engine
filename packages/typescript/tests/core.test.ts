@@ -3,12 +3,14 @@ import { readdirSync, readFileSync } from "node:fs";
 import { test } from "node:test";
 import { fileURLToPath } from "node:url";
 import {
+  Component,
   type ComponentLike,
   component,
   concat,
   either,
   empty,
   join,
+  type MaybeOptions,
   maybe,
   oneOf,
   type RandomSource,
@@ -156,6 +158,79 @@ test("combinators validate their domains", () => {
       () => maybe(unsupported as unknown as ComponentLike),
       /strings or Components/,
     );
+  }
+});
+
+test("maybe accepts structural options and empty plain options", () => {
+  class Options implements MaybeOptions {
+    get probability(): number {
+      return 1;
+    }
+  }
+  const optionsWithMetadata = { probability: 1, label: "feature" };
+  for (const options of [new Options(), optionsWithMetadata]) {
+    assert.equal(maybe("included", options).render(fractionSource([0.9])), "included");
+  }
+  assert.equal(maybe("included", {}).render(fractionSource([0.25])), "included");
+  assert.equal(maybe("included", {}).render(fractionSource([0.75])), "");
+  const invalidOptions = { probability: 2, label: "feature" };
+  assert.throws(() => maybe("included", invalidOptions), /Probability/);
+});
+
+test("maybe keeps Components with a probability property as children", () => {
+  class ProbabilityComponent extends Component {
+    readonly probability = 0;
+
+    render(): string {
+      return "child";
+    }
+  }
+  assert.equal(
+    maybe("prefix-", new ProbabilityComponent()).render(fractionSource([0])),
+    "prefix-child",
+  );
+});
+
+test("weighted choices exclude zero weights at small totals", () => {
+  for (const weight of [Number.MIN_VALUE, 2 ** -1022, 1]) {
+    const choice = weightedOneOf([0, "zero"], [weight, "positive"], [0, "zero"]);
+    for (const fraction of [0, 0.75, 1 - Number.EPSILON / 2]) {
+      let draws = 0;
+      assert.equal(
+        choice.render({
+          random: () => {
+            draws += 1;
+            return fraction;
+          },
+        }),
+        "positive",
+      );
+      assert.equal(draws, 1);
+    }
+  }
+});
+
+test("weighted choices preserve ratios for small weights", () => {
+  for (const scale of [Number.MIN_VALUE, 2 ** -1024, 1]) {
+    const choice = weightedOneOf([scale, "first"], [3 * scale, "second"], [0, "zero"]);
+    for (const [fraction, expected] of [
+      [0, "first"],
+      [0.25 - Number.EPSILON / 8, "first"],
+      [0.25, "second"],
+      [1 - Number.EPSILON / 2, "second"],
+    ] as const) {
+      let draws = 0;
+      assert.equal(
+        choice.render({
+          random: () => {
+            draws += 1;
+            return fraction;
+          },
+        }),
+        expected,
+      );
+      assert.equal(draws, 1);
+    }
   }
 });
 

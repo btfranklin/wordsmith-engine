@@ -48,6 +48,15 @@ nonempty human-readable intent; intent documents the path without becoming an
 interpreted generator recipe. The public API fixture is the machine-readable
 export inventory behind `spec/API.md`.
 
+Probability traces include fractions immediately below, at, and above selected
+weighted branch boundaries. Name traces use an optional `configuration` object
+to check syllable counts, punctuation, optional endings, and omitted gender or
+culture choices. Each trace checks the exact output and draw count.
+
+Keep output-quality checks separate from parity traces. A shared grammar defect
+can produce equal outputs in both packages. Focused literary-title tests check
+required prepositions and reject bare singular motifs.
+
 Python's typed-consumer fixture protects the public annotations independently
 of runtime tests. TypeScript examples are discovered recursively from compiled
 output, run in deterministic path order, and must each produce output, so a new
@@ -69,6 +78,11 @@ python tools/sync_assets.py --check
 Synchronization copies raw bytes. Never sort or reserialize assets as a cleanup
 step: array and object order affect seeded selection. Both package verifiers
 must prove every package-local JSON file matches the canonical bytes.
+
+The given-name updater requires a nonempty query result for every culture and
+gender before it adds curated names. It writes the complete refreshed asset to
+a temporary file in the same directory, then replaces the canonical file. An
+empty result or a failed write leaves the previous asset in place.
 
 Artifact verification also rejects runtime dependency metadata. The npm
 verifier separates archive selection, shape inspection, isolated installation,

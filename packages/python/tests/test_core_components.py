@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 from pathlib import Path
+import math
 import random
+import sys
 
 import pytest
 
@@ -95,6 +97,40 @@ def test_weighted_one_of_respects_zero_weight() -> None:
     rng = random.Random(4)
     component = weighted_one_of((1.0, "alpha"), (0.0, "beta"))
     assert component.make_text(rng) == "alpha"
+
+
+@pytest.mark.parametrize("weight", [math.ulp(0.0), sys.float_info.min, 1.0])
+def test_weighted_one_of_excludes_zero_weights_at_small_totals(weight: float) -> None:
+    component = weighted_one_of((0.0, "zero"), (weight, "positive"), (0.0, "zero"))
+    for fraction in (0.0, 0.75, math.nextafter(1.0, 0.0)):
+        rng = _FractionRandom(fraction)
+        assert component.make_text(rng) == "positive"
+        assert rng.draw_count == 1
+
+
+class _FractionRandom(random.Random):
+    def __init__(self, fraction: float) -> None:
+        super().__init__(0)
+        self.fraction = fraction
+        self.draw_count = 0
+
+    def random(self) -> float:
+        self.draw_count += 1
+        return self.fraction
+
+
+@pytest.mark.parametrize("scale", [math.ulp(0.0), sys.float_info.min / 4, 1.0])
+def test_weighted_one_of_preserves_ratios_for_small_weights(scale: float) -> None:
+    component = weighted_one_of((scale, "first"), (3 * scale, "second"), (0.0, "zero"))
+    for fraction, expected in (
+        (0.0, "first"),
+        (math.nextafter(0.25, 0.0), "first"),
+        (0.25, "second"),
+        (math.nextafter(1.0, 0.0), "second"),
+    ):
+        rng = _FractionRandom(fraction)
+        assert component.make_text(rng) == expected
+        assert rng.draw_count == 1
 
 
 def test_starts_with_vowel_heuristics() -> None:
