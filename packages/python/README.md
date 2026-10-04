@@ -26,6 +26,11 @@ tuples of components and store immutable tuples. Later changes to an input
 list do not change the component. The `text`, `one_of`, and `weighted_one_of`
 helpers also accept strings.
 
+`WeightedOneOf` and `weighted_one_of` require finite, non-negative weights with
+a finite positive total. Invalid weights raise `ValueError` at construction.
+Zero weights are allowed when the total is positive; their options are never
+selected.
+
 Pass the same caller-owned `random.Random` through every related Wordsmith
 render. Isolate that RNG from unrelated consumers when its output must be
 replayable.

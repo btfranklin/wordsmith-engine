@@ -1,0 +1,89 @@
+{
+  "cases": [
+    {
+      "name": "empty choices are rejected",
+      "weights": [],
+      "accepted": false
+    },
+    {
+      "name": "negative weights are rejected",
+      "weights": [-1],
+      "accepted": false
+    },
+    {
+      "name": "a positive total does not allow negative weights",
+      "weights": [-1, 2],
+      "accepted": false
+    },
+    {
+      "name": "an all-zero total is rejected",
+      "weights": [0, 0],
+      "accepted": false
+    },
+    {
+      "name": "negative zero does not make a total positive",
+      "weights": [-0.0, 0],
+      "accepted": false
+    },
+    {
+      "name": "a leading NaN is rejected",
+      "weights": ["NaN", 1],
+      "accepted": false
+    },
+    {
+      "name": "a trailing NaN is rejected",
+      "weights": [1, "NaN"],
+      "accepted": false
+    },
+    {
+      "name": "positive infinity is rejected",
+      "weights": [1, "Infinity"],
+      "accepted": false
+    },
+    {
+      "name": "negative infinity is rejected",
+      "weights": ["-Infinity", 1],
+      "accepted": false
+    },
+    {
+      "name": "finite weights with an overflowing total are rejected",
+      "weights": [1.7976931348623157e+308, 1.7976931348623157e+308],
+      "accepted": false
+    },
+    {
+      "name": "one positive weight is accepted",
+      "weights": [1],
+      "accepted": true
+    },
+    {
+      "name": "zero weights are accepted with a positive total",
+      "weights": [0, 2, 0],
+      "accepted": true
+    },
+    {
+      "name": "negative zero is accepted with a positive total",
+      "weights": [-0.0, 2],
+      "accepted": true
+    },
+    {
+      "name": "fractional weights are accepted",
+      "weights": [0.1, 0.3],
+      "accepted": true
+    },
+    {
+      "name": "the smallest positive weight is accepted",
+      "weights": [5e-324],
+      "accepted": true
+    },
+    {
+      "name": "the smallest normal positive weight is accepted",
+      "weights": [2.2250738585072014e-308],
+      "accepted": true
+    },
+    {
+      "name": "the largest finite positive total is accepted",
+      "weights": [1.7976931348623157e+308, 0],
+      "accepted": true
+    }
+  ]
+}

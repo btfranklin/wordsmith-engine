@@ -19,6 +19,7 @@ _CONSUMED_FIXTURES = {
     "generator-traces.json",
     "public-api.json",
     "string-transforms.json",
+    "weighted-choices.json",
 }
 
 

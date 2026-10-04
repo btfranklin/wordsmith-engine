@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from dataclasses import dataclass
+import math
 import random
 import sys
 from typing import Iterable
@@ -100,22 +101,23 @@ class WeightedOneOf(Component):
             raise ValueError("WeightedOneOf requires at least one option.")
         if len(self.options) != len(self.weights):
             raise ValueError("WeightedOneOf requires matching options and weights.")
-        if any(weight < 0.0 for weight in self.weights):
-            raise ValueError("WeightedOneOf requires non-negative weights.")
-        if not any(weight > 0.0 for weight in self.weights):
-            raise ValueError("WeightedOneOf requires at least one positive weight.")
+        if any(not math.isfinite(weight) or weight < 0.0 for weight in self.weights):
+            raise ValueError("WeightedOneOf requires finite, non-negative weights.")
+        total = sum(self.weights)
+        if not math.isfinite(total) or total <= 0.0:
+            raise ValueError("WeightedOneOf requires a finite positive total weight.")
 
     def make_text(self, rng: random.Random) -> str:
         nonzero = tuple(
             index
             for index, weight in enumerate(self.weights)
-            if weight != 0.0
+            if weight > 0.0
         )
         options = tuple(self.options[index] for index in nonzero)
         weights = tuple(self.weights[index] for index in nonzero)
         total = sum(weights)
         # Keep very small weights at a scale that preserves their ratios.
-        if 0.0 < total <= sys.float_info.min:
+        if total <= sys.float_info.min:
             scale = max(weights)
             weights = tuple(weight / scale for weight in weights)
         choice = rng.choices(options, weights=weights, k=1)[0]

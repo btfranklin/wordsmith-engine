@@ -37,6 +37,11 @@ options, and weights as tuples. A later change to an input list does not change
 the component. Use `text`, `one_of`, or `weighted_one_of` to mix strings with
 components.
 
+`WeightedOneOf`, `weighted_one_of`, and `weightedOneOf` validate weights at
+construction. Each weight must be finite and non-negative. The total must be
+finite and greater than zero. Invalid weights raise `ValueError` in Python or
+`RangeError` in TypeScript. Zero-weight options are never selected.
+
 Fluent spellings map as follows: `capitalized` to `capitalized`, `first_upper`
 to `firstUpper`, `title_case` to `titleCase`, `prefixed_by_article` to
 `prefixedByArticle`, `prefixed_by_determiner` to `prefixedByDeterminer`, and

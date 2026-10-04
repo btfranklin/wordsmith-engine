@@ -69,6 +69,7 @@ test("every shared conformance fixture is consumed", () => {
       "generator-traces.json",
       "public-api.json",
       "string-transforms.json",
+      "weighted-choices.json",
     ],
   );
 });

@@ -48,6 +48,11 @@ nonempty human-readable intent; intent documents the path without becoming an
 interpreted generator recipe. The public API fixture is the machine-readable
 export inventory behind `spec/API.md`.
 
+Weight fixtures check validation at construction in both packages. The strings
+`NaN`, `Infinity`, and `-Infinity` represent values that JSON cannot encode.
+Test code converts them to numbers before construction. The checks also confirm
+that construction does not render children.
+
 Probability traces include fractions immediately below, at, and above selected
 weighted branch boundaries. Name traces use an optional `configuration` object
 to check syllable counts, punctuation, optional endings, and omitted gender or

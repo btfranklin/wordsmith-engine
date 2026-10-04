@@ -37,10 +37,14 @@ Default random sources, exception classes, identifier casing, and other
 language-specific ergonomics are outside this contract. The project does not
 promise that the same seed produces identical output across languages.
 
-Weighted choices exclude options with zero weight. Positive weights determine
-the relative selection probabilities. Very small positive totals are rescaled
-to preserve those ratios without an additional random draw. Selection preserves
-the order of the remaining options.
+Weighted choices require finite, non-negative weights and a finite positive
+total. Construction rejects invalid weights or totals before rendering a child
+or consuming randomness. Implementations snapshot the weight collection as
+well as the options. Zero weights are allowed, but their options are excluded
+from selection. Positive weights determine the relative selection
+probabilities. Very small positive totals are rescaled to preserve those ratios
+without an additional random draw. Selection preserves the order of the
+remaining options.
 
 ## Random Source Ownership
 

@@ -5,6 +5,7 @@ import {
   maybe,
   Noun,
   seededRandom,
+  weightedOneOf,
   ws,
 } from "../dist/index.js";
 
@@ -17,3 +18,6 @@ console.log(literal("123hello world").titleCase().render(rng));
 
 const options = { probability: 1, label: "always included" };
 console.log(maybe("included", options).render(rng));
+
+const descriptor = weightedOneOf([2, "quiet"], [1, "restless"], [0, "unused"]);
+console.log(descriptor.render(rng));

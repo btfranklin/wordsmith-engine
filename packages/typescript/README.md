@@ -66,6 +66,10 @@ that requires capitalization. A prefix stays in place: `123hello world` becomes
 instances and objects with extra members are supported. Only `probability`
 controls the choice. A component with a `probability` member remains a child.
 
+`weightedOneOf` requires finite, non-negative weights with a finite positive
+total. Invalid weights raise `RangeError` at construction. Zero weights are
+allowed when the total is positive; their options are never selected.
+
 `ReadableUniqueIdentifier` intentionally includes the current clock and is
 therefore outside the seed-only replay guarantee.
 
