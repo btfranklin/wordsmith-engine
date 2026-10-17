@@ -1600,6 +1600,319 @@
       ],
       "expected": "A Manual for Waiting for the Archive",
       "expectedDraws": 6
+    },
+    {
+      "name": "TavernName-branch-1",
+      "intent": "Select pattern 1 and forward the stream to its children.",
+      "generator": "TavernName",
+      "fractions": [
+        0
+      ],
+      "expected": "The Crooked Fox",
+      "expectedDraws": 4
+    },
+    {
+      "name": "TavernName-branch-2",
+      "intent": "Select pattern 2 and forward the stream to its children.",
+      "generator": "TavernName",
+      "fractions": [
+        0.4
+      ],
+      "expected": "The Fox and Lantern",
+      "expectedDraws": 3
+    },
+    {
+      "name": "TavernName-boundary-1-below",
+      "intent": "Check selection below the pattern 2 boundary.",
+      "generator": "TavernName",
+      "fractions": [
+        0.3999999999
+      ],
+      "expected": "The Crooked Fox",
+      "expectedDraws": 4
+    },
+    {
+      "name": "TavernName-boundary-1-above",
+      "intent": "Check selection above the pattern 2 boundary.",
+      "generator": "TavernName",
+      "fractions": [
+        0.40000000010000003
+      ],
+      "expected": "The Fox and Lantern",
+      "expectedDraws": 3
+    },
+    {
+      "name": "TavernName-branch-3",
+      "intent": "Select pattern 3 and forward the stream to its children.",
+      "generator": "TavernName",
+      "fractions": [
+        0.7
+      ],
+      "expected": "Aaquil's Rest",
+      "expectedDraws": 4
+    },
+    {
+      "name": "TavernName-boundary-2-below",
+      "intent": "Check selection below the pattern 3 boundary.",
+      "generator": "TavernName",
+      "fractions": [
+        0.6999999999
+      ],
+      "expected": "The Fox and Lantern",
+      "expectedDraws": 3
+    },
+    {
+      "name": "TavernName-boundary-2-above",
+      "intent": "Check selection above the pattern 3 boundary.",
+      "generator": "TavernName",
+      "fractions": [
+        0.7000000001
+      ],
+      "expected": "Aaquil's Rest",
+      "expectedDraws": 4
+    },
+    {
+      "name": "TavernName-branch-4",
+      "intent": "Select pattern 4 and forward the stream to its children.",
+      "generator": "TavernName",
+      "fractions": [
+        0.9
+      ],
+      "expected": "Smith Bay Inn",
+      "expectedDraws": 5
+    },
+    {
+      "name": "TavernName-boundary-3-below",
+      "intent": "Check selection below the pattern 4 boundary.",
+      "generator": "TavernName",
+      "fractions": [
+        0.8999999999
+      ],
+      "expected": "Aaquil's Rest",
+      "expectedDraws": 4
+    },
+    {
+      "name": "TavernName-boundary-3-above",
+      "intent": "Check selection above the pattern 4 boundary.",
+      "generator": "TavernName",
+      "fractions": [
+        0.9000000001
+      ],
+      "expected": "Smith Bay Inn",
+      "expectedDraws": 5
+    },
+    {
+      "name": "LandmarkName-branch-1",
+      "intent": "Select pattern 1 and forward the stream to its children.",
+      "generator": "LandmarkName",
+      "fractions": [
+        0
+      ],
+      "expected": "Silent Pass",
+      "expectedDraws": 3
+    },
+    {
+      "name": "LandmarkName-branch-2",
+      "intent": "Select pattern 2 and forward the stream to its children.",
+      "generator": "LandmarkName",
+      "fractions": [
+        0.4
+      ],
+      "expected": "Ashwood",
+      "expectedDraws": 3
+    },
+    {
+      "name": "LandmarkName-boundary-1-below",
+      "intent": "Check selection below the pattern 2 boundary.",
+      "generator": "LandmarkName",
+      "fractions": [
+        0.3999999999
+      ],
+      "expected": "Silent Pass",
+      "expectedDraws": 3
+    },
+    {
+      "name": "LandmarkName-boundary-1-above",
+      "intent": "Check selection above the pattern 2 boundary.",
+      "generator": "LandmarkName",
+      "fractions": [
+        0.40000000010000003
+      ],
+      "expected": "Ashwood",
+      "expectedDraws": 3
+    },
+    {
+      "name": "LandmarkName-branch-3",
+      "intent": "Select pattern 3 and forward the stream to its children.",
+      "generator": "LandmarkName",
+      "fractions": [
+        0.7
+      ],
+      "expected": "Smith's Pass",
+      "expectedDraws": 3
+    },
+    {
+      "name": "LandmarkName-boundary-2-below",
+      "intent": "Check selection below the pattern 3 boundary.",
+      "generator": "LandmarkName",
+      "fractions": [
+        0.6999999999
+      ],
+      "expected": "Ashwood",
+      "expectedDraws": 3
+    },
+    {
+      "name": "LandmarkName-boundary-2-above",
+      "intent": "Check selection above the pattern 3 boundary.",
+      "generator": "LandmarkName",
+      "fractions": [
+        0.7000000001
+      ],
+      "expected": "Smith's Pass",
+      "expectedDraws": 3
+    },
+    {
+      "name": "LandmarkName-branch-4",
+      "intent": "Select pattern 4 and forward the stream to its children.",
+      "generator": "LandmarkName",
+      "fractions": [
+        0.9
+      ],
+      "expected": "The Silent Stones",
+      "expectedDraws": 3
+    },
+    {
+      "name": "LandmarkName-boundary-3-below",
+      "intent": "Check selection below the pattern 4 boundary.",
+      "generator": "LandmarkName",
+      "fractions": [
+        0.8999999999
+      ],
+      "expected": "Smith's Pass",
+      "expectedDraws": 3
+    },
+    {
+      "name": "LandmarkName-boundary-3-above",
+      "intent": "Check selection above the pattern 4 boundary.",
+      "generator": "LandmarkName",
+      "fractions": [
+        0.9000000001
+      ],
+      "expected": "The Silent Stones",
+      "expectedDraws": 3
+    },
+    {
+      "name": "OrganizationName-branch-1",
+      "intent": "Select pattern 1 and forward the stream to its children.",
+      "generator": "OrganizationName",
+      "fractions": [
+        0
+      ],
+      "expected": "The Order of the Silver Sun",
+      "expectedDraws": 3
+    },
+    {
+      "name": "OrganizationName-branch-2",
+      "intent": "Select pattern 2 and forward the stream to its children.",
+      "generator": "OrganizationName",
+      "fractions": [
+        0.4
+      ],
+      "expected": "Smith Bay Cartographers' Guild",
+      "expectedDraws": 5
+    },
+    {
+      "name": "OrganizationName-boundary-1-below",
+      "intent": "Check selection below the pattern 2 boundary.",
+      "generator": "OrganizationName",
+      "fractions": [
+        0.3999999999
+      ],
+      "expected": "The Order of the Silver Sun",
+      "expectedDraws": 3
+    },
+    {
+      "name": "OrganizationName-boundary-1-above",
+      "intent": "Check selection above the pattern 2 boundary.",
+      "generator": "OrganizationName",
+      "fractions": [
+        0.40000000010000003
+      ],
+      "expected": "Smith Bay Cartographers' Guild",
+      "expectedDraws": 5
+    },
+    {
+      "name": "OrganizationName-branch-3",
+      "intent": "Select pattern 3 and forward the stream to its children.",
+      "generator": "OrganizationName",
+      "fractions": [
+        0.7
+      ],
+      "expected": "The Silver Society",
+      "expectedDraws": 3
+    },
+    {
+      "name": "OrganizationName-boundary-2-below",
+      "intent": "Check selection below the pattern 3 boundary.",
+      "generator": "OrganizationName",
+      "fractions": [
+        0.6999999999
+      ],
+      "expected": "Smith Bay Cartographers' Guild",
+      "expectedDraws": 5
+    },
+    {
+      "name": "OrganizationName-boundary-2-above",
+      "intent": "Check selection above the pattern 3 boundary.",
+      "generator": "OrganizationName",
+      "fractions": [
+        0.7000000001
+      ],
+      "expected": "The Silver Society",
+      "expectedDraws": 3
+    },
+    {
+      "name": "OrganizationName-branch-4",
+      "intent": "Select pattern 4 and forward the stream to its children.",
+      "generator": "OrganizationName",
+      "fractions": [
+        0.9
+      ],
+      "expected": "The Society of the Open Hand",
+      "expectedDraws": 2
+    },
+    {
+      "name": "OrganizationName-boundary-3-below",
+      "intent": "Check selection below the pattern 4 boundary.",
+      "generator": "OrganizationName",
+      "fractions": [
+        0.8999999999
+      ],
+      "expected": "The Silver Society",
+      "expectedDraws": 3
+    },
+    {
+      "name": "OrganizationName-boundary-3-above",
+      "intent": "Check selection above the pattern 4 boundary.",
+      "generator": "OrganizationName",
+      "fractions": [
+        0.9000000001
+      ],
+      "expected": "The Society of the Open Hand",
+      "expectedDraws": 2
+    },
+    {
+      "name": "tavern-object-alternative",
+      "intent": "Select the object alternative within the first tavern pattern.",
+      "generator": "TavernName",
+      "fractions": [
+        0,
+        0,
+        0.5,
+        0.999
+      ],
+      "expected": "The Crooked Bottle",
+      "expectedDraws": 4
     }
   ]
 }

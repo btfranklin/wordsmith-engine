@@ -91,7 +91,8 @@ therefore outside seed-only replay.
 - Names: `GivenName`, `Surname`, `PersonName`, `AlienName`,
   `AncientGivenName`, `FantasyName`
 - Titles: `LiteraryTitle`, `MovieTitle`, `AlbumTitle`, and their public variants
-- Places and groups: `TownName`, `CriminalGangName`, `BandName`
+- Places and groups: `TownName`, `TavernName`, `LandmarkName`,
+  `OrganizationName`, `CriminalGangName`, `BandName`
 - Vessels: `NauticalShipName`
 - Materials: `FictionalElementName`, `FictionalMineralName`,
   `ChemicalCompoundName`

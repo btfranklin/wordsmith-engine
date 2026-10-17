@@ -19,3 +19,8 @@ export {
   SimpleMovieTitle,
 } from "./generators/movie.js";
 export { NauticalShipName } from "./generators/nautical.js";
+export {
+  LandmarkName,
+  OrganizationName,
+  TavernName,
+} from "./generators/places-organizations.js";

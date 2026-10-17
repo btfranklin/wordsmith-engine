@@ -80,7 +80,11 @@ TypeScript additionally exports the declaration-only configuration types
 Both packages export `AlbumTitle`, `BandName`, `CriminalGangName`,
 `FictionalElementName`, `FictionalMineralName`, `HighConceptMovieTitle`,
 `LiteraryTitle`, `MovieTitle`, `NauticalShipName`, `SimpleLiteraryTitle`,
-`SimpleMovieTitle`, `TownName`, and `UnusualLiteraryTitle`.
+`SimpleMovieTitle`, `TownName`, `TavernName`, `LandmarkName`,
+`OrganizationName`, and `UnusualLiteraryTitle`.
+
+`TavernName`, `LandmarkName`, and `OrganizationName` take no constructor
+arguments. Each is a component and supports the standard text transformations.
 
 ## Specials
 

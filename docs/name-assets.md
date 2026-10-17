@@ -32,3 +32,15 @@ From the repository root, refresh and synchronize the asset with:
 python tools/update_name_assets.py
 python tools/sync_assets.py
 ```
+
+## Place and organization parts
+
+`assets/Place and Organization Parts.json` contains project-authored word lists
+for `TavernName`, `LandmarkName`, and `OrganizationName`. These lists are covered
+by the repository license. They contain tavern animals and objects, landmark
+features and compound parts, and organization symbols, trades, and concepts.
+They are fictional naming vocabulary, not a register of real places or groups.
+
+Edit this canonical file, then run `python tools/sync_assets.py`. Package copies
+must preserve its bytes and list order. `tools/validate_assets.py` checks the
+required keys and rejects empty lists, empty entries, and duplicate entries.

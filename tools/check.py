@@ -8,6 +8,14 @@ import subprocess
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 PACKAGE_CHECKS = (
+    (
+        REPOSITORY_ROOT,
+        (
+            "perfect-doc", "--no-banner", "check", "--offline",
+            "README.md", "AGENTS.md", "spec", "docs",
+            "packages/python/README.md", "packages/typescript/README.md",
+        ),
+    ),
     (REPOSITORY_ROOT / "packages" / "python", ("pdm", "run", "check")),
     (REPOSITORY_ROOT / "packages" / "typescript", ("npm", "run", "check")),
 )

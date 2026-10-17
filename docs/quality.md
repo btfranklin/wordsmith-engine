@@ -23,6 +23,16 @@ the package checks sequentially and stops at the first failure:
 python tools/check.py
 ```
 
+The root runner first runs the offline documentation check:
+
+```bash
+perfect-doc --no-banner check --offline README.md AGENTS.md spec docs packages/python/README.md packages/typescript/README.md
+```
+
+Install `perfect-doc` before running the root gate. This repository has no
+`perfect-doc.toml`; the check uses the tool's default Markdown rules. External
+link reachability is not checked.
+
 The root runner deliberately performs no installation or dependency updates.
 The Python `check-core` gate runs asset validation and freshness, Ruff, strict
 mypy over the complete source tree and a typed public consumer, pytest, and

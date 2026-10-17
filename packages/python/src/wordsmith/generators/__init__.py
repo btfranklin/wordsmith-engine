@@ -6,6 +6,7 @@ from .criminal_gang_name import CriminalGangName
 from .fictional_element_name import FictionalElementName
 from .fictional_mineral_name import FictionalMineralName
 from .nautical_ship_name import NauticalShipName
+from .place_and_organization_names import LandmarkName, OrganizationName, TavernName
 from .movie_title import HighConceptMovieTitle, MovieTitle, SimpleMovieTitle
 from .town_name import TownName
 from .literary_title import LiteraryTitle, SimpleLiteraryTitle, UnusualLiteraryTitle
@@ -17,11 +18,14 @@ __all__ = [
     "FictionalElementName",
     "FictionalMineralName",
     "HighConceptMovieTitle",
+    "LandmarkName",
     "NauticalShipName",
+    "OrganizationName",
     "LiteraryTitle",
     "MovieTitle",
     "SimpleLiteraryTitle",
     "SimpleMovieTitle",
     "TownName",
+    "TavernName",
     "UnusualLiteraryTitle",
 ]

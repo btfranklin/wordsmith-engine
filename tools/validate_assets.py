@@ -21,6 +21,7 @@ EXPECTED_NAMES = {
     "Literary Title Parts.json",
     "Material Name Parts.json",
     "Nouns.json",
+    "Place and Organization Parts.json",
     "Synthetic Name Parts.json",
     "Verbs.json",
 }
@@ -287,6 +288,25 @@ def main() -> None:
     validate_synthetic_name_parts()
     validate_material_name_parts()
     validate_literary_title_parts()
+    validate_named_string_lists(
+        "Place and Organization Parts.json",
+        [
+            "tavernAdjectives",
+            "animals",
+            "tavernObjects",
+            "tavernEndings",
+            "landmarkAdjectives",
+            "landmarkFeatures",
+            "landmarkRoots",
+            "landmarkSuffixes",
+            "landmarkPluralFeatures",
+            "organizationAdjectives",
+            "organizationSymbols",
+            "organizationConcepts",
+            "tradesPlural",
+            "organizationTypes",
+        ],
+    )
     validate_exotic_sets()
 
     for name in EXPECTED_NAMES:

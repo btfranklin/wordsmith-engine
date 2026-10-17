@@ -77,6 +77,10 @@ The [generator gallery](https://github.com/btfranklin/wordsmith-engine/blob/main
 shows representative names, vessels, fictional materials, and exotic characters
 generated from independently derived named streams.
 
+`TavernName`, `LandmarkName`, and `OrganizationName` create names for inns,
+natural features and ruins, and guilds, orders, and societies. Each takes no
+constructor arguments and composes with the other components.
+
 ## Development
 
 ```shell

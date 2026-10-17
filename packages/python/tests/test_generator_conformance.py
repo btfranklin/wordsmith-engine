@@ -28,6 +28,9 @@ from wordsmith import (
     PersonName,
     SimpleLiteraryTitle,
     SimpleMovieTitle,
+    LandmarkName,
+    OrganizationName,
+    TavernName,
     TownName,
     UnusualLiteraryTitle,
 )
@@ -57,6 +60,9 @@ _GENERATORS: dict[str, type[Component]] = {
         NauticalShipName,
         SimpleLiteraryTitle,
         SimpleMovieTitle,
+        LandmarkName,
+        OrganizationName,
+        TavernName,
         TownName,
         UnusualLiteraryTitle,
     )

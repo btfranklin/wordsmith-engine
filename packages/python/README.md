@@ -39,5 +39,9 @@ Custom components must depend only on that RNG and fixed captured
 configuration to remain replayable. Pin the Python runtime as well as the
 package when durable replay includes non-English host case conversion.
 
+`TavernName`, `LandmarkName`, and `OrganizationName` create names for inns,
+natural features and ruins, and guilds, orders, and societies. Each takes no
+constructor arguments and composes with the other components.
+
 See the [repository README](https://github.com/btfranklin/wordsmith-engine) for
 the complete feature list, TypeScript usage, examples, and development guide.

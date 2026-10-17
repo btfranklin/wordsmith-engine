@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import { join } from "../dist/core.js";
 import {
   AlbumTitle,
   BandName,
@@ -7,11 +8,14 @@ import {
   FictionalElementName,
   FictionalMineralName,
   HighConceptMovieTitle,
+  LandmarkName,
   LiteraryTitle,
   MovieTitle,
   NauticalShipName,
+  OrganizationName,
   SimpleLiteraryTitle,
   SimpleMovieTitle,
+  TavernName,
   TownName,
   UnusualLiteraryTitle,
 } from "../dist/generators.js";
@@ -29,6 +33,9 @@ const generatorFactories = [
   () => new NauticalShipName(),
   () => new SimpleLiteraryTitle(),
   () => new SimpleMovieTitle(),
+  () => new LandmarkName(),
+  () => new OrganizationName(),
+  () => new TavernName(),
   () => new TownName(),
   () => new UnusualLiteraryTitle(),
 ] as const;
@@ -115,4 +122,35 @@ test("literary action phrases keep required prepositions", () => {
       assert.equal(drawCount, 6);
     }
   }
+});
+
+test("place and organization names remain clean and varied", () => {
+  for (const Generator of [TavernName, LandmarkName, OrganizationName]) {
+    const generator = new Generator();
+    const rng = seededRandom(5343);
+    const replay = seededRandom(5343);
+    const outputs = Array.from({ length: 100 }, () => generator.render(rng));
+    assert.deepEqual(
+      outputs,
+      Array.from({ length: 100 }, () => generator.render(replay)),
+    );
+    assert.ok(new Set(outputs).size > 50);
+    for (const output of outputs) {
+      assert.equal(output, output.trim());
+      assert.ok(!output.includes("  "));
+      assert.match(output, /^[A-Z]/);
+    }
+  }
+});
+
+test("nested place names use one stream in order", () => {
+  const rng = seededRandom(42);
+  const replay = seededRandom(42);
+  const parts = [new TavernName(), new LandmarkName(), new OrganizationName()];
+  const combined = join(parts, " / ");
+  assert.equal(
+    combined.render(rng),
+    parts.map((part) => part.render(replay)).join(" / "),
+  );
+  assert.equal(rng.random(), replay.random());
 });

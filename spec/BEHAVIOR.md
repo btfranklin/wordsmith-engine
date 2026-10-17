@@ -225,6 +225,23 @@ same seed.
 its suffix incorporates current UTC time. Both implementations preserve its
 readable prefix and uppercase base-36 time-suffix shape.
 
+### Places and organizations
+
+`TavernName`, `LandmarkName`, and `OrganizationName` each select from four
+patterns with weights 4, 3, 2, and 1, in the order shown below:
+
+| Generator | First pattern | Second pattern | Third pattern | Fourth pattern |
+| --- | --- | --- | --- | --- |
+| `TavernName` | The + adjective + animal or object | The + animal + and + object | Possessive given name + ending | Town name + inn type |
+| `LandmarkName` | Adjective + feature | Root concatenated with suffix | Possessive surname + feature | The + adjective + plural feature |
+| `OrganizationName` | The Order of the + adjective + symbol | Town name + possessive plural trade + Guild | The + adjective + group type | The Society of + concept |
+
+Each result uses title casing. The tavern animal-or-object choice is uniform.
+Given names use the English-speaking culture with the default gender choice.
+Inn types are `Inn`, `Tavern`, and `Lodge`, in that order. All other new word
+lists come from `Place and Organization Parts.json`; selection within each
+list is uniform. Nested names receive the same caller-owned random source.
+
 ## Conformance Fixtures
 
 Machine-readable cases live under `spec/conformance/`. Every implementation
