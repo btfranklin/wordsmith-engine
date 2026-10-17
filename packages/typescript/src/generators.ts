@@ -16,6 +16,12 @@ export {
   UnusualLiteraryTitle,
 } from "./generators/literary.js";
 export {
+  ArtifactName,
+  FestivalName,
+  OperationName,
+  SpellName,
+} from "./generators/magic-and-event.js";
+export {
   FictionalElementName,
   FictionalMineralName,
 } from "./generators/materials.js";

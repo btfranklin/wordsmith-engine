@@ -54,6 +54,16 @@ def first_upper(text: str) -> str:
     return text
 
 
+def _title_word(text: str) -> str:
+    """Capitalize a lowercase word, including its Mc prefix."""
+    for index, char in enumerate(text):
+        if char.isalpha():
+            if text[index:index + 2] == "mc" and text[index + 2:index + 3].isalpha():
+                return f"{text[:index]}Mc{text[index + 2].upper()}{text[index + 3:]}"
+            return f"{text[:index]}{char.upper()}{text[index + 1:]}"
+    return text
+
+
 def title_case(text: str) -> str:
     """Apply title casing with basic English small-word rules."""
     small_words = {
@@ -109,7 +119,7 @@ def title_case(text: str) -> str:
         if index not in {0, last_index} and core_lower in small_words:
             core_cased = core_lower
         else:
-            core_cased = first_upper(core_lower)
+            core_cased = _title_word(core_lower)
 
         result.append(f"{leading}{core_cased}{trailing}")
 

@@ -61,6 +61,8 @@ preserving whitespace-only results. `ws` is a tagged-template spelling of
 The `titleCase()` method uppercases the first alphabetic character in each word
 that requires capitalization. A prefix stays in place: `123hello world` becomes
 `123Hello World`, as it does in Python.
+Title casing also normalizes the `Mc` prefix: `mcdowell` becomes `McDowell`,
+and `mccormick` becomes `McCormick`.
 
 `maybe` accepts a final options object with a `probability` member. Class
 instances and objects with extra members are supported. Only `probability`
@@ -90,6 +92,11 @@ Reusable naming parts include `TavernAnimal`, `BusinessColor`, `BodyPart`,
 `CompoundLandmarkName`, and `HeraldicSymbol` compose smaller components.
 `NaturalNameRoot` selects from a required `landmark` or `creature` context.
 These components keep specialized vocabularies separate.
+
+`ArtifactName`, `SpellName`, `OperationName`, and `FestivalName` add relics,
+magic, missions, and celebrations. They reuse existing name and word
+components. `ArtifactObject`, `SpellEffect`, `MagicalConcept`, `OperationColor`,
+and `Season` are also available for custom compositions.
 
 ## Development
 

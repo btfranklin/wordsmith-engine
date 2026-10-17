@@ -40,6 +40,20 @@ some labels, such as `falls` and `ruins`, are plural. `Habitat` returns a word
 or phrase suitable for use as a modifier. These components do not perform
 singular-to-plural conversion.
 
+The magic and event generators add five reusable words. Each makes one
+uniform selection from its own canonical asset under `assets/`:
+
+| Component | Asset | Example word or phrase |
+| --- | --- | --- |
+| `ArtifactObject` | `Artifact Objects.json` | crown |
+| `SpellEffect` | `Spell Effects.json` | veil |
+| `MagicalConcept` | `Magical Concepts.json` | quiet thunder |
+| `OperationColor` | `Operation Colors.json` | amber |
+| `Season` | `Seasons.json` | spring |
+
+`MagicalConcept` is shared by artifact and spell names. `OperationColor`
+keeps its own palette; it does not replace business or ship-name colors.
+
 ## Composed components
 
 These Python recipes describe the implementation. `+` concatenates without a
@@ -78,7 +92,12 @@ weighted patterns remain in [the behavioral contract](../spec/BEHAVIOR.md).
 | `BusinessName` | `(BusinessColor() \| BusinessAnimal() \| BusinessTrade()).title_case()` |
 | `CelestialBodyName` | `(Surname().possessive_form() \| CelestialObjectType()).title_case()` |
 | `CreatureName` | `(CompoundCreatureName() \| CreatureType()).title_case()` |
+| `ArtifactName` | `(FictionalMineralName() \| PrimitiveWeapon()).title_case()` |
+| `SpellName` | `(SpellEffect() \| "of" \| MagicalConcept()).title_case()` |
+| `OperationName` | `("Operation" \| CompoundLandmarkName()).title_case()` |
+| `FestivalName` | `(TownName() \| Season() \| festival_type).title_case()` |
 
+`festival_type` denotes a lazy choice from the event-type list.
 `tavern_adjective` denotes a lazy choice from the original Place
 `tavernAdjectives` list. It remains a private detail of that naming style.
 Landmark names also use `CompoundLandmarkName`. Creature names reuse

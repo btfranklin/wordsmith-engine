@@ -135,6 +135,41 @@ class OrganizationSymbol(_OptionPart):
 
 
 @dataclass(frozen=True)
+class ArtifactObject(_OptionPart):
+    """Random ritual object used in artifact names."""
+
+    _options: ClassVar[list[str]] = load_json("Artifact Objects.json")
+
+
+@dataclass(frozen=True)
+class SpellEffect(_OptionPart):
+    """Random magical effect used in spell names."""
+
+    _options: ClassVar[list[str]] = load_json("Spell Effects.json")
+
+
+@dataclass(frozen=True)
+class MagicalConcept(_OptionPart):
+    """Random magical concept used in artifact and spell names."""
+
+    _options: ClassVar[list[str]] = load_json("Magical Concepts.json")
+
+
+@dataclass(frozen=True)
+class OperationColor(_OptionPart):
+    """Random short codename color used in operation names."""
+
+    _options: ClassVar[list[str]] = load_json("Operation Colors.json")
+
+
+@dataclass(frozen=True)
+class Season(_OptionPart):
+    """Random season used in festival names."""
+
+    _options: ClassVar[list[str]] = load_json("Seasons.json")
+
+
+@dataclass(frozen=True)
 class NaturalNameRoot(Component):
     """Random root for a landmark or creature name."""
 

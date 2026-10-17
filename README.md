@@ -61,6 +61,8 @@ whitespace-only text is preserved.
 Title casing uppercases the first alphabetic character in a word that requires
 capitalization. Both packages turn `123hello world` into `123Hello World` and
 preserve the digit prefix.
+Title casing also normalizes the `Mc` prefix: `mcdowell` becomes `McDowell`,
+and `mccormick` becomes `McCormick`.
 
 The naming generators also expose reusable parts such as `TavernAnimal`,
 `BusinessColor`, `BodyPart`, and `CelestialObjectType`, plus
@@ -99,6 +101,8 @@ therefore outside seed-only replay.
 - Places and groups: `TownName`, `TavernName`, `LandmarkName`,
   `OrganizationName`, `BusinessName`, `CriminalGangName`, `BandName`
 - Worlds and wildlife: `CelestialBodyName`, `CreatureName`
+- Relics and magic: `ArtifactName`, `SpellName`
+- Missions and events: `OperationName`, `FestivalName`
 - Vessels: `NauticalShipName`
 - Materials: `FictionalElementName`, `FictionalMineralName`,
   `ChemicalCompoundName`

@@ -198,7 +198,12 @@ The fluent transformation methods are semantic peers across languages:
   rules and collapses empty fields created by repeated ASCII spaces. When a
   word requires capitalization, it lowercases the word core and uppercases its
   first alphabetic code point. A digit, hyphen, symbol, or tab before that letter
-  remains in place.
+  remains in place. If the first alphabetic characters are `mc` followed
+  immediately by another letter, the result uses `Mc` and uppercases that next
+  letter. Thus `mcdowell`, `MCDOWELL`, and `McDowell` become `McDowell`.
+  Possessive endings and nonletter prefixes are preserved. The rule does not
+  apply to `mc` alone, `mc2`, `mc-dowell`, or `macdonald`. It is a text rule,
+  not a surname lookup. `firstUpper` and `capitalized` retain their own rules.
 - `prefixedByArticle` and `prefixedByDeterminer` use the documented English
   vowel-sound exceptions.
 - `possessiveForm` appends only an apostrophe to text ending in lowercase `s`;
@@ -284,6 +289,36 @@ selected word's case. The two palettes are not flattened into one list.
 The six parent generators keep their existing pattern weights, list order,
 and draw order when they use these components. Their other specialized
 vocabularies remain private recipe details.
+
+### Artifacts, spells, operations, and festivals
+
+`ArtifactName`, `SpellName`, `OperationName`, and `FestivalName` each select
+from four patterns with weights 4, 3, 2, and 1, in the order shown below.
+They take no constructor arguments and apply title casing to the result.
+
+| Generator | First pattern | Second pattern | Third pattern | Fourth pattern |
+| --- | --- | --- | --- | --- |
+| `ArtifactName` | The + artifact object + of + magical concept | Possessive surname + artifact object | Fictional mineral name + primitive weapon | The + artifact object + of + landmark name |
+| `SpellName` | Spell effect + of + magical concept | Possessive surname + modifier + spell effect | Command + the + target | Spell effect + of + time of day |
+| `OperationName` | Operation + adjective + heraldic symbol | Project + operation color + wild animal | Operation + compound landmark name | Landmark name + Expedition |
+| `FestivalName` | The + festival type + of + theme | Town name + season + festival type | Time of day + festival type | Organization symbol concatenated with festival suffix |
+
+`ArtifactObject`, `SpellEffect`, `MagicalConcept`, `OperationColor`, and
+`Season` each select uniformly from their own canonical flat list:
+`Artifact Objects.json`, `Spell Effects.json`, `Magical Concepts.json`,
+`Operation Colors.json`, and `Seasons.json`, respectively. Private recipe
+lists live in `Spell Name Parts.json`, `Operation Name Parts.json`, and
+`Festival Name Parts.json`. Asset separation does not change list order or
+random-source consumption. `OperationColor` preserves its own codename palette; it does
+not change business or nautical colors. `Season` selects spring, summer,
+autumn, or winter, in that order.
+
+Artifact and spell names share `MagicalConcept`. Artifact names also compose
+`FictionalMineralName`, `PrimitiveWeapon`, `Surname`, and `LandmarkName`.
+Operations use `HeraldicSymbol`, `WildAnimal`, `CompoundLandmarkName`, and
+`LandmarkName`. Festivals use `TownName`, `TimeOfDay`, and
+`OrganizationSymbol`. All nested calls receive the same caller-owned random
+source. Only the selected branch renders its children.
 
 ## Conformance Fixtures
 

@@ -6,6 +6,7 @@ import random
 import pytest
 
 from wordsmith import (
+    ArtifactObject, SpellEffect, MagicalConcept, OperationColor, Season,
     BodyPart, BusinessAnimal, BusinessColor, BusinessTrade, CelestialObjectType,
     CompoundCreatureName, CompoundLandmarkName, CreatureType, GuildTrade, Habitat,
     HeraldicSymbol, IndustrialTrade, LandmarkAdjective, LandmarkFeature,
@@ -15,6 +16,7 @@ from wordsmith import (
 
 
 @pytest.mark.parametrize("component_type", [
+    ArtifactObject, SpellEffect, MagicalConcept, OperationColor, Season,
     BodyPart, BusinessAnimal, BusinessColor, BusinessTrade, CelestialObjectType,
     CompoundCreatureName, CompoundLandmarkName, CreatureType, GuildTrade, Habitat,
     HeraldicSymbol, IndustrialTrade, LandmarkAdjective, LandmarkFeature,

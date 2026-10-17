@@ -15,6 +15,7 @@ const sentence = ws`${subject}!`;
 
 console.log(sentence.render(rng));
 console.log(literal("123hello world").titleCase().render(rng));
+console.log(literal("cape mcdowell spring carnival").titleCase().render(rng));
 
 const options = { probability: 1, label: "always included" };
 console.log(maybe("included", options).render(rng));

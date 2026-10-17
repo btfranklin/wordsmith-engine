@@ -11,6 +11,18 @@
     {"input": "123 🜁", "expected": "123 🜁"}
   ],
   "titleCase": [
+    {"input": "mcdowell", "expected": "McDowell"},
+    {"input": "McDowell", "expected": "McDowell"},
+    {"input": "MCDOWELL", "expected": "McDowell"},
+    {"input": "mccormick", "expected": "McCormick"},
+    {"input": "cape mcdowell spring carnival", "expected": "Cape McDowell Spring Carnival"},
+    {"input": "mcdonald's borrowed whisper", "expected": "McDonald's Borrowed Whisper"},
+    {"input": "“mcdowell” and mcintyre", "expected": "“McDowell” and McIntyre"},
+    {"input": "123mcdowell -mccormick", "expected": "123McDowell -McCormick"},
+    {"input": "😀mcdowell mcéwan", "expected": "😀McDowell McÉwan"},
+    {"input": "mc mc2 mc-dowell macdonald amcdowell", "expected": "Mc Mc2 Mc-dowell Macdonald Amcdowell"},
+    {"input": "mcdowellton and mcfarlandtown", "expected": "McDowellton and McFarlandtown"},
+    {"input": "mcßeta", "expected": "McSSeta"},
     {"input": "the voyage of the sun", "expected": "The Voyage of the Sun"},
     {"input": "the  voyage of the sun", "expected": "The Voyage of the Sun"},
     {"input": "'the' end", "expected": "'The' End"},

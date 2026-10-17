@@ -11,6 +11,7 @@ from .business_celestial_creature import (
 from .criminal_gang_name import CriminalGangName
 from .fictional_element_name import FictionalElementName
 from .fictional_mineral_name import FictionalMineralName
+from .magic_and_event_names import ArtifactName, FestivalName, OperationName, SpellName
 from .nautical_ship_name import NauticalShipName
 from .place_and_organization_names import (
     CompoundLandmarkName,
@@ -25,6 +26,7 @@ from .literary_title import LiteraryTitle, SimpleLiteraryTitle, UnusualLiteraryT
 
 __all__ = [
     "AlbumTitle",
+    "ArtifactName",
     "BandName",
     "BusinessName",
     "CelestialBodyName",
@@ -34,15 +36,18 @@ __all__ = [
     "CreatureName",
     "FictionalElementName",
     "FictionalMineralName",
+    "FestivalName",
     "HighConceptMovieTitle",
     "HeraldicSymbol",
     "LandmarkName",
     "NauticalShipName",
     "OrganizationName",
+    "OperationName",
     "LiteraryTitle",
     "MovieTitle",
     "SimpleLiteraryTitle",
     "SimpleMovieTitle",
+    "SpellName",
     "TownName",
     "TavernName",
     "UnusualLiteraryTitle",

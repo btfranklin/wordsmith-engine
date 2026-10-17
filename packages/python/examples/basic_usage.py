@@ -24,6 +24,8 @@ def main() -> None:
     title = build_title()
     line = build_line()
 
+    print(Literal("cape mcdowell spring carnival").title_case()(rng))
+
     print("Titles:")
     for _ in range(5):
         print(f"- {title(rng)}")

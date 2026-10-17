@@ -49,7 +49,8 @@ to `firstUpper`, `title_case` to `titleCase`, `prefixed_by_article` to
 
 Both title-case methods uppercase the first alphabetic code point in a word
 that requires capitalization. For example, `123hello world` becomes
-`123Hello World`.
+`123Hello World`. A word that starts with `Mc` followed by a letter also
+capitalizes that letter: `mcdowell` becomes `McDowell`.
 
 TypeScript `MaybeOptions` can be a class instance or an object with extra
 members. Only its `probability` member controls rendering. An empty plain object
@@ -95,6 +96,12 @@ These are public components, so callers can compose and transform them with
 the standard helpers. All selection occurs during rendering with the supplied
 random source. See [the component recipes](../docs/naming-components.md).
 
+`ArtifactObject`, `SpellEffect`, `MagicalConcept`, `OperationColor`, and
+`Season` are also public word components in both packages. They take no
+constructor arguments. `MagicalConcept` supplies the same vocabulary to
+artifact and spell names. `OperationColor` has its own codename palette;
+`Season` selects among spring, summer, autumn, and winter.
+
 ## Names
 
 Both packages export `AlienName`, `AncientGivenName`, `BinaryGender`,
@@ -110,11 +117,16 @@ Both packages export `AlbumTitle`, `BandName`, `CriminalGangName`,
 `LiteraryTitle`, `MovieTitle`, `NauticalShipName`, `SimpleLiteraryTitle`,
 `SimpleMovieTitle`, `TownName`, `TavernName`, `LandmarkName`,
 `OrganizationName`, `BusinessName`, `CelestialBodyName`, `CreatureName`,
+`ArtifactName`, `SpellName`, `OperationName`, `FestivalName`,
 and `UnusualLiteraryTitle`.
 
 `TavernName`, `LandmarkName`, `OrganizationName`, `BusinessName`,
 `CelestialBodyName`, and `CreatureName` take no constructor
 arguments. Each is a component and supports the standard text transformations.
+
+`ArtifactName`, `SpellName`, `OperationName`, and `FestivalName` take no
+constructor arguments. They compose the reusable word and name components
+with specialized weighted patterns, using the caller-owned random source.
 
 ## Specials
 

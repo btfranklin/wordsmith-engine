@@ -2799,6 +2799,556 @@
       ],
       "expected": "bottle",
       "expectedDraws": 2
+    },
+    {
+      "name": "ArtifactName-branch-1",
+      "intent": "Select pattern 1 and forward the stream to its children.",
+      "generator": "ArtifactName",
+      "fractions": [
+        0
+      ],
+      "expected": "The Crown of Quiet Thunder",
+      "expectedDraws": 3
+    },
+    {
+      "name": "ArtifactName-branch-2",
+      "intent": "Select pattern 2 and forward the stream to its children.",
+      "generator": "ArtifactName",
+      "fractions": [
+        0.4
+      ],
+      "expected": "Smith's Crown",
+      "expectedDraws": 3
+    },
+    {
+      "name": "ArtifactName-boundary-1-below",
+      "intent": "Check selection below the pattern 2 boundary.",
+      "generator": "ArtifactName",
+      "fractions": [
+        0.3999999999
+      ],
+      "expected": "The Crown of Quiet Thunder",
+      "expectedDraws": 3
+    },
+    {
+      "name": "ArtifactName-boundary-1-above",
+      "intent": "Check selection above the pattern 2 boundary.",
+      "generator": "ArtifactName",
+      "fractions": [
+        0.40000000010000003
+      ],
+      "expected": "Smith's Crown",
+      "expectedDraws": 3
+    },
+    {
+      "name": "ArtifactName-branch-3",
+      "intent": "Select pattern 3 and forward the stream to its children.",
+      "generator": "ArtifactName",
+      "fractions": [
+        0.7
+      ],
+      "expected": "Aurelite Sword",
+      "expectedDraws": 6
+    },
+    {
+      "name": "ArtifactName-boundary-2-below",
+      "intent": "Check selection below the pattern 3 boundary.",
+      "generator": "ArtifactName",
+      "fractions": [
+        0.6999999999
+      ],
+      "expected": "Smith's Crown",
+      "expectedDraws": 3
+    },
+    {
+      "name": "ArtifactName-boundary-2-above",
+      "intent": "Check selection above the pattern 3 boundary.",
+      "generator": "ArtifactName",
+      "fractions": [
+        0.7000000001
+      ],
+      "expected": "Aurelite Sword",
+      "expectedDraws": 6
+    },
+    {
+      "name": "ArtifactName-branch-4",
+      "intent": "Select pattern 4 and forward the stream to its children.",
+      "generator": "ArtifactName",
+      "fractions": [
+        0.9
+      ],
+      "expected": "The Crown of Silent Pass",
+      "expectedDraws": 5
+    },
+    {
+      "name": "ArtifactName-boundary-3-below",
+      "intent": "Check selection below the pattern 4 boundary.",
+      "generator": "ArtifactName",
+      "fractions": [
+        0.8999999999
+      ],
+      "expected": "Aurelite Sword",
+      "expectedDraws": 6
+    },
+    {
+      "name": "ArtifactName-boundary-3-above",
+      "intent": "Check selection above the pattern 4 boundary.",
+      "generator": "ArtifactName",
+      "fractions": [
+        0.9000000001
+      ],
+      "expected": "The Crown of Silent Pass",
+      "expectedDraws": 5
+    },
+    {
+      "name": "SpellName-branch-1",
+      "intent": "Select pattern 1 and forward the stream to its children.",
+      "generator": "SpellName",
+      "fractions": [
+        0
+      ],
+      "expected": "Veil of Quiet Thunder",
+      "expectedDraws": 3
+    },
+    {
+      "name": "SpellName-branch-2",
+      "intent": "Select pattern 2 and forward the stream to its children.",
+      "generator": "SpellName",
+      "fractions": [
+        0.4
+      ],
+      "expected": "Smith's Borrowed Veil",
+      "expectedDraws": 4
+    },
+    {
+      "name": "SpellName-boundary-1-below",
+      "intent": "Check selection below the pattern 2 boundary.",
+      "generator": "SpellName",
+      "fractions": [
+        0.3999999999
+      ],
+      "expected": "Veil of Quiet Thunder",
+      "expectedDraws": 3
+    },
+    {
+      "name": "SpellName-boundary-1-above",
+      "intent": "Check selection above the pattern 2 boundary.",
+      "generator": "SpellName",
+      "fractions": [
+        0.40000000010000003
+      ],
+      "expected": "Smith's Borrowed Veil",
+      "expectedDraws": 4
+    },
+    {
+      "name": "SpellName-branch-3",
+      "intent": "Select pattern 3 and forward the stream to its children.",
+      "generator": "SpellName",
+      "fractions": [
+        0.7
+      ],
+      "expected": "Awaken the Memory",
+      "expectedDraws": 3
+    },
+    {
+      "name": "SpellName-boundary-2-below",
+      "intent": "Check selection below the pattern 3 boundary.",
+      "generator": "SpellName",
+      "fractions": [
+        0.6999999999
+      ],
+      "expected": "Smith's Borrowed Veil",
+      "expectedDraws": 4
+    },
+    {
+      "name": "SpellName-boundary-2-above",
+      "intent": "Check selection above the pattern 3 boundary.",
+      "generator": "SpellName",
+      "fractions": [
+        0.7000000001
+      ],
+      "expected": "Awaken the Memory",
+      "expectedDraws": 3
+    },
+    {
+      "name": "SpellName-branch-4",
+      "intent": "Select pattern 4 and forward the stream to its children.",
+      "generator": "SpellName",
+      "fractions": [
+        0.9
+      ],
+      "expected": "Veil of Midnight",
+      "expectedDraws": 3
+    },
+    {
+      "name": "SpellName-boundary-3-below",
+      "intent": "Check selection below the pattern 4 boundary.",
+      "generator": "SpellName",
+      "fractions": [
+        0.8999999999
+      ],
+      "expected": "Awaken the Memory",
+      "expectedDraws": 3
+    },
+    {
+      "name": "SpellName-boundary-3-above",
+      "intent": "Check selection above the pattern 4 boundary.",
+      "generator": "SpellName",
+      "fractions": [
+        0.9000000001
+      ],
+      "expected": "Veil of Midnight",
+      "expectedDraws": 3
+    },
+    {
+      "name": "OperationName-branch-1",
+      "intent": "Select pattern 1 and forward the stream to its children.",
+      "generator": "OperationName",
+      "fractions": [
+        0
+      ],
+      "expected": "Operation Silent Fox",
+      "expectedDraws": 4
+    },
+    {
+      "name": "OperationName-branch-2",
+      "intent": "Select pattern 2 and forward the stream to its children.",
+      "generator": "OperationName",
+      "fractions": [
+        0.4
+      ],
+      "expected": "Project Amber Bear",
+      "expectedDraws": 3
+    },
+    {
+      "name": "OperationName-boundary-1-below",
+      "intent": "Check selection below the pattern 2 boundary.",
+      "generator": "OperationName",
+      "fractions": [
+        0.3999999999
+      ],
+      "expected": "Operation Silent Fox",
+      "expectedDraws": 4
+    },
+    {
+      "name": "OperationName-boundary-1-above",
+      "intent": "Check selection above the pattern 2 boundary.",
+      "generator": "OperationName",
+      "fractions": [
+        0.40000000010000003
+      ],
+      "expected": "Project Amber Bear",
+      "expectedDraws": 3
+    },
+    {
+      "name": "OperationName-branch-3",
+      "intent": "Select pattern 3 and forward the stream to its children.",
+      "generator": "OperationName",
+      "fractions": [
+        0.7
+      ],
+      "expected": "Operation Ashwood",
+      "expectedDraws": 3
+    },
+    {
+      "name": "OperationName-boundary-2-below",
+      "intent": "Check selection below the pattern 3 boundary.",
+      "generator": "OperationName",
+      "fractions": [
+        0.6999999999
+      ],
+      "expected": "Project Amber Bear",
+      "expectedDraws": 3
+    },
+    {
+      "name": "OperationName-boundary-2-above",
+      "intent": "Check selection above the pattern 3 boundary.",
+      "generator": "OperationName",
+      "fractions": [
+        0.7000000001
+      ],
+      "expected": "Operation Ashwood",
+      "expectedDraws": 3
+    },
+    {
+      "name": "OperationName-branch-4",
+      "intent": "Select pattern 4 and forward the stream to its children.",
+      "generator": "OperationName",
+      "fractions": [
+        0.9
+      ],
+      "expected": "Silent Pass Expedition",
+      "expectedDraws": 4
+    },
+    {
+      "name": "OperationName-boundary-3-below",
+      "intent": "Check selection below the pattern 4 boundary.",
+      "generator": "OperationName",
+      "fractions": [
+        0.8999999999
+      ],
+      "expected": "Operation Ashwood",
+      "expectedDraws": 3
+    },
+    {
+      "name": "OperationName-boundary-3-above",
+      "intent": "Check selection above the pattern 4 boundary.",
+      "generator": "OperationName",
+      "fractions": [
+        0.9000000001
+      ],
+      "expected": "Silent Pass Expedition",
+      "expectedDraws": 4
+    },
+    {
+      "name": "FestivalName-branch-1",
+      "intent": "Select pattern 1 and forward the stream to its children.",
+      "generator": "FestivalName",
+      "fractions": [
+        0
+      ],
+      "expected": "The Festival of Returning Birds",
+      "expectedDraws": 3
+    },
+    {
+      "name": "FestivalName-branch-2",
+      "intent": "Select pattern 2 and forward the stream to its children.",
+      "generator": "FestivalName",
+      "fractions": [
+        0.4
+      ],
+      "expected": "Smith Bay Spring Festival",
+      "expectedDraws": 6
+    },
+    {
+      "name": "FestivalName-boundary-1-below",
+      "intent": "Check selection below the pattern 2 boundary.",
+      "generator": "FestivalName",
+      "fractions": [
+        0.3999999999
+      ],
+      "expected": "The Festival of Returning Birds",
+      "expectedDraws": 3
+    },
+    {
+      "name": "FestivalName-boundary-1-above",
+      "intent": "Check selection above the pattern 2 boundary.",
+      "generator": "FestivalName",
+      "fractions": [
+        0.40000000010000003
+      ],
+      "expected": "Smith Bay Spring Festival",
+      "expectedDraws": 6
+    },
+    {
+      "name": "FestivalName-branch-3",
+      "intent": "Select pattern 3 and forward the stream to its children.",
+      "generator": "FestivalName",
+      "fractions": [
+        0.7
+      ],
+      "expected": "Midnight Festival",
+      "expectedDraws": 3
+    },
+    {
+      "name": "FestivalName-boundary-2-below",
+      "intent": "Check selection below the pattern 3 boundary.",
+      "generator": "FestivalName",
+      "fractions": [
+        0.6999999999
+      ],
+      "expected": "Smith Bay Spring Festival",
+      "expectedDraws": 6
+    },
+    {
+      "name": "FestivalName-boundary-2-above",
+      "intent": "Check selection above the pattern 3 boundary.",
+      "generator": "FestivalName",
+      "fractions": [
+        0.7000000001
+      ],
+      "expected": "Midnight Festival",
+      "expectedDraws": 3
+    },
+    {
+      "name": "FestivalName-branch-4",
+      "intent": "Select pattern 4 and forward the stream to its children.",
+      "generator": "FestivalName",
+      "fractions": [
+        0.9
+      ],
+      "expected": "Sunfall",
+      "expectedDraws": 3
+    },
+    {
+      "name": "FestivalName-boundary-3-below",
+      "intent": "Check selection below the pattern 4 boundary.",
+      "generator": "FestivalName",
+      "fractions": [
+        0.8999999999
+      ],
+      "expected": "Midnight Festival",
+      "expectedDraws": 3
+    },
+    {
+      "name": "FestivalName-boundary-3-above",
+      "intent": "Check selection above the pattern 4 boundary.",
+      "generator": "FestivalName",
+      "fractions": [
+        0.9000000001
+      ],
+      "expected": "Sunfall",
+      "expectedDraws": 3
+    },
+    {
+      "name": "ArtifactObject-first",
+      "intent": "Select the first entry from the specialized vocabulary with one draw.",
+      "generator": "ArtifactObject",
+      "fractions": [
+        0
+      ],
+      "expected": "crown",
+      "expectedDraws": 1
+    },
+    {
+      "name": "ArtifactObject-last",
+      "intent": "Select the last entry from the specialized vocabulary with one draw.",
+      "generator": "ArtifactObject",
+      "fractions": [
+        0.999999
+      ],
+      "expected": "goblet",
+      "expectedDraws": 1
+    },
+    {
+      "name": "SpellEffect-first",
+      "intent": "Select the first entry from the specialized vocabulary with one draw.",
+      "generator": "SpellEffect",
+      "fractions": [
+        0
+      ],
+      "expected": "veil",
+      "expectedDraws": 1
+    },
+    {
+      "name": "SpellEffect-last",
+      "intent": "Select the last entry from the specialized vocabulary with one draw.",
+      "generator": "SpellEffect",
+      "fractions": [
+        0.999999
+      ],
+      "expected": "frost",
+      "expectedDraws": 1
+    },
+    {
+      "name": "MagicalConcept-first",
+      "intent": "Select the first entry from the specialized vocabulary with one draw.",
+      "generator": "MagicalConcept",
+      "fractions": [
+        0
+      ],
+      "expected": "quiet thunder",
+      "expectedDraws": 1
+    },
+    {
+      "name": "MagicalConcept-last",
+      "intent": "Select the last entry from the specialized vocabulary with one draw.",
+      "generator": "MagicalConcept",
+      "fractions": [
+        0.999999
+      ],
+      "expected": "the unseen world",
+      "expectedDraws": 1
+    },
+    {
+      "name": "OperationColor-first",
+      "intent": "Select the first entry from the specialized vocabulary with one draw.",
+      "generator": "OperationColor",
+      "fractions": [
+        0
+      ],
+      "expected": "amber",
+      "expectedDraws": 1
+    },
+    {
+      "name": "OperationColor-last",
+      "intent": "Select the last entry from the specialized vocabulary with one draw.",
+      "generator": "OperationColor",
+      "fractions": [
+        0.999999
+      ],
+      "expected": "vermilion",
+      "expectedDraws": 1
+    },
+    {
+      "name": "Season-first",
+      "intent": "Select the first entry from the specialized vocabulary with one draw.",
+      "generator": "Season",
+      "fractions": [
+        0
+      ],
+      "expected": "spring",
+      "expectedDraws": 1
+    },
+    {
+      "name": "Season-last",
+      "intent": "Select the last entry from the specialized vocabulary with one draw.",
+      "generator": "Season",
+      "fractions": [
+        0.999999
+      ],
+      "expected": "winter",
+      "expectedDraws": 1
+    },
+    {
+      "name": "operation-expedition-leading-article",
+      "intent": "Keep the landmark article without adding a second article.",
+      "generator": "OperationName",
+      "fractions": [
+        0.9,
+        0.9
+      ],
+      "expected": "The Silent Stones Expedition",
+      "expectedDraws": 4
+    },
+    {
+      "name": "festival-mcdowell-title-case",
+      "intent": "Preserve Mc casing when a nested town name is title-cased by the festival.",
+      "generator": "FestivalName",
+      "fractions": [
+        0.5,
+        0.1,
+        0.9,
+        0.6515,
+        0,
+        0.45
+      ],
+      "expected": "Cape McDowell Spring Carnival",
+      "expectedDraws": 6
+    },
+    {
+      "name": "business-mccormick-title-case",
+      "intent": "Normalize Mc casing in a surname-based business name.",
+      "generator": "BusinessName",
+      "fractions": [
+        0,
+        0.4745
+      ],
+      "expected": "McCormick & Sons",
+      "expectedDraws": 2
+    },
+    {
+      "name": "spell-mcdonald-possessive-title-case",
+      "intent": "Preserve the Mc prefix in a possessive surname within a spell.",
+      "generator": "SpellName",
+      "fractions": [
+        0.5,
+        0.1265,
+        0,
+        0
+      ],
+      "expected": "McDonald's Borrowed Veil",
+      "expectedDraws": 4
     }
   ]
 }

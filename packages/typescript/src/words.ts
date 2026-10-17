@@ -1,5 +1,6 @@
 import adjectiveData from "./assets/Adjectives.json" with { type: "json" };
 import adverbData from "./assets/Adverbs.json" with { type: "json" };
+import artifactObjects from "./assets/Artifact Objects.json" with { type: "json" };
 import businessNamePartsJson from "./assets/Business Name Parts.json" with {
   type: "json",
 };
@@ -15,10 +16,14 @@ import creatureNamePartsJson from "./assets/Creature Name Parts.json" with {
 import curatedWordListsJson from "./assets/Curated Word Lists.json" with {
   type: "json",
 };
+import magicalConcepts from "./assets/Magical Concepts.json" with { type: "json" };
 import nounData from "./assets/Nouns.json" with { type: "json" };
+import operationColors from "./assets/Operation Colors.json" with { type: "json" };
 import placeAndOrganizationPartsJson from "./assets/Place and Organization Parts.json" with {
   type: "json",
 };
+import seasons from "./assets/Seasons.json" with { type: "json" };
+import spellEffects from "./assets/Spell Effects.json" with { type: "json" };
 import verbData from "./assets/Verbs.json" with { type: "json" };
 
 import { Component } from "./core.js";
@@ -226,6 +231,32 @@ export class CelestialObjectType extends OptionComponent {
 export class OrganizationSymbol extends OptionComponent {
   constructor() {
     super(placeAndOrganizationParts.organizationSymbols);
+  }
+}
+
+export class ArtifactObject extends OptionComponent {
+  constructor() {
+    super(artifactObjects);
+  }
+}
+export class SpellEffect extends OptionComponent {
+  constructor() {
+    super(spellEffects);
+  }
+}
+export class MagicalConcept extends OptionComponent {
+  constructor() {
+    super(magicalConcepts);
+  }
+}
+export class OperationColor extends OptionComponent {
+  constructor() {
+    super(operationColors);
+  }
+}
+export class Season extends OptionComponent {
+  constructor() {
+    super(seasons);
   }
 }
 

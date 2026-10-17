@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
+  ArtifactObject,
   BodyPart,
   BusinessAnimal,
   BusinessColor,
@@ -18,10 +19,14 @@ import {
   join,
   LandmarkAdjective,
   LandmarkFeature,
+  MagicalConcept,
   NaturalNameRoot,
   type NaturalNameRootOptions,
+  OperationColor,
   OrganizationSymbol,
+  Season,
   ShopType,
+  SpellEffect,
   seededRandom,
   TavernAnimal,
   TavernObject,
@@ -30,6 +35,11 @@ import {
 
 test("reusable naming components are immutable and replayable", () => {
   for (const Constructor of [
+    ArtifactObject,
+    SpellEffect,
+    MagicalConcept,
+    OperationColor,
+    Season,
     BodyPart,
     BusinessAnimal,
     BusinessColor,

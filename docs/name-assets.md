@@ -59,3 +59,31 @@ These lists support fictional names. They are not registers of companies,
 astronomical objects, or species. Edit canonical assets and synchronize them
 with `python tools/sync_assets.py`. Validation checks the required keys and
 nonempty, unique entries. Preserve list order for seeded selection.
+
+## Magic and event vocabulary
+
+The following project-authored assets are covered by the repository license.
+Each reusable word concept owns a flat ordered list:
+
+| Component | Canonical asset |
+| --- | --- |
+| `ArtifactObject` | `assets/Artifact Objects.json` |
+| `SpellEffect` | `assets/Spell Effects.json` |
+| `MagicalConcept` | `assets/Magical Concepts.json` |
+| `OperationColor` | `assets/Operation Colors.json` |
+| `Season` | `assets/Seasons.json` |
+
+Private recipe lists stay grouped by generator:
+
+- `assets/Spell Name Parts.json`: modifiers, commands, and targets.
+- `assets/Operation Name Parts.json`: operation adjectives.
+- `assets/Festival Name Parts.json`: festival types, themes, and suffixes.
+
+Artifact names have no private word lists. They compose public components.
+Artifact and spell names share `MagicalConcept`. Operation colors retain a
+distinct short-name palette. Existing animal, symbol, material, weapon, place,
+and time components keep their own assets and behavior.
+
+Edit only canonical assets, then run `python tools/sync_assets.py`. Validation
+checks the recipe keys and nonempty, unique list entries. Preserve every
+list's order because seeded selection depends on it.

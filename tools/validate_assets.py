@@ -20,6 +20,14 @@ EXPECTED_NAMES = {
     "Curated Word Lists.json",
     "Creature Name Parts.json",
     "Exotic Character Sets.json",
+    "Artifact Objects.json",
+    "Spell Effects.json",
+    "Magical Concepts.json",
+    "Operation Colors.json",
+    "Seasons.json",
+    "Spell Name Parts.json",
+    "Operation Name Parts.json",
+    "Festival Name Parts.json",
     "Given Names.json",
     "Literary Title Parts.json",
     "Material Name Parts.json",
@@ -310,12 +318,29 @@ def main() -> None:
         "Adverbs.json",
         "Chemical Compound Names.json",
         "Common Surnames.json",
+        "Artifact Objects.json",
+        "Spell Effects.json",
+        "Magical Concepts.json",
+        "Operation Colors.json",
+        "Seasons.json",
     ]:
         string_list(load(name), name)
     validate_tabular("Nouns.json", 2)
     validate_tabular("Verbs.json", 5)
     validate_given_names()
     validate_curated_word_lists()
+    validate_named_string_lists(
+        "Spell Name Parts.json",
+        ['spellModifiers', 'spellCommands', 'spellTargets'],
+    )
+    validate_named_string_lists(
+        "Operation Name Parts.json",
+        ['operationAdjectives'],
+    )
+    validate_named_string_lists(
+        "Festival Name Parts.json",
+        ['festivalTypes', 'festivalThemes', 'festivalSuffixes'],
+    )
     validate_business_name_parts()
     validate_celestial_name_parts()
     validate_creature_name_parts()

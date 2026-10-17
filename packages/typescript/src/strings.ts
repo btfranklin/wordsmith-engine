@@ -107,6 +107,17 @@ const SMALL_WORDS = new Set([
 ]);
 const PUNCTUATION = new Set([...`"'“”‘’()[]{}.,;:!?/`]);
 
+function titleWord(text: string): string {
+  const letter = LETTER.exec(text);
+  if (letter?.index === undefined) return text;
+  const tail = text.slice(letter.index);
+  const mcPrefix = /^mc(\p{L})/u.exec(tail);
+  if (mcPrefix) {
+    return `${text.slice(0, letter.index)}Mc${(mcPrefix[1] as string).toUpperCase()}${tail.slice(mcPrefix[0].length)}`;
+  }
+  return firstUpper(text);
+}
+
 export function titleCase(text: string): string {
   const words = text.split(" ");
   const lastIndex = words.length - 1;
@@ -136,7 +147,7 @@ export function titleCase(text: string): string {
     const transformed =
       index !== 0 && index !== lastIndex && SMALL_WORDS.has(lower)
         ? lower
-        : firstUpper(lower);
+        : titleWord(lower);
     result.push(`${leading}${transformed}${trailing}`);
   }
   return result.join(" ");
