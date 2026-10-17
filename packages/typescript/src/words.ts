@@ -1,12 +1,24 @@
 import adjectiveData from "./assets/Adjectives.json" with { type: "json" };
 import adverbData from "./assets/Adverbs.json" with { type: "json" };
+import businessNamePartsJson from "./assets/Business Name Parts.json" with {
+  type: "json",
+};
+import celestialNamePartsJson from "./assets/Celestial Name Parts.json" with {
+  type: "json",
+};
 import chemicalCompoundData from "./assets/Chemical Compound Names.json" with {
+  type: "json",
+};
+import creatureNamePartsJson from "./assets/Creature Name Parts.json" with {
   type: "json",
 };
 import curatedWordListsJson from "./assets/Curated Word Lists.json" with {
   type: "json",
 };
 import nounData from "./assets/Nouns.json" with { type: "json" };
+import placeAndOrganizationPartsJson from "./assets/Place and Organization Parts.json" with {
+  type: "json",
+};
 import verbData from "./assets/Verbs.json" with { type: "json" };
 
 import { Component } from "./core.js";
@@ -55,6 +67,42 @@ const NAUTICAL_SHIP_NAME_COLORS: readonly string[] =
 const SHIP_NAME_ADJECTIVES: readonly string[] = curatedWordListsJson.shipNameAdjectives;
 const TIMES_OF_DAY: readonly string[] = curatedWordListsJson.timesOfDay;
 
+interface PlaceAndOrganizationParts {
+  readonly animals: readonly string[];
+  readonly tavernObjects: readonly string[];
+  readonly landmarkAdjectives: readonly string[];
+  readonly landmarkFeatures: readonly string[];
+  readonly landmarkRoots: readonly string[];
+  readonly tradesPlural: readonly string[];
+  readonly organizationSymbols: readonly string[];
+}
+
+interface BusinessNameParts {
+  readonly animals: readonly string[];
+  readonly colors: readonly string[];
+  readonly trades: readonly string[];
+  readonly industrialTrades: readonly string[];
+  readonly shopTypes: readonly string[];
+}
+
+interface CelestialNameParts {
+  readonly celestialObjects: readonly string[];
+}
+
+interface CreatureNameParts {
+  readonly animals: readonly string[];
+  readonly habitats: readonly string[];
+  readonly bodyParts: readonly string[];
+  readonly creatureTypes: readonly string[];
+  readonly appearanceRoots: readonly string[];
+}
+
+const placeAndOrganizationParts =
+  placeAndOrganizationPartsJson as unknown as PlaceAndOrganizationParts;
+const businessNameParts = businessNamePartsJson as unknown as BusinessNameParts;
+const celestialNameParts = celestialNamePartsJson as unknown as CelestialNameParts;
+const creatureNameParts = creatureNamePartsJson as unknown as CreatureNameParts;
+
 function assertBoolean(value: unknown, name: string): asserts value is boolean {
   if (typeof value !== "boolean") {
     throw new TypeError(`${name} must be a boolean.`);
@@ -98,6 +146,111 @@ export class AuthoredArtifact extends OptionComponent {
 export class LocationAdjective extends OptionComponent {
   constructor() {
     super(LOCATION_ADJECTIVES);
+  }
+}
+export class TavernAnimal extends OptionComponent {
+  constructor() {
+    super(placeAndOrganizationParts.animals);
+  }
+}
+export class TavernObject extends OptionComponent {
+  constructor() {
+    super(placeAndOrganizationParts.tavernObjects);
+  }
+}
+export class BusinessAnimal extends OptionComponent {
+  constructor() {
+    super(businessNameParts.animals);
+  }
+}
+export class WildAnimal extends OptionComponent {
+  constructor() {
+    super(creatureNameParts.animals);
+  }
+}
+export class BusinessColor extends OptionComponent {
+  constructor() {
+    super(businessNameParts.colors);
+  }
+}
+export class LandmarkAdjective extends OptionComponent {
+  constructor() {
+    super(placeAndOrganizationParts.landmarkAdjectives);
+  }
+}
+export class LandmarkFeature extends OptionComponent {
+  constructor() {
+    super(placeAndOrganizationParts.landmarkFeatures);
+  }
+}
+export class Habitat extends OptionComponent {
+  constructor() {
+    super(creatureNameParts.habitats);
+  }
+}
+export class BodyPart extends OptionComponent {
+  constructor() {
+    super(creatureNameParts.bodyParts);
+  }
+}
+export class CreatureType extends OptionComponent {
+  constructor() {
+    super(creatureNameParts.creatureTypes);
+  }
+}
+export class GuildTrade extends OptionComponent {
+  constructor() {
+    super(placeAndOrganizationParts.tradesPlural);
+  }
+}
+export class BusinessTrade extends OptionComponent {
+  constructor() {
+    super(businessNameParts.trades);
+  }
+}
+export class IndustrialTrade extends OptionComponent {
+  constructor() {
+    super(businessNameParts.industrialTrades);
+  }
+}
+export class ShopType extends OptionComponent {
+  constructor() {
+    super(businessNameParts.shopTypes);
+  }
+}
+export class CelestialObjectType extends OptionComponent {
+  constructor() {
+    super(celestialNameParts.celestialObjects);
+  }
+}
+export class OrganizationSymbol extends OptionComponent {
+  constructor() {
+    super(placeAndOrganizationParts.organizationSymbols);
+  }
+}
+
+export interface NaturalNameRootOptions {
+  readonly context: "landmark" | "creature";
+}
+
+export class NaturalNameRoot extends Component {
+  readonly context: NaturalNameRootOptions["context"];
+
+  constructor(options: NaturalNameRootOptions) {
+    super();
+    if (options?.context !== "landmark" && options?.context !== "creature") {
+      throw new RangeError("context must be 'landmark' or 'creature'.");
+    }
+    this.context = options.context;
+    Object.freeze(this);
+  }
+
+  render(rng: RandomSource): string {
+    const options =
+      this.context === "landmark"
+        ? placeAndOrganizationParts.landmarkRoots
+        : creatureNameParts.appearanceRoots;
+    return choose(rng, options);
   }
 }
 export class MartialSocialConcept extends OptionComponent {

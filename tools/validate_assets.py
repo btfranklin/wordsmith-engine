@@ -13,9 +13,12 @@ ASSET_DIRECTORY = Path(__file__).resolve().parents[1] / "assets"
 EXPECTED_NAMES = {
     "Adjectives.json",
     "Adverbs.json",
+    "Business Name Parts.json",
     "Chemical Compound Names.json",
+    "Celestial Name Parts.json",
     "Common Surnames.json",
     "Curated Word Lists.json",
+    "Creature Name Parts.json",
     "Exotic Character Sets.json",
     "Given Names.json",
     "Literary Title Parts.json",
@@ -142,6 +145,34 @@ def validate_curated_word_lists() -> None:
             "nauticalShipNameColors",
             "shipNameAdjectives",
             "timesOfDay",
+        ],
+    )
+
+
+def validate_business_name_parts() -> None:
+    validate_named_string_lists(
+        "Business Name Parts.json",
+        ["colors", "animals", "trades", "industrialTrades", "shopTypes"],
+    )
+
+
+def validate_celestial_name_parts() -> None:
+    validate_named_string_lists(
+        "Celestial Name Parts.json", ["celestialObjects", "celestialConcepts"]
+    )
+
+
+def validate_creature_name_parts() -> None:
+    validate_named_string_lists(
+        "Creature Name Parts.json",
+        [
+            "appearanceRoots",
+            "bodyParts",
+            "creatureTypes",
+            "habitats",
+            "descriptors",
+            "animals",
+            "behaviorAdjectives",
         ],
     )
 
@@ -285,6 +316,9 @@ def main() -> None:
     validate_tabular("Verbs.json", 5)
     validate_given_names()
     validate_curated_word_lists()
+    validate_business_name_parts()
+    validate_celestial_name_parts()
+    validate_creature_name_parts()
     validate_synthetic_name_parts()
     validate_material_name_parts()
     validate_literary_title_parts()

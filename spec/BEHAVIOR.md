@@ -242,6 +242,49 @@ Inn types are `Inn`, `Tavern`, and `Lodge`, in that order. All other new word
 lists come from `Place and Organization Parts.json`; selection within each
 list is uniform. Nested names receive the same caller-owned random source.
 
+### Businesses, celestial bodies, and creatures
+
+`BusinessName`, `CelestialBodyName`, and `CreatureName` each select from four
+patterns with weights 4, 3, 2, and 1, in the order shown below:
+
+| Generator | First pattern | Second pattern | Third pattern | Fourth pattern |
+| --- | --- | --- | --- | --- |
+| `BusinessName` | Surname + & Sons | Color + animal + trade | Town name + industrial trade | Possessive surname + shop type |
+| `CelestialBodyName` | Synthetic name | Synthetic name + Roman numeral | Possessive surname + celestial object | The + celestial object + of + concept |
+| `CreatureName` | Appearance root concatenated with body part + creature type | Descriptor + habitat + animal | Behavior adjective + creature type | Appearance root concatenated with body part |
+
+These generators take no constructor arguments. Each passes the caller-owned
+random source through all nested renders. Word-list choices are uniform.
+Business and creature names use title casing. Celestial names use title casing
+before a numeral is appended, so Roman numerals remain uppercase. Synthetic
+celestial names use `FantasyName` with three syllables, hyphens disabled, and
+apostrophes disabled. Designations are `I`, `II`, `III`, `IV`, `V`, `VI`, `VII`,
+`VIII`, and `IX`, in that order. These names are fictional; the generator does
+not model astronomical classifications or biological taxonomy.
+
+### Reusable naming vocabulary and compounds
+
+Naming components preserve their curated vocabularies. Animal lists for
+taverns, businesses, and wildlife stay separate. `BusinessColor` does not use
+or replace `NauticalShipNameColor`. `LandmarkAdjective` does not use or replace
+`LocationAdjective`. Similar words do not establish equivalent naming rules.
+
+Each word component selects one list entry with one draw. `NaturalNameRoot`
+requires the context `landmark` or `creature` and selects from the corresponding
+existing root list. Invalid contexts fail at construction. Components are
+immutable, and construction does not consume randomness.
+
+`CompoundCreatureName` concatenates a creature root and a `BodyPart`, then
+applies title casing. `CompoundLandmarkName` concatenates a landmark root and
+a curated landmark suffix, then applies title casing. Both use two draws.
+`HeraldicSymbol` first selects `TavernAnimal` or `TavernObject` with equal
+probability, then renders that component. It uses two draws and preserves the
+selected word's case. The two palettes are not flattened into one list.
+
+The six parent generators keep their existing pattern weights, list order,
+and draw order when they use these components. Their other specialized
+vocabularies remain private recipe details.
+
 ## Conformance Fixtures
 
 Machine-readable cases live under `spec/conformance/`. Every implementation

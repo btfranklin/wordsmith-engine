@@ -2,8 +2,17 @@ import placeAndOrganizationPartsJson from "../assets/Place and Organization Part
   type: "json",
 };
 
-import { Component, concat, oneOf, type RandomSource, weightedOneOf } from "../core.js";
+import { concat, oneOf, type RandomSource, weightedOneOf } from "../core.js";
 import { GivenName, GivenNameCulture, Surname } from "../names.js";
+import {
+  GuildTrade,
+  LandmarkAdjective,
+  LandmarkFeature,
+  NaturalNameRoot,
+  OrganizationSymbol,
+  TavernAnimal,
+  TavernObject,
+} from "../words.js";
 import { TownName } from "./groups-places.js";
 import { StatelessComponent, spaced } from "./support.js";
 
@@ -14,52 +23,42 @@ interface PlaceAndOrganizationParts {
   readonly tavernEndings: readonly string[];
   readonly landmarkAdjectives: readonly string[];
   readonly landmarkFeatures: readonly string[];
-  readonly landmarkRoots: readonly string[];
   readonly landmarkSuffixes: readonly string[];
   readonly landmarkPluralFeatures: readonly string[];
   readonly organizationAdjectives: readonly string[];
-  readonly organizationSymbols: readonly string[];
   readonly organizationConcepts: readonly string[];
-  readonly tradesPlural: readonly string[];
   readonly organizationTypes: readonly string[];
 }
 
 const parts = placeAndOrganizationPartsJson as unknown as PlaceAndOrganizationParts;
 
-class PlacePart extends Component {
-  readonly key: keyof PlaceAndOrganizationParts;
-
-  constructor(key: keyof PlaceAndOrganizationParts) {
-    super();
-    this.key = key;
-    Object.freeze(this);
-  }
-
+export class HeraldicSymbol extends StatelessComponent {
   render(rng: RandomSource): string {
-    return oneOf(...parts[this.key]).render(rng);
+    return oneOf(new TavernAnimal(), new TavernObject()).render(rng);
+  }
+}
+
+export class CompoundLandmarkName extends StatelessComponent {
+  render(rng: RandomSource): string {
+    return concat(
+      new NaturalNameRoot({ context: "landmark" }),
+      oneOf(...parts.landmarkSuffixes),
+    )
+      .titleCase()
+      .render(rng);
   }
 }
 
 export class TavernName extends StatelessComponent {
   render(rng: RandomSource): string {
     return weightedOneOf(
-      [
-        4,
-        spaced(
-          "The",
-          new PlacePart("tavernAdjectives"),
-          oneOf(new PlacePart("animals"), new PlacePart("tavernObjects")),
-        ),
-      ],
-      [
-        3,
-        spaced("The", new PlacePart("animals"), "and", new PlacePart("tavernObjects")),
-      ],
+      [4, spaced("The", oneOf(...parts.tavernAdjectives), new HeraldicSymbol())],
+      [3, spaced("The", new TavernAnimal(), "and", new TavernObject())],
       [
         2,
         spaced(
           new GivenName({ culture: GivenNameCulture.englishSpeaking }).possessiveForm(),
-          new PlacePart("tavernEndings"),
+          oneOf(...parts.tavernEndings),
         ),
       ],
       [1, spaced(new TownName(), oneOf("Inn", "Tavern", "Lodge"))],
@@ -72,19 +71,12 @@ export class TavernName extends StatelessComponent {
 export class LandmarkName extends StatelessComponent {
   render(rng: RandomSource): string {
     return weightedOneOf(
-      [
-        4,
-        spaced(new PlacePart("landmarkAdjectives"), new PlacePart("landmarkFeatures")),
-      ],
-      [3, concat(new PlacePart("landmarkRoots"), new PlacePart("landmarkSuffixes"))],
-      [2, spaced(new Surname().possessiveForm(), new PlacePart("landmarkFeatures"))],
+      [4, spaced(new LandmarkAdjective(), new LandmarkFeature())],
+      [3, new CompoundLandmarkName()],
+      [2, spaced(new Surname().possessiveForm(), new LandmarkFeature())],
       [
         1,
-        spaced(
-          "The",
-          new PlacePart("landmarkAdjectives"),
-          new PlacePart("landmarkPluralFeatures"),
-        ),
+        spaced("The", new LandmarkAdjective(), oneOf(...parts.landmarkPluralFeatures)),
       ],
     )
       .titleCase()
@@ -99,23 +91,20 @@ export class OrganizationName extends StatelessComponent {
         4,
         spaced(
           "The Order of the",
-          new PlacePart("organizationAdjectives"),
-          new PlacePart("organizationSymbols"),
+          oneOf(...parts.organizationAdjectives),
+          new OrganizationSymbol(),
         ),
       ],
-      [
-        3,
-        spaced(new TownName(), new PlacePart("tradesPlural").possessiveForm(), "Guild"),
-      ],
+      [3, spaced(new TownName(), new GuildTrade().possessiveForm(), "Guild")],
       [
         2,
         spaced(
           "The",
-          new PlacePart("organizationAdjectives"),
-          new PlacePart("organizationTypes"),
+          oneOf(...parts.organizationAdjectives),
+          oneOf(...parts.organizationTypes),
         ),
       ],
-      [1, spaced("The Society of", new PlacePart("organizationConcepts"))],
+      [1, spaced("The Society of", oneOf(...parts.organizationConcepts))],
     )
       .titleCase()
       .render(rng);

@@ -1913,6 +1913,892 @@
       ],
       "expected": "The Crooked Bottle",
       "expectedDraws": 4
+    },
+    {
+      "name": "BusinessName-branch-1",
+      "intent": "Select pattern 1 and forward the stream to its children.",
+      "generator": "BusinessName",
+      "fractions": [
+        0
+      ],
+      "expected": "Smith & Sons",
+      "expectedDraws": 2
+    },
+    {
+      "name": "BusinessName-branch-2",
+      "intent": "Select pattern 2 and forward the stream to its children.",
+      "generator": "BusinessName",
+      "fractions": [
+        0.4
+      ],
+      "expected": "Amber Badger Apothecary",
+      "expectedDraws": 4
+    },
+    {
+      "name": "BusinessName-boundary-1-below",
+      "intent": "Check selection below the pattern 2 boundary.",
+      "generator": "BusinessName",
+      "fractions": [
+        0.3999999999
+      ],
+      "expected": "Smith & Sons",
+      "expectedDraws": 2
+    },
+    {
+      "name": "BusinessName-boundary-1-above",
+      "intent": "Check selection above the pattern 2 boundary.",
+      "generator": "BusinessName",
+      "fractions": [
+        0.40000000010000003
+      ],
+      "expected": "Amber Badger Apothecary",
+      "expectedDraws": 4
+    },
+    {
+      "name": "BusinessName-branch-3",
+      "intent": "Select pattern 3 and forward the stream to its children.",
+      "generator": "BusinessName",
+      "fractions": [
+        0.7
+      ],
+      "expected": "Smith Bay Foundry",
+      "expectedDraws": 5
+    },
+    {
+      "name": "BusinessName-boundary-2-below",
+      "intent": "Check selection below the pattern 3 boundary.",
+      "generator": "BusinessName",
+      "fractions": [
+        0.6999999999
+      ],
+      "expected": "Amber Badger Apothecary",
+      "expectedDraws": 4
+    },
+    {
+      "name": "BusinessName-boundary-2-above",
+      "intent": "Check selection above the pattern 3 boundary.",
+      "generator": "BusinessName",
+      "fractions": [
+        0.7000000001
+      ],
+      "expected": "Smith Bay Foundry",
+      "expectedDraws": 5
+    },
+    {
+      "name": "BusinessName-branch-4",
+      "intent": "Select pattern 4 and forward the stream to its children.",
+      "generator": "BusinessName",
+      "fractions": [
+        0.9
+      ],
+      "expected": "Smith's Apothecary",
+      "expectedDraws": 3
+    },
+    {
+      "name": "BusinessName-boundary-3-below",
+      "intent": "Check selection below the pattern 4 boundary.",
+      "generator": "BusinessName",
+      "fractions": [
+        0.8999999999
+      ],
+      "expected": "Smith Bay Foundry",
+      "expectedDraws": 5
+    },
+    {
+      "name": "BusinessName-boundary-3-above",
+      "intent": "Check selection above the pattern 4 boundary.",
+      "generator": "BusinessName",
+      "fractions": [
+        0.9000000001
+      ],
+      "expected": "Smith's Apothecary",
+      "expectedDraws": 3
+    },
+    {
+      "name": "CelestialBodyName-branch-1",
+      "intent": "Select pattern 1 and forward the stream to its children.",
+      "generator": "CelestialBodyName",
+      "fractions": [
+        0
+      ],
+      "expected": "Aelaa",
+      "expectedDraws": 4
+    },
+    {
+      "name": "CelestialBodyName-branch-2",
+      "intent": "Select pattern 2 and forward the stream to its children.",
+      "generator": "CelestialBodyName",
+      "fractions": [
+        0.4
+      ],
+      "expected": "Aelaa I",
+      "expectedDraws": 5
+    },
+    {
+      "name": "CelestialBodyName-boundary-1-below",
+      "intent": "Check selection below the pattern 2 boundary.",
+      "generator": "CelestialBodyName",
+      "fractions": [
+        0.3999999999
+      ],
+      "expected": "Aelaa",
+      "expectedDraws": 4
+    },
+    {
+      "name": "CelestialBodyName-boundary-1-above",
+      "intent": "Check selection above the pattern 2 boundary.",
+      "generator": "CelestialBodyName",
+      "fractions": [
+        0.40000000010000003
+      ],
+      "expected": "Aelaa I",
+      "expectedDraws": 5
+    },
+    {
+      "name": "CelestialBodyName-branch-3",
+      "intent": "Select pattern 3 and forward the stream to its children.",
+      "generator": "CelestialBodyName",
+      "fractions": [
+        0.7
+      ],
+      "expected": "Smith's Asteroid",
+      "expectedDraws": 3
+    },
+    {
+      "name": "CelestialBodyName-boundary-2-below",
+      "intent": "Check selection below the pattern 3 boundary.",
+      "generator": "CelestialBodyName",
+      "fractions": [
+        0.6999999999
+      ],
+      "expected": "Aelaa I",
+      "expectedDraws": 5
+    },
+    {
+      "name": "CelestialBodyName-boundary-2-above",
+      "intent": "Check selection above the pattern 3 boundary.",
+      "generator": "CelestialBodyName",
+      "fractions": [
+        0.7000000001
+      ],
+      "expected": "Smith's Asteroid",
+      "expectedDraws": 3
+    },
+    {
+      "name": "CelestialBodyName-branch-4",
+      "intent": "Select pattern 4 and forward the stream to its children.",
+      "generator": "CelestialBodyName",
+      "fractions": [
+        0.9
+      ],
+      "expected": "The Asteroid of Ashes",
+      "expectedDraws": 3
+    },
+    {
+      "name": "CelestialBodyName-boundary-3-below",
+      "intent": "Check selection below the pattern 4 boundary.",
+      "generator": "CelestialBodyName",
+      "fractions": [
+        0.8999999999
+      ],
+      "expected": "Smith's Asteroid",
+      "expectedDraws": 3
+    },
+    {
+      "name": "CelestialBodyName-boundary-3-above",
+      "intent": "Check selection above the pattern 4 boundary.",
+      "generator": "CelestialBodyName",
+      "fractions": [
+        0.9000000001
+      ],
+      "expected": "The Asteroid of Ashes",
+      "expectedDraws": 3
+    },
+    {
+      "name": "CreatureName-branch-1",
+      "intent": "Select pattern 1 and forward the stream to its children.",
+      "generator": "CreatureName",
+      "fractions": [
+        0
+      ],
+      "expected": "Ashbeak Basilisk",
+      "expectedDraws": 4
+    },
+    {
+      "name": "CreatureName-branch-2",
+      "intent": "Select pattern 2 and forward the stream to its children.",
+      "generator": "CreatureName",
+      "fractions": [
+        0.4
+      ],
+      "expected": "Ancient Cave Bear",
+      "expectedDraws": 4
+    },
+    {
+      "name": "CreatureName-boundary-1-below",
+      "intent": "Check selection below the pattern 2 boundary.",
+      "generator": "CreatureName",
+      "fractions": [
+        0.3999999999
+      ],
+      "expected": "Ashbeak Basilisk",
+      "expectedDraws": 4
+    },
+    {
+      "name": "CreatureName-boundary-1-above",
+      "intent": "Check selection above the pattern 2 boundary.",
+      "generator": "CreatureName",
+      "fractions": [
+        0.40000000010000003
+      ],
+      "expected": "Ancient Cave Bear",
+      "expectedDraws": 4
+    },
+    {
+      "name": "CreatureName-branch-3",
+      "intent": "Select pattern 3 and forward the stream to its children.",
+      "generator": "CreatureName",
+      "fractions": [
+        0.7
+      ],
+      "expected": "Brooding Basilisk",
+      "expectedDraws": 3
+    },
+    {
+      "name": "CreatureName-boundary-2-below",
+      "intent": "Check selection below the pattern 3 boundary.",
+      "generator": "CreatureName",
+      "fractions": [
+        0.6999999999
+      ],
+      "expected": "Ancient Cave Bear",
+      "expectedDraws": 4
+    },
+    {
+      "name": "CreatureName-boundary-2-above",
+      "intent": "Check selection above the pattern 3 boundary.",
+      "generator": "CreatureName",
+      "fractions": [
+        0.7000000001
+      ],
+      "expected": "Brooding Basilisk",
+      "expectedDraws": 3
+    },
+    {
+      "name": "CreatureName-branch-4",
+      "intent": "Select pattern 4 and forward the stream to its children.",
+      "generator": "CreatureName",
+      "fractions": [
+        0.9
+      ],
+      "expected": "Ashbeak",
+      "expectedDraws": 3
+    },
+    {
+      "name": "CreatureName-boundary-3-below",
+      "intent": "Check selection below the pattern 4 boundary.",
+      "generator": "CreatureName",
+      "fractions": [
+        0.8999999999
+      ],
+      "expected": "Brooding Basilisk",
+      "expectedDraws": 3
+    },
+    {
+      "name": "CreatureName-boundary-3-above",
+      "intent": "Check selection above the pattern 4 boundary.",
+      "generator": "CreatureName",
+      "fractions": [
+        0.9000000001
+      ],
+      "expected": "Ashbeak",
+      "expectedDraws": 3
+    },
+    {
+      "name": "celestial-designation-I",
+      "intent": "Preserve the uppercase Roman numeral after title casing the name.",
+      "generator": "CelestialBodyName",
+      "fractions": [
+        0.5,
+        0,
+        0,
+        0,
+        0.05555555555555555
+      ],
+      "expected": "Aelaa I",
+      "expectedDraws": 5
+    },
+    {
+      "name": "celestial-designation-II",
+      "intent": "Preserve the uppercase Roman numeral after title casing the name.",
+      "generator": "CelestialBodyName",
+      "fractions": [
+        0.5,
+        0,
+        0,
+        0,
+        0.16666666666666666
+      ],
+      "expected": "Aelaa II",
+      "expectedDraws": 5
+    },
+    {
+      "name": "celestial-designation-III",
+      "intent": "Preserve the uppercase Roman numeral after title casing the name.",
+      "generator": "CelestialBodyName",
+      "fractions": [
+        0.5,
+        0,
+        0,
+        0,
+        0.2777777777777778
+      ],
+      "expected": "Aelaa III",
+      "expectedDraws": 5
+    },
+    {
+      "name": "celestial-designation-IV",
+      "intent": "Preserve the uppercase Roman numeral after title casing the name.",
+      "generator": "CelestialBodyName",
+      "fractions": [
+        0.5,
+        0,
+        0,
+        0,
+        0.3888888888888889
+      ],
+      "expected": "Aelaa IV",
+      "expectedDraws": 5
+    },
+    {
+      "name": "celestial-designation-V",
+      "intent": "Preserve the uppercase Roman numeral after title casing the name.",
+      "generator": "CelestialBodyName",
+      "fractions": [
+        0.5,
+        0,
+        0,
+        0,
+        0.5
+      ],
+      "expected": "Aelaa V",
+      "expectedDraws": 5
+    },
+    {
+      "name": "celestial-designation-VI",
+      "intent": "Preserve the uppercase Roman numeral after title casing the name.",
+      "generator": "CelestialBodyName",
+      "fractions": [
+        0.5,
+        0,
+        0,
+        0,
+        0.6111111111111112
+      ],
+      "expected": "Aelaa VI",
+      "expectedDraws": 5
+    },
+    {
+      "name": "celestial-designation-VII",
+      "intent": "Preserve the uppercase Roman numeral after title casing the name.",
+      "generator": "CelestialBodyName",
+      "fractions": [
+        0.5,
+        0,
+        0,
+        0,
+        0.7222222222222222
+      ],
+      "expected": "Aelaa VII",
+      "expectedDraws": 5
+    },
+    {
+      "name": "celestial-designation-VIII",
+      "intent": "Preserve the uppercase Roman numeral after title casing the name.",
+      "generator": "CelestialBodyName",
+      "fractions": [
+        0.5,
+        0,
+        0,
+        0,
+        0.8333333333333334
+      ],
+      "expected": "Aelaa VIII",
+      "expectedDraws": 5
+    },
+    {
+      "name": "celestial-designation-IX",
+      "intent": "Preserve the uppercase Roman numeral after title casing the name.",
+      "generator": "CelestialBodyName",
+      "fractions": [
+        0.5,
+        0,
+        0,
+        0,
+        0.9444444444444444
+      ],
+      "expected": "Aelaa IX",
+      "expectedDraws": 5
+    },
+    {
+      "name": "TavernAnimal-first",
+      "intent": "Select the first entry from the specialized vocabulary with one draw.",
+      "generator": "TavernAnimal",
+      "fractions": [
+        0
+      ],
+      "expected": "fox",
+      "expectedDraws": 1
+    },
+    {
+      "name": "TavernAnimal-last",
+      "intent": "Select the last entry from the specialized vocabulary with one draw.",
+      "generator": "TavernAnimal",
+      "fractions": [
+        0.999999
+      ],
+      "expected": "hound",
+      "expectedDraws": 1
+    },
+    {
+      "name": "TavernObject-first",
+      "intent": "Select the first entry from the specialized vocabulary with one draw.",
+      "generator": "TavernObject",
+      "fractions": [
+        0
+      ],
+      "expected": "lantern",
+      "expectedDraws": 1
+    },
+    {
+      "name": "TavernObject-last",
+      "intent": "Select the last entry from the specialized vocabulary with one draw.",
+      "generator": "TavernObject",
+      "fractions": [
+        0.999999
+      ],
+      "expected": "bottle",
+      "expectedDraws": 1
+    },
+    {
+      "name": "BusinessAnimal-first",
+      "intent": "Select the first entry from the specialized vocabulary with one draw.",
+      "generator": "BusinessAnimal",
+      "fractions": [
+        0
+      ],
+      "expected": "badger",
+      "expectedDraws": 1
+    },
+    {
+      "name": "BusinessAnimal-last",
+      "intent": "Select the last entry from the specialized vocabulary with one draw.",
+      "generator": "BusinessAnimal",
+      "fractions": [
+        0.999999
+      ],
+      "expected": "wolf",
+      "expectedDraws": 1
+    },
+    {
+      "name": "WildAnimal-first",
+      "intent": "Select the first entry from the specialized vocabulary with one draw.",
+      "generator": "WildAnimal",
+      "fractions": [
+        0
+      ],
+      "expected": "bear",
+      "expectedDraws": 1
+    },
+    {
+      "name": "WildAnimal-last",
+      "intent": "Select the last entry from the specialized vocabulary with one draw.",
+      "generator": "WildAnimal",
+      "fractions": [
+        0.999999
+      ],
+      "expected": "panther",
+      "expectedDraws": 1
+    },
+    {
+      "name": "BusinessColor-first",
+      "intent": "Select the first entry from the specialized vocabulary with one draw.",
+      "generator": "BusinessColor",
+      "fractions": [
+        0
+      ],
+      "expected": "amber",
+      "expectedDraws": 1
+    },
+    {
+      "name": "BusinessColor-last",
+      "intent": "Select the last entry from the specialized vocabulary with one draw.",
+      "generator": "BusinessColor",
+      "fractions": [
+        0.999999
+      ],
+      "expected": "yellow",
+      "expectedDraws": 1
+    },
+    {
+      "name": "LandmarkAdjective-first",
+      "intent": "Select the first entry from the specialized vocabulary with one draw.",
+      "generator": "LandmarkAdjective",
+      "fractions": [
+        0
+      ],
+      "expected": "silent",
+      "expectedDraws": 1
+    },
+    {
+      "name": "LandmarkAdjective-last",
+      "intent": "Select the last entry from the specialized vocabulary with one draw.",
+      "generator": "LandmarkAdjective",
+      "fractions": [
+        0.999999
+      ],
+      "expected": "ancient",
+      "expectedDraws": 1
+    },
+    {
+      "name": "LandmarkFeature-first",
+      "intent": "Select the first entry from the specialized vocabulary with one draw.",
+      "generator": "LandmarkFeature",
+      "fractions": [
+        0
+      ],
+      "expected": "pass",
+      "expectedDraws": 1
+    },
+    {
+      "name": "LandmarkFeature-last",
+      "intent": "Select the last entry from the specialized vocabulary with one draw.",
+      "generator": "LandmarkFeature",
+      "fractions": [
+        0.999999
+      ],
+      "expected": "hollow",
+      "expectedDraws": 1
+    },
+    {
+      "name": "Habitat-first",
+      "intent": "Select the first entry from the specialized vocabulary with one draw.",
+      "generator": "Habitat",
+      "fractions": [
+        0
+      ],
+      "expected": "cave",
+      "expectedDraws": 1
+    },
+    {
+      "name": "Habitat-last",
+      "intent": "Select the last entry from the specialized vocabulary with one draw.",
+      "generator": "Habitat",
+      "fractions": [
+        0.999999
+      ],
+      "expected": "highland",
+      "expectedDraws": 1
+    },
+    {
+      "name": "BodyPart-first",
+      "intent": "Select the first entry from the specialized vocabulary with one draw.",
+      "generator": "BodyPart",
+      "fractions": [
+        0
+      ],
+      "expected": "beak",
+      "expectedDraws": 1
+    },
+    {
+      "name": "BodyPart-last",
+      "intent": "Select the last entry from the specialized vocabulary with one draw.",
+      "generator": "BodyPart",
+      "fractions": [
+        0.999999
+      ],
+      "expected": "wool",
+      "expectedDraws": 1
+    },
+    {
+      "name": "CreatureType-first",
+      "intent": "Select the first entry from the specialized vocabulary with one draw.",
+      "generator": "CreatureType",
+      "fractions": [
+        0
+      ],
+      "expected": "basilisk",
+      "expectedDraws": 1
+    },
+    {
+      "name": "CreatureType-last",
+      "intent": "Select the last entry from the specialized vocabulary with one draw.",
+      "generator": "CreatureType",
+      "fractions": [
+        0.999999
+      ],
+      "expected": "strider",
+      "expectedDraws": 1
+    },
+    {
+      "name": "GuildTrade-first",
+      "intent": "Select the first entry from the specialized vocabulary with one draw.",
+      "generator": "GuildTrade",
+      "fractions": [
+        0
+      ],
+      "expected": "cartographers",
+      "expectedDraws": 1
+    },
+    {
+      "name": "GuildTrade-last",
+      "intent": "Select the last entry from the specialized vocabulary with one draw.",
+      "generator": "GuildTrade",
+      "fractions": [
+        0.999999
+      ],
+      "expected": "astronomers",
+      "expectedDraws": 1
+    },
+    {
+      "name": "BusinessTrade-first",
+      "intent": "Select the first entry from the specialized vocabulary with one draw.",
+      "generator": "BusinessTrade",
+      "fractions": [
+        0
+      ],
+      "expected": "apothecary",
+      "expectedDraws": 1
+    },
+    {
+      "name": "BusinessTrade-last",
+      "intent": "Select the last entry from the specialized vocabulary with one draw.",
+      "generator": "BusinessTrade",
+      "fractions": [
+        0.999999
+      ],
+      "expected": "woodworks",
+      "expectedDraws": 1
+    },
+    {
+      "name": "IndustrialTrade-first",
+      "intent": "Select the first entry from the specialized vocabulary with one draw.",
+      "generator": "IndustrialTrade",
+      "fractions": [
+        0
+      ],
+      "expected": "Foundry",
+      "expectedDraws": 1
+    },
+    {
+      "name": "IndustrialTrade-last",
+      "intent": "Select the last entry from the specialized vocabulary with one draw.",
+      "generator": "IndustrialTrade",
+      "fractions": [
+        0.999999
+      ],
+      "expected": "Toolworks",
+      "expectedDraws": 1
+    },
+    {
+      "name": "ShopType-first",
+      "intent": "Select the first entry from the specialized vocabulary with one draw.",
+      "generator": "ShopType",
+      "fractions": [
+        0
+      ],
+      "expected": "apothecary",
+      "expectedDraws": 1
+    },
+    {
+      "name": "ShopType-last",
+      "intent": "Select the last entry from the specialized vocabulary with one draw.",
+      "generator": "ShopType",
+      "fractions": [
+        0.999999
+      ],
+      "expected": "workshop",
+      "expectedDraws": 1
+    },
+    {
+      "name": "CelestialObjectType-first",
+      "intent": "Select the first entry from the specialized vocabulary with one draw.",
+      "generator": "CelestialObjectType",
+      "fractions": [
+        0
+      ],
+      "expected": "asteroid",
+      "expectedDraws": 1
+    },
+    {
+      "name": "CelestialObjectType-last",
+      "intent": "Select the last entry from the specialized vocabulary with one draw.",
+      "generator": "CelestialObjectType",
+      "fractions": [
+        0.999999
+      ],
+      "expected": "white dwarf",
+      "expectedDraws": 1
+    },
+    {
+      "name": "OrganizationSymbol-first",
+      "intent": "Select the first entry from the specialized vocabulary with one draw.",
+      "generator": "OrganizationSymbol",
+      "fractions": [
+        0
+      ],
+      "expected": "sun",
+      "expectedDraws": 1
+    },
+    {
+      "name": "OrganizationSymbol-last",
+      "intent": "Select the last entry from the specialized vocabulary with one draw.",
+      "generator": "OrganizationSymbol",
+      "fractions": [
+        0.999999
+      ],
+      "expected": "anchor",
+      "expectedDraws": 1
+    },
+    {
+      "name": "natural-root-landmark-first",
+      "intent": "Select from only the requested context vocabulary.",
+      "generator": "NaturalNameRoot",
+      "configuration": {
+        "context": "landmark"
+      },
+      "fractions": [
+        0
+      ],
+      "expected": "ash",
+      "expectedDraws": 1
+    },
+    {
+      "name": "natural-root-landmark-last",
+      "intent": "Select from only the requested context vocabulary.",
+      "generator": "NaturalNameRoot",
+      "configuration": {
+        "context": "landmark"
+      },
+      "fractions": [
+        0.999999
+      ],
+      "expected": "dusk",
+      "expectedDraws": 1
+    },
+    {
+      "name": "natural-root-creature-first",
+      "intent": "Select from only the requested context vocabulary.",
+      "generator": "NaturalNameRoot",
+      "configuration": {
+        "context": "creature"
+      },
+      "fractions": [
+        0
+      ],
+      "expected": "ash",
+      "expectedDraws": 1
+    },
+    {
+      "name": "natural-root-creature-last",
+      "intent": "Select from only the requested context vocabulary.",
+      "generator": "NaturalNameRoot",
+      "configuration": {
+        "context": "creature"
+      },
+      "fractions": [
+        0.999999
+      ],
+      "expected": "wild",
+      "expectedDraws": 1
+    },
+    {
+      "name": "CompoundCreatureName-composition-Ashbeak",
+      "intent": "Compose existing parts with the same stream and no extra draws.",
+      "generator": "CompoundCreatureName",
+      "fractions": [
+        0,
+        0
+      ],
+      "expected": "Ashbeak",
+      "expectedDraws": 2
+    },
+    {
+      "name": "CompoundCreatureName-composition-Wildwool",
+      "intent": "Compose existing parts with the same stream and no extra draws.",
+      "generator": "CompoundCreatureName",
+      "fractions": [
+        0.999999,
+        0.999999
+      ],
+      "expected": "Wildwool",
+      "expectedDraws": 2
+    },
+    {
+      "name": "CompoundLandmarkName-composition-Ashwood",
+      "intent": "Compose existing parts with the same stream and no extra draws.",
+      "generator": "CompoundLandmarkName",
+      "fractions": [
+        0,
+        0
+      ],
+      "expected": "Ashwood",
+      "expectedDraws": 2
+    },
+    {
+      "name": "CompoundLandmarkName-composition-Duskvale",
+      "intent": "Compose existing parts with the same stream and no extra draws.",
+      "generator": "CompoundLandmarkName",
+      "fractions": [
+        0.999999,
+        0.999999
+      ],
+      "expected": "Duskvale",
+      "expectedDraws": 2
+    },
+    {
+      "name": "HeraldicSymbol-composition-fox",
+      "intent": "Compose existing parts with the same stream and no extra draws.",
+      "generator": "HeraldicSymbol",
+      "fractions": [
+        0,
+        0
+      ],
+      "expected": "fox",
+      "expectedDraws": 2
+    },
+    {
+      "name": "HeraldicSymbol-composition-hound",
+      "intent": "Compose existing parts with the same stream and no extra draws.",
+      "generator": "HeraldicSymbol",
+      "fractions": [
+        0.499999,
+        0.999999
+      ],
+      "expected": "hound",
+      "expectedDraws": 2
+    },
+    {
+      "name": "HeraldicSymbol-composition-lantern",
+      "intent": "Compose existing parts with the same stream and no extra draws.",
+      "generator": "HeraldicSymbol",
+      "fractions": [
+        0.5,
+        0
+      ],
+      "expected": "lantern",
+      "expectedDraws": 2
+    },
+    {
+      "name": "HeraldicSymbol-composition-bottle",
+      "intent": "Compose existing parts with the same stream and no extra draws.",
+      "generator": "HeraldicSymbol",
+      "fractions": [
+        0.999999,
+        0.999999
+      ],
+      "expected": "bottle",
+      "expectedDraws": 2
     }
   ]
 }

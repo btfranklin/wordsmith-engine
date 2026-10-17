@@ -67,6 +67,34 @@ Both packages export `Adjective`, `Adverb`, `Article`, `AuthoredArtifact`,
 TypeScript uses object parameters, such as `new Noun({ form })` and
 `new Pronoun({ isSingular, isThirdPerson })`. Enum values use lower camel case.
 
+## Reusable naming components
+
+Both packages export the components below. Each selects uniformly from its
+named vocabulary and accepts no constructor arguments:
+
+`TavernAnimal`, `TavernObject`, `BusinessAnimal`, `WildAnimal`, `BusinessColor`, `LandmarkAdjective`, `LandmarkFeature`, `Habitat`, `BodyPart`, `CreatureType`, `GuildTrade`, `BusinessTrade`, `IndustrialTrade`, `ShopType`, `CelestialObjectType`, `OrganizationSymbol`.
+
+`GuildTrade` returns a plural trade name, such as `cartographers`. It does not
+infer singular forms. `LandmarkFeature` returns a feature label, which can be
+plural, such as `falls`. `Habitat` returns a modifier, such as `marsh`.
+
+`NaturalNameRoot` requires a context. Python uses
+`NaturalNameRoot(context="landmark")` or `NaturalNameRoot(context="creature")`.
+TypeScript uses `new NaturalNameRoot({ context: "landmark" })` or
+`new NaturalNameRoot({ context: "creature" })` and exports the declaration-only
+`NaturalNameRootOptions` type. Invalid contexts fail at construction with
+`ValueError` in Python or `RangeError` in TypeScript. Each context keeps its own
+ordered vocabulary.
+
+`CompoundCreatureName`, `CompoundLandmarkName`, and `HeraldicSymbol` take no
+constructor arguments. The compound names use title casing. `HeraldicSymbol`
+returns a lowercase animal or object from the tavern palettes, with equal
+probability for each palette. `OrganizationSymbol` keeps a separate palette.
+
+These are public components, so callers can compose and transform them with
+the standard helpers. All selection occurs during rendering with the supplied
+random source. See [the component recipes](../docs/naming-components.md).
+
 ## Names
 
 Both packages export `AlienName`, `AncientGivenName`, `BinaryGender`,
@@ -81,9 +109,11 @@ Both packages export `AlbumTitle`, `BandName`, `CriminalGangName`,
 `FictionalElementName`, `FictionalMineralName`, `HighConceptMovieTitle`,
 `LiteraryTitle`, `MovieTitle`, `NauticalShipName`, `SimpleLiteraryTitle`,
 `SimpleMovieTitle`, `TownName`, `TavernName`, `LandmarkName`,
-`OrganizationName`, and `UnusualLiteraryTitle`.
+`OrganizationName`, `BusinessName`, `CelestialBodyName`, `CreatureName`,
+and `UnusualLiteraryTitle`.
 
-`TavernName`, `LandmarkName`, and `OrganizationName` take no constructor
+`TavernName`, `LandmarkName`, `OrganizationName`, `BusinessName`,
+`CelestialBodyName`, and `CreatureName` take no constructor
 arguments. Each is a component and supports the standard text transformations.
 
 ## Specials

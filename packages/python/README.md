@@ -43,5 +43,15 @@ package when durable replay includes non-English host case conversion.
 natural features and ruins, and guilds, orders, and societies. Each takes no
 constructor arguments and composes with the other components.
 
+`BusinessName`, `CelestialBodyName`, and `CreatureName` use the same component
+interface to create fictional company, celestial body, and creature names.
+They also take no constructor arguments and use the caller-owned random source.
+
+Reusable naming parts include `TavernAnimal`, `BusinessColor`, `BodyPart`,
+`CreatureType`, and `CelestialObjectType`. `CompoundCreatureName`,
+`CompoundLandmarkName`, and `HeraldicSymbol` compose smaller components.
+`NaturalNameRoot` selects from a required `landmark` or `creature` context.
+These components keep specialized vocabularies separate.
+
 See the [repository README](https://github.com/btfranklin/wordsmith-engine) for
 the complete feature list, TypeScript usage, examples, and development guide.

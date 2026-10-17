@@ -1,0 +1,37 @@
+{
+  "celestialObjects": [
+    "asteroid",
+    "binary star",
+    "brown dwarf",
+    "comet",
+    "dwarf planet",
+    "gas giant",
+    "ice giant",
+    "moon",
+    "nebula",
+    "planet",
+    "pulsar",
+    "red giant",
+    "ring system",
+    "star cluster",
+    "white dwarf"
+  ],
+  "celestialConcepts": [
+    "ashes",
+    "dawn",
+    "dreams",
+    "embers",
+    "eternity",
+    "fate",
+    "fire",
+    "forgotten kings",
+    "hope",
+    "ice",
+    "memory",
+    "night",
+    "silence",
+    "storms",
+    "time",
+    "winter"
+  ]
+}

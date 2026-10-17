@@ -13,6 +13,8 @@ knowledge that does not belong in the public README.
 - [Name Assets](name-assets.md): grouped given-name data source, license, refresh command, and curation rules.
 - [Quality](quality.md): validation commands, public API checklist, and release workflow notes.
 
+- [Naming Components](naming-components.md): specialized vocabulary, composed names, and downstream use.
+
 ## Maintenance Rules
 
 - Keep `AGENTS.md` short and route deeper guidance here.

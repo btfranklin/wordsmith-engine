@@ -62,6 +62,11 @@ Title casing uppercases the first alphabetic character in a word that requires
 capitalization. Both packages turn `123hello world` into `123Hello World` and
 preserve the digit prefix.
 
+The naming generators also expose reusable parts such as `TavernAnimal`,
+`BusinessColor`, `BodyPart`, and `CelestialObjectType`, plus
+`CompoundCreatureName`, `CompoundLandmarkName`, and `HeraldicSymbol`.
+Specialized palettes stay separate. See [the naming component recipes](docs/naming-components.md).
+
 ## Deterministic streams
 
 Every nested render receives the same caller-owned random source. Python uses
@@ -92,7 +97,8 @@ therefore outside seed-only replay.
   `AncientGivenName`, `FantasyName`
 - Titles: `LiteraryTitle`, `MovieTitle`, `AlbumTitle`, and their public variants
 - Places and groups: `TownName`, `TavernName`, `LandmarkName`,
-  `OrganizationName`, `CriminalGangName`, `BandName`
+  `OrganizationName`, `BusinessName`, `CriminalGangName`, `BandName`
+- Worlds and wildlife: `CelestialBodyName`, `CreatureName`
 - Vessels: `NauticalShipName`
 - Materials: `FictionalElementName`, `FictionalMineralName`,
   `ChemicalCompoundName`

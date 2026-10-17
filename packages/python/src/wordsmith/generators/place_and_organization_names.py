@@ -11,18 +11,35 @@ from wordsmith.generators.town_name import TownName
 from wordsmith.names.given_name import GivenName
 from wordsmith.names.given_name_culture import GivenNameCulture
 from wordsmith.names.surname import Surname
-from wordsmith.util.resources import load_json
-
+from wordsmith.util import load_json
+from wordsmith.words import (
+    GuildTrade,
+    LandmarkAdjective,
+    LandmarkFeature,
+    NaturalNameRoot,
+    OrganizationSymbol,
+    TavernAnimal,
+    TavernObject,
+)
 
 _PARTS: dict[str, list[str]] = load_json("Place and Organization Parts.json")
 
 
 @dataclass(frozen=True)
-class _Part(Component):
-    key: str
+class HeraldicSymbol(Component):
+    """Choose a tavern animal or object with equal probability."""
 
     def make_text(self, rng: random.Random) -> str:
-        return rng.choice(_PARTS[self.key])
+        return one_of(TavernAnimal(), TavernObject()).make_text(rng)
+
+
+@dataclass(frozen=True)
+class CompoundLandmarkName(Component):
+    """Join a landmark root and suffix, then apply title casing."""
+
+    def make_text(self, rng: random.Random) -> str:
+        suffix = one_of(*_PARTS["landmarkSuffixes"])
+        return (NaturalNameRoot("landmark") + suffix).title_case().make_text(rng)
 
 
 @dataclass(frozen=True)
@@ -33,15 +50,13 @@ class TavernName(Component):
         return weighted_one_of(
             (
                 4,
-                "The"
-                | _Part("tavernAdjectives")
-                | one_of(_Part("animals"), _Part("tavernObjects")),
+                "The" | one_of(*_PARTS["tavernAdjectives"]) | HeraldicSymbol(),
             ),
-            (3, "The" | _Part("animals") | "and" | _Part("tavernObjects")),
+            (3, "The" | TavernAnimal() | "and" | TavernObject()),
             (
                 2,
                 GivenName(culture=GivenNameCulture.ENGLISH_SPEAKING).possessive_form()
-                | _Part("tavernEndings"),
+                | one_of(*_PARTS["tavernEndings"]),
             ),
             (1, TownName() | one_of("Inn", "Tavern", "Lodge")),
         ).title_case().make_text(rng)
@@ -53,17 +68,17 @@ class LandmarkName(Component):
 
     def make_text(self, rng: random.Random) -> str:
         return weighted_one_of(
-            (4, _Part("landmarkAdjectives") | _Part("landmarkFeatures")),
+            (4, LandmarkAdjective() | LandmarkFeature()),
             (
                 3,
-                _Part("landmarkRoots") + _Part("landmarkSuffixes"),
+                CompoundLandmarkName(),
             ),
-            (2, Surname().possessive_form() | _Part("landmarkFeatures")),
+            (2, Surname().possessive_form() | LandmarkFeature()),
             (
                 1,
                 "The"
-                | _Part("landmarkAdjectives")
-                | _Part("landmarkPluralFeatures"),
+                | LandmarkAdjective()
+                | one_of(*_PARTS["landmarkPluralFeatures"]),
             ),
         ).title_case().make_text(rng)
 
@@ -77,15 +92,20 @@ class OrganizationName(Component):
             (
                 4,
                 "The Order of the"
-                | _Part("organizationAdjectives")
-                | _Part("organizationSymbols"),
+                | one_of(*_PARTS["organizationAdjectives"])
+                | OrganizationSymbol(),
             ),
             (
                 3,
                 TownName()
-                | _Part("tradesPlural").possessive_form()
+                | GuildTrade().possessive_form()
                 | "Guild",
             ),
-            (2, "The" | _Part("organizationAdjectives") | _Part("organizationTypes")),
-            (1, "The Society of" | _Part("organizationConcepts")),
+            (
+                2,
+                "The"
+                | one_of(*_PARTS["organizationAdjectives"])
+                | one_of(*_PARTS["organizationTypes"]),
+            ),
+            (1, "The Society of" | one_of(*_PARTS["organizationConcepts"])),
         ).title_case().make_text(rng)

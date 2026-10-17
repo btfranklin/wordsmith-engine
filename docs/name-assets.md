@@ -44,3 +44,18 @@ They are fictional naming vocabulary, not a register of real places or groups.
 Edit this canonical file, then run `python tools/sync_assets.py`. Package copies
 must preserve its bytes and list order. `tools/validate_assets.py` checks the
 required keys and rejects empty lists, empty entries, and duplicate entries.
+
+## Business, celestial, and creature parts
+
+The following canonical assets contain project-authored naming vocabulary,
+covered by the repository license:
+
+- `assets/Business Name Parts.json`: colors, animals, trades, and shop types.
+- `assets/Celestial Name Parts.json`: celestial objects and concepts.
+- `assets/Creature Name Parts.json`: appearance roots, body parts, habitats,
+  descriptors, animals, behavior adjectives, and creature types.
+
+These lists support fictional names. They are not registers of companies,
+astronomical objects, or species. Edit canonical assets and synchronize them
+with `python tools/sync_assets.py`. Validation checks the required keys and
+nonempty, unique entries. Preserve list order for seeded selection.

@@ -4,6 +4,9 @@ import { join } from "../dist/core.js";
 import {
   AlbumTitle,
   BandName,
+  BusinessName,
+  CelestialBodyName,
+  CreatureName,
   CriminalGangName,
   FictionalElementName,
   FictionalMineralName,
@@ -24,6 +27,9 @@ import { seededRandom } from "../dist/random.js";
 const generatorFactories = [
   () => new AlbumTitle(),
   () => new BandName(),
+  () => new BusinessName(),
+  () => new CelestialBodyName(),
+  () => new CreatureName(),
   () => new CriminalGangName(),
   () => new FictionalElementName(),
   () => new FictionalMineralName(),
@@ -125,7 +131,14 @@ test("literary action phrases keep required prepositions", () => {
 });
 
 test("place and organization names remain clean and varied", () => {
-  for (const Generator of [TavernName, LandmarkName, OrganizationName]) {
+  for (const Generator of [
+    TavernName,
+    LandmarkName,
+    OrganizationName,
+    BusinessName,
+    CelestialBodyName,
+    CreatureName,
+  ]) {
     const generator = new Generator();
     const rng = seededRandom(5343);
     const replay = seededRandom(5343);
@@ -146,7 +159,14 @@ test("place and organization names remain clean and varied", () => {
 test("nested place names use one stream in order", () => {
   const rng = seededRandom(42);
   const replay = seededRandom(42);
-  const parts = [new TavernName(), new LandmarkName(), new OrganizationName()];
+  const parts = [
+    new TavernName(),
+    new LandmarkName(),
+    new OrganizationName(),
+    new BusinessName(),
+    new CelestialBodyName(),
+    new CreatureName(),
+  ];
   const combined = join(parts, " / ");
   assert.equal(
     combined.render(rng),

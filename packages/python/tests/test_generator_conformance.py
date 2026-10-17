@@ -13,6 +13,29 @@ from wordsmith import (
     AlienName,
     AlbumTitle,
     AncientGivenName,
+    BusinessName,
+    TavernAnimal,
+    TavernObject,
+    BusinessAnimal,
+    WildAnimal,
+    BusinessColor,
+    LandmarkAdjective,
+    LandmarkFeature,
+    Habitat,
+    BodyPart,
+    CreatureType,
+    GuildTrade,
+    BusinessTrade,
+    IndustrialTrade,
+    ShopType,
+    CelestialObjectType,
+    OrganizationSymbol,
+    CompoundCreatureName,
+    CompoundLandmarkName,
+    HeraldicSymbol,
+    NaturalNameRoot,
+    CelestialBodyName,
+    CreatureName,
     BandName,
     BinaryGender,
     CriminalGangName,
@@ -50,6 +73,28 @@ _GENERATORS: dict[str, type[Component]] = {
     generator.__name__: generator
     for generator in (
         AlbumTitle,
+        BusinessName,
+        TavernAnimal,
+        TavernObject,
+        BusinessAnimal,
+        WildAnimal,
+        BusinessColor,
+        LandmarkAdjective,
+        LandmarkFeature,
+        Habitat,
+        BodyPart,
+        CreatureType,
+        GuildTrade,
+        BusinessTrade,
+        IndustrialTrade,
+        ShopType,
+        CelestialObjectType,
+        OrganizationSymbol,
+        CompoundCreatureName,
+        CompoundLandmarkName,
+        HeraldicSymbol,
+        CelestialBodyName,
+        CreatureName,
         BandName,
         CriminalGangName,
         FictionalElementName,
@@ -71,6 +116,11 @@ _GENERATORS: dict[str, type[Component]] = {
 
 def _build_generator(name: str, configuration: object) -> Component:
     assert isinstance(configuration, dict)
+    if name == "NaturalNameRoot":
+        assert set(configuration) == {"context"}
+        context = configuration["context"]
+        assert context in ("landmark", "creature")
+        return NaturalNameRoot(context=context)
     if name in {"GivenName", "AncientGivenName", "PersonName"}:
         allowed_keys = (
             {"gender"} if name == "AncientGivenName" else {"gender", "culture"}

@@ -7,6 +7,7 @@ import type {
   AncientGivenNameOptions,
   Component,
   GivenNameOptions,
+  NaturalNameRootOptions,
   RandomSource,
 } from "../dist/index.js";
 import {
@@ -15,24 +16,47 @@ import {
   AncientGivenName,
   BandName,
   BinaryGender,
+  BodyPart,
+  BusinessAnimal,
+  BusinessColor,
+  BusinessName,
+  BusinessTrade,
+  CelestialBodyName,
+  CelestialObjectType,
+  CompoundCreatureName,
+  CompoundLandmarkName,
+  CreatureName,
+  CreatureType,
   CriminalGangName,
   FantasyName,
   FictionalElementName,
   FictionalMineralName,
   GivenName,
   GivenNameCulture,
+  GuildTrade,
+  Habitat,
+  HeraldicSymbol,
   HighConceptMovieTitle,
+  IndustrialTrade,
+  LandmarkAdjective,
+  LandmarkFeature,
   LandmarkName,
   LiteraryTitle,
   MovieTitle,
+  NaturalNameRoot,
   NauticalShipName,
   OrganizationName,
+  OrganizationSymbol,
   PersonName,
+  ShopType,
   SimpleLiteraryTitle,
   SimpleMovieTitle,
+  TavernAnimal,
   TavernName,
+  TavernObject,
   TownName,
   UnusualLiteraryTitle,
+  WildAnimal,
 } from "../dist/index.js";
 
 interface TraceMetadata {
@@ -47,6 +71,10 @@ interface TraceMetadata {
 
 type TraceCase = TraceMetadata &
   (
+    | {
+        readonly generator: "NaturalNameRoot";
+        readonly configuration: NaturalNameRootOptions;
+      }
     | { readonly generator: keyof typeof generators; readonly configuration?: never }
     | {
         readonly generator: "GivenName" | "PersonName";
@@ -73,6 +101,28 @@ const cases = (
 
 const generators = {
   AlbumTitle,
+  BusinessName,
+  TavernAnimal,
+  TavernObject,
+  BusinessAnimal,
+  WildAnimal,
+  BusinessColor,
+  LandmarkAdjective,
+  LandmarkFeature,
+  Habitat,
+  BodyPart,
+  CreatureType,
+  GuildTrade,
+  BusinessTrade,
+  IndustrialTrade,
+  ShopType,
+  CelestialObjectType,
+  OrganizationSymbol,
+  CompoundCreatureName,
+  CompoundLandmarkName,
+  HeraldicSymbol,
+  CelestialBodyName,
+  CreatureName,
   BandName,
   CriminalGangName,
   FictionalElementName,
@@ -92,6 +142,8 @@ const generators = {
 
 function buildGenerator(trace: TraceCase): Component {
   switch (trace.generator) {
+    case "NaturalNameRoot":
+      return new NaturalNameRoot(trace.configuration);
     case "GivenName":
       return new GivenName(trace.configuration);
     case "AncientGivenName":
@@ -112,10 +164,17 @@ function validateConfiguration(trace: TraceCase): void {
   const isSynthetic =
     trace.generator === "AlienName" || trace.generator === "FantasyName";
   if (raw === undefined) {
+    assert.notEqual(trace.generator, "NaturalNameRoot");
     assert.ok(!isSynthetic, "Synthetic names require configuration.");
     return;
   }
   assert.ok(raw !== null && typeof raw === "object" && !Array.isArray(raw));
+  if (trace.generator === "NaturalNameRoot") {
+    assert.deepEqual(Object.keys(raw), ["context"]);
+    const context = (raw as { context: unknown }).context;
+    assert.ok(context === "landmark" || context === "creature");
+    return;
+  }
   const configuration = raw as {
     readonly syllableCount?: unknown;
     readonly allowHyphen?: unknown;

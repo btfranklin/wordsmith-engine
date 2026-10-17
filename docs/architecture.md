@@ -78,3 +78,15 @@ Wordsmith is English-oriented. Its articles, determiners, title casing,
 pluralization, and general datasets do not promise locale-aware grammar.
 Arbitrary Unicode text and curated exotic symbols must still pass through
 without code-point corruption.
+
+## Reusable naming parts
+
+Public word components own the semantic selection of curated naming parts.
+Keep distinct palettes when their sound or role differs. Composed naming
+components build on those words, and complete name generators build on the
+composed components. Each layer forwards the caller-owned random source.
+
+`CompoundCreatureName` and `CompoundLandmarkName` share `NaturalNameRoot` with
+explicit contexts. The context selects a distinct vocabulary; it does not
+combine the lists. `HeraldicSymbol` composes the tavern animal and object
+components. Organization symbols remain a separate specialized selection.

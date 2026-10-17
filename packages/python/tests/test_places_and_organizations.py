@@ -5,10 +5,16 @@ import random
 
 import pytest
 
-from wordsmith import LandmarkName, OrganizationName, TavernName, text
+from wordsmith import (
+    BusinessName, CelestialBodyName, CreatureName,
+    LandmarkName, OrganizationName, TavernName, text,
+)
 
 
-@pytest.mark.parametrize("generator_type", [TavernName, LandmarkName, OrganizationName])
+@pytest.mark.parametrize("generator_type", [
+    TavernName, LandmarkName, OrganizationName,
+    BusinessName, CelestialBodyName, CreatureName,
+])
 def test_names_are_immutable_clean_and_repeatable(generator_type):
     generator = generator_type()
     with pytest.raises(FrozenInstanceError):
@@ -27,7 +33,10 @@ def test_names_are_immutable_clean_and_repeatable(generator_type):
 def test_nested_names_use_one_stream_in_order():
     rng = random.Random(42)
     expected_rng = random.Random(42)
-    components = [TavernName(), LandmarkName(), OrganizationName()]
+    components = [
+        TavernName(), LandmarkName(), OrganizationName(),
+        BusinessName(), CelestialBodyName(), CreatureName(),
+    ]
     combined = text(*components, sep=" / ")
     assert combined(rng) == " / ".join(part(expected_rng) for part in components)
     assert rng.getstate() == expected_rng.getstate()

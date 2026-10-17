@@ -1,5 +1,11 @@
 export { AlbumTitle } from "./generators/album.js";
 export {
+  BusinessName,
+  CelestialBodyName,
+  CompoundCreatureName,
+  CreatureName,
+} from "./generators/business-celestial-creature.js";
+export {
   BandName,
   CriminalGangName,
   TownName,
@@ -20,6 +26,8 @@ export {
 } from "./generators/movie.js";
 export { NauticalShipName } from "./generators/nautical.js";
 export {
+  CompoundLandmarkName,
+  HeraldicSymbol,
   LandmarkName,
   OrganizationName,
   TavernName,
