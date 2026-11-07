@@ -121,7 +121,9 @@ pass through those same inspection stages.
 Versions are lockstep. For `v0.4.0` and later:
 
 1. Confirm both manifests/artifacts resolve to the intended tag version.
-2. Push the tag and let the draft-release workflow create reviewable notes.
+2. Push the tag. The draft-release workflow runs both complete package checks
+   against that tagged commit before creating reviewable notes. A failed check
+   prevents draft creation.
 3. Publish the reviewed GitHub Release.
 4. The unified workflow validates both artifacts and uses registry Trusted
    Publishing to upload those exact files.
