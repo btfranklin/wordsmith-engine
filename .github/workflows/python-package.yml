@@ -1,6 +1,7 @@
 name: Python package
 
 on:
+    workflow_call:
     push:
         branches: ["main"]
     pull_request:
@@ -10,6 +11,28 @@ permissions:
     contents: read
 
 jobs:
+    docs:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v7
+            - name: Install documentation checker
+              env:
+                  GH_TOKEN: ${{ github.token }}
+              run: |
+                  mkdir -p "$RUNNER_TEMP/perfect-doc"
+                  gh release download --repo btfranklin/perfect-doc \
+                      --pattern '*x86_64-unknown-linux-gnu.tar.gz' \
+                      --pattern SHA256SUMS --dir "$RUNNER_TEMP/perfect-doc"
+                  cd "$RUNNER_TEMP/perfect-doc"
+                  sha256sum --check --ignore-missing SHA256SUMS
+                  tar -xzf ./*.tar.gz --strip-components=1
+                  echo "$RUNNER_TEMP/perfect-doc" >> "$GITHUB_PATH"
+            - name: Check documentation
+              run: >-
+                  perfect-doc --no-banner check --offline
+                  README.md AGENTS.md spec docs
+                  packages/python/README.md packages/typescript/README.md
+
     build:
         runs-on: ubuntu-latest
         strategy:
@@ -60,4 +83,9 @@ jobs:
               run: pdm build --dest package-dist
             - name: Verify package
               working-directory: packages/python
-              run: pdm run verify-package --dist package-dist
+              run: |
+                  if [[ "$GITHUB_REF_TYPE" == tag ]]; then
+                      pdm run verify-package --dist package-dist --expected-version "${GITHUB_REF_NAME#v}"
+                  else
+                      pdm run verify-package --dist package-dist
+                  fi

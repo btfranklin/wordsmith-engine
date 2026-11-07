@@ -1,6 +1,7 @@
 name: TypeScript package
 
 on:
+    workflow_call:
     push:
         branches: ["main"]
     pull_request:
@@ -31,5 +32,10 @@ jobs:
                   cache-dependency-path: packages/typescript/package-lock.json
             - name: Install dependencies
               run: npm ci
+            - name: Verify release tag
+              if: github.ref_type == 'tag'
+              env:
+                  RELEASE_TAG: ${{ github.ref_name }}
+              run: npm run verify:release-tag
             - name: Validate package
               run: npm run check
