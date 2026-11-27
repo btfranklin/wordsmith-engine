@@ -4,16 +4,17 @@
 
 - `packages/python/`: Python source, tests, examples, manifest, and lockfile.
 - `packages/typescript/`: TypeScript source, tests, examples, manifest, and lockfile.
+- `packages/gdscript/`: Godot add-on, tests, and examples.
 - `assets/`: canonical JSON data. Package-local copies are generated from here.
 - `spec/`: language-neutral behavior, API mapping, and conformance fixtures.
 - `docs/`: architecture, asset provenance, and quality/release guidance.
-- `tools/`: repository-level maintenance shared by both packages.
+- `tools/`: repository-level maintenance shared by all packages.
 
 ## Sources Of Truth
 
 - Start with [README.md](README.md) for public usage and the feature list.
 - Read [spec/BEHAVIOR.md](spec/BEHAVIOR.md) before changing shared semantics.
-- Keep [spec/API.md](spec/API.md) aligned with both public package surfaces.
+- Keep [spec/API.md](spec/API.md) aligned with all public package surfaces.
 - Use [docs/architecture.md](docs/architecture.md) before changing boundaries.
 - Use [docs/quality.md](docs/quality.md) before committing or releasing.
 
@@ -31,6 +32,8 @@ Run TypeScript commands from `packages/typescript/`:
 - `npm run check`
 - `npm run examples`
 
+Run `python3 packages/gdscript/check.py` from the root with Godot 4.7 installed.
+
 Synchronize canonical assets from the repository root with
 `python tools/sync_assets.py`; verify them with `--check`.
 Refresh canonical given-name data with `python tools/update_name_assets.py`.
@@ -38,8 +41,8 @@ Refresh canonical given-name data with `python tools/update_name_assets.py`.
 ## Implementation Rules
 
 - Preserve idiomatic parity: Python uses snake_case and operators; TypeScript
-  uses camelCase and named composition functions.
-- Update `spec/`, both implementations, tests, examples, and public docs for a
+  uses camelCase. GDScript uses snake_case. Both use named composition functions.
+- Update `spec/`, all implementations, tests, examples, and public docs for a
   shared behavior change.
 - Pass the caller-provided random source through every render. Never create,
   restart, or retain one inside a component render.
@@ -50,7 +53,7 @@ Refresh canonical given-name data with `python tools/update_name_assets.py`.
 
 ## Release Notes
 
-- Python and TypeScript release from one `vX.Y.Z` tag at the same version.
+- All three packages release from one `vX.Y.Z` tag at the same version.
 - The tag workflow runs full reusable CI before creating the GitHub draft
   release. Publishing the reviewed release only rebuilds and publishes packages.
 - Push a tag and wait for validation and the generated draft before publishing.

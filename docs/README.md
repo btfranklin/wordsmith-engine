@@ -21,3 +21,4 @@ knowledge that does not belong in the public README.
 - Add or update docs when a convention would otherwise live only in chat, memory,
   or a one-off PR comment.
 - Prefer small focused docs over one large reference file.
+- [Godot Asset Store release](godot-store.md)

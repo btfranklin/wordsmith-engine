@@ -57,6 +57,10 @@ Python callers use `random.Random(seed)`. The TypeScript package provides
 The concrete TypeScript implementation remains private behind the public random
 source interface.
 
+GDScript callers use `Wordsmith.seeded_random(seed)` with a Godot integer seed
+or supply a source with a `random()` method returning a fraction in `[0, 1)`.
+For replay with the Godot source, keep the engine version fixed.
+
 TypeScript seeds are strings or finite safe integers. An integer is normalized
 to its decimal string, so `5343` and `"5343"` create the same stream. String
 seeds are otherwise preserved exactly, without trimming, case folding, or
@@ -356,7 +360,7 @@ uniform list entries by multiplying the fraction by the list length and
 rounding down. For weighted choices, select the first cumulative boundary
 strictly above the fraction times the total.
 
-For the same package release, digest, and configuration, both languages
+For the same package release, digest, and configuration, all three languages
 produce the same result. Call order and concurrency have no effect.
 Changing the format or modifiers preserves the first given name and surname
 for a fixed gender and culture selection. Use the exact release for durable
@@ -394,7 +398,7 @@ Synthetic names require `syllableCount`; omitted boolean options keep their
 public defaults. Consumers reject unknown keys and invalid values.
 
 Parity traces and output-quality tests have separate roles. A trace can confirm
-that both implementations return the same text without confirming its English
+that all implementations return the same text without confirming its English
 grammar. Focused quality tests check required prepositions and noun forms.
 
 `person-names.json` records shared person-name options, scripted draws, and

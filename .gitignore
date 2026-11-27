@@ -173,3 +173,6 @@ cython_debug/
 
 # macOS
 .DS_Store
+
+# Godot import cache
+.godot/

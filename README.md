@@ -3,7 +3,7 @@
 ![Wordsmith Engine banner](https://raw.githubusercontent.com/btfranklin/wordsmith-engine/main/.github/social%20preview/wordsmith_engine_social_preview.jpg "The Wordsmith Engine")
 
 Wordsmith Engine is a dependency-free, English-oriented procedural text
-toolkit with equal Python and TypeScript implementations. It builds names,
+toolkit with Python, TypeScript, and GDScript implementations. It builds names,
 titles, places, groups, vessels, fictional materials, and custom generators
 from small lazy components.
 
@@ -38,6 +38,8 @@ console.log(shipName.render(rng));
 const callSign = ws`WS-${new Noun()}`;
 console.log(callSign.render(rng));
 ```
+
+Godot 4.7.x installs from the release ZIP. See the [Godot package guide](packages/gdscript/README.md).
 
 ## Composition
 
@@ -83,7 +85,7 @@ other random consumers.
 
 Higher-level generators should derive stable named seeds for independent
 Wordsmith streams. Seed identity belongs to the caller. The same seed is not
-expected to produce the same text across Python and TypeScript.
+expected to produce the same text across languages.
 
 Replay also depends on package content, assets, component structure, and call
 order. Pin the package release when stored seeds must reproduce durable output.
@@ -132,13 +134,14 @@ surface.
 packages/
   python/        Python package, tests, and examples
   typescript/    TypeScript package, tests, and examples
+  gdscript/      Godot add-on, tests, and examples
 assets/          Canonical shared data
 spec/            Shared behavior and conformance fixtures
 docs/            Architecture, quality, and asset provenance
 tools/           Repository-wide maintenance and validation
 ```
 
-Install each package's development dependencies, then run the complete
+Install each package's development tools, then run the complete
 repository gate from the root:
 
 ```bash

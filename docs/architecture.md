@@ -1,7 +1,7 @@
 # Architecture
 
 Wordsmith Engine is one dependency-free procedural text library implemented in
-Python and TypeScript. The central abstraction is a lazy `Component` that
+Python, TypeScript, and GDScript. The central abstraction is a lazy `Component` that
 renders synchronously through a caller-owned random source.
 
 ## Repository and package boundary
@@ -10,13 +10,14 @@ renders synchronously through a caller-owned random source.
   distributable metadata.
 - `packages/typescript` owns the TypeScript implementation, tests, examples,
   and distributable metadata.
+- `packages/gdscript` owns the Godot add-on, tests, examples, and ZIP builder.
 - `spec` owns shared behavior and conformance data, but is never a runtime
   package dependency.
 - `assets` owns canonical data. Each package contains a verified byte-identical
   runtime copy.
 
-Neither language is canonical. Shared changes are complete only when the
-contract, both implementations, tests, and documentation agree.
+The shared contract defines behavior. Shared changes are complete only when the
+contract, all implementations, tests, and documentation agree.
 
 ## Runtime layers
 
@@ -64,6 +65,7 @@ algorithm, without version dispatch or legacy paths.
   authored composition recipes and weights idiomatic in each implementation.
 
 Python uses `one_of`, `weighted_one_of`, `either`, `maybe`, `|`, and `+`.
+GDScript uses named snake_case functions under `Wordsmith`.
 TypeScript uses `oneOf`, `weightedOneOf`, `either`, `maybe`, `join`, and
 `concat`. These spellings share behavior, not syntax.
 

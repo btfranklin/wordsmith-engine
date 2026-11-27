@@ -15,8 +15,11 @@ jobs:
     typescript-validation:
         uses: ./.github/workflows/typescript-package.yml
 
+    gdscript-validation:
+        uses: ./.github/workflows/gdscript-package.yml
+
     draft-release:
-        needs: [python-validation, typescript-validation]
+        needs: [python-validation, typescript-validation, gdscript-validation]
         runs-on: ubuntu-latest
         permissions:
             contents: write
@@ -33,3 +36,11 @@ jobs:
                   include_github_generated_notes: "true"
                   draft: "true"
                   create_release: "true"
+            - uses: actions/download-artifact@v8
+              with:
+                  name: godot-distribution
+                  path: godot-dist
+            - name: Attach verified Godot add-on to the draft
+              env:
+                  GH_TOKEN: ${{ github.token }}
+              run: gh release upload "$GITHUB_REF_NAME" "godot-dist/wordsmith-engine-godot-${GITHUB_REF_NAME#v}.zip"

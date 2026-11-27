@@ -1,8 +1,27 @@
 # Public API Mapping
 
-Python and TypeScript are equal implementations with language-appropriate
+Python, TypeScript, and GDScript are equal implementations with language-appropriate
 spelling. Python renders a component with `Component.__call__`; TypeScript uses
 `Component.render`.
+
+## GDScript API
+
+Godot exposes the shared generator classes and string option constants under
+`Wordsmith`. For example, use `Wordsmith.Noun.new()` or set the noun form
+with `Wordsmith.NounForm.PLURAL`. Generator constructors take snake_case
+option keys. Wordsmith components use `render(rng)` and the same snake_case
+transformations as Python.
+
+Use `component` with a Callable or extend `Component`. Use `literal`, `empty`,
+`join`, `concat`, `one_of`, `weighted_one_of`, `either`, and `maybe` on
+`Wordsmith`. Pass arrays to the composition functions. Weighted entries
+are pairs with the weight first. Pass an integer to `seeded_random` to
+construct a `RandomSource`. Custom sources provide `random()` and return
+a finite fraction in `[0, 1)`. Use `concat` to compose an exact template.
+
+`PersonName.from_hash` returns the shared SHA-256-derived name synchronously.
+`random_character`, `random_character_from_set`, and `make_identifier` use the
+same spellings as Python and require a caller-owned source.
 
 ## Core semantics
 

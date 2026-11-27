@@ -31,7 +31,7 @@ jobs:
               run: >-
                   perfect-doc --no-banner check --offline
                   README.md AGENTS.md spec docs
-                  packages/python/README.md packages/typescript/README.md
+                  packages/python/README.md packages/typescript/README.md packages/gdscript/README.md
 
     build:
         runs-on: ubuntu-latest
