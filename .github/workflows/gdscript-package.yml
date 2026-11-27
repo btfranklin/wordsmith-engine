@@ -1,0 +1,49 @@
+name: GDScript package
+
+on:
+    workflow_call:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+permissions:
+    contents: read
+
+jobs:
+    package:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                engine: [minimum, latest]
+        steps:
+            - uses: actions/checkout@v7
+            - name: Install the official Godot editor
+              env:
+                  GH_TOKEN: ${{ github.token }}
+                  ENGINE: ${{ matrix.engine }}
+              run: |
+                  version=4.7
+                  if [[ "$ENGINE" == latest ]]; then
+                      version=$(git ls-remote --tags --refs https://github.com/godotengine/godot-builds.git '4.7*-stable' |
+                          sed -nE 's|.*refs/tags/(4\.7(\.[0-9]+)?)-stable$|\1|p' | sort -V | tail -1)
+                  fi
+                  mkdir "$RUNNER_TEMP/godot"
+                  cd "$RUNNER_TEMP/godot"
+                  asset="Godot_v${version}-stable_linux.x86_64.zip"
+                  gh release download "${version}-stable" --repo godotengine/godot-builds -p "$asset" -p SHA512-SUMS.txt
+                  sha512sum --check --ignore-missing SHA512-SUMS.txt
+                  unzip -q "$asset"
+                  mv "${asset%.zip}" godot
+                  echo "$PWD" >> "$GITHUB_PATH"
+            - name: Test, package, and run an exported game
+              run: |
+                  args=(--output packages/gdscript/dist)
+                  if [[ "$GITHUB_REF_TYPE" == tag ]]; then args+=(--tag "$GITHUB_REF_NAME"); fi
+                  python3 packages/gdscript/check.py "${args[@]}"
+            - uses: actions/upload-artifact@v7
+              if: github.ref_type == 'tag' && matrix.engine == 'latest'
+              with:
+                  name: godot-distribution
+                  path: packages/gdscript/dist/*.zip
+                  if-no-files-found: error

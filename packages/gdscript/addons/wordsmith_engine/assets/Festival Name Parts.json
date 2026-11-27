@@ -1,0 +1,53 @@
+{
+  "festivalTypes": [
+    "festival",
+    "fair",
+    "feast",
+    "gathering",
+    "celebration",
+    "masque",
+    "carnival",
+    "revel",
+    "procession",
+    "market",
+    "wake",
+    "pageant",
+    "dance",
+    "bonfire",
+    "jubilee"
+  ],
+  "festivalThemes": [
+    "returning birds",
+    "first snow",
+    "the harvest moon",
+    "new beginnings",
+    "the river's blessing",
+    "wildflowers",
+    "the longest night",
+    "the first rain",
+    "ancestors",
+    "the apple harvest",
+    "summer stars",
+    "the thaw",
+    "old friends",
+    "lanterns",
+    "the year's turning"
+  ],
+  "festivalSuffixes": [
+    "fall",
+    "wake",
+    "tide",
+    "light",
+    "bloom",
+    "song",
+    "fire",
+    "dance",
+    "feast",
+    "fair",
+    "day",
+    "night",
+    "gathering",
+    "blessing",
+    "revel"
+  ]
+}

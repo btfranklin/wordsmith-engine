@@ -1,0 +1,53 @@
+{
+  "spellModifiers": [
+    "borrowed",
+    "hidden",
+    "silent",
+    "unbound",
+    "ancient",
+    "wandering",
+    "hollow",
+    "patient",
+    "shifting",
+    "forgotten",
+    "restless",
+    "veiled",
+    "sleeping",
+    "distant",
+    "untamed"
+  ],
+  "spellCommands": [
+    "awaken",
+    "unseal",
+    "summon",
+    "release",
+    "restore",
+    "silence",
+    "reveal",
+    "unbind",
+    "preserve",
+    "illuminate",
+    "protect",
+    "transform",
+    "remember",
+    "banish",
+    "enchant"
+  ],
+  "spellTargets": [
+    "memory",
+    "gate",
+    "mirror",
+    "shadow",
+    "promise",
+    "dream",
+    "ember",
+    "secret",
+    "path",
+    "garden",
+    "wound",
+    "door",
+    "name",
+    "storm",
+    "song"
+  ]
+}

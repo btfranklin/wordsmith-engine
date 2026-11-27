@@ -1,4 +1,4 @@
-"""Synchronize canonical assets into both self-contained language packages."""
+"""Synchronize canonical assets into the self-contained language packages."""
 
 from __future__ import annotations
 
@@ -10,6 +10,7 @@ import shutil
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 CANONICAL_DIRECTORY = REPOSITORY_ROOT / "assets"
 PACKAGE_DIRECTORIES = (
+    REPOSITORY_ROOT / "packages/gdscript/addons/wordsmith_engine/assets",
     REPOSITORY_ROOT / "packages" / "python" / "src" / "wordsmith" / "assets",
     REPOSITORY_ROOT / "packages" / "typescript" / "src" / "assets",
 )
