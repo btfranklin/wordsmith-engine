@@ -2,8 +2,8 @@
 
 Use the **Wordsmith Engine** listing under B.T. Franklin's publisher account.
 Select **Addon**, the MIT license, and free distribution. Set the supported
-engine range to 4.7 through 4.7.x. Use the square icon in
-[the Store media directory](../packages/gdscript/store/icon.png).
+engine range to 4.7 through 4.7.x. Use the 16:9 thumbnail in
+[the Store media directory](../packages/gdscript/store/thumbnail.jpg).
 
 ## Listing text
 
