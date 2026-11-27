@@ -58,6 +58,7 @@ from wordsmith.names import (
     GivenName,
     GivenNameCulture,
     PersonName,
+    PersonNameModifiers,
     Surname,
 )
 from wordsmith.words import (
@@ -169,6 +170,7 @@ __all__ = [
     "OrganizationSymbol",
     "OneOf",
     "PersonName",
+    "PersonNameModifiers",
     "PossessiveForm",
     "PrefixedByArticle",
     "PrefixedByDeterminer",

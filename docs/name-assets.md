@@ -33,6 +33,13 @@ python tools/update_name_assets.py
 python tools/sync_assets.py
 ```
 
+## Person name styles
+
+`assets/Person Name Styles.json` contains the ordered tables for varied
+given-name formats and modifier categories. It also contains the literal
+values for professional titles, generation suffixes, and credentials. Run the
+asset synchronization command after edits. List and table order affect replay.
+
 ## Place and organization parts
 
 `assets/Place and Organization Parts.json` contains project-authored word lists

@@ -32,6 +32,7 @@ EXPECTED_NAMES = {
     "Literary Title Parts.json",
     "Material Name Parts.json",
     "Nouns.json",
+    "Person Name Styles.json",
     "Place and Organization Parts.json",
     "Synthetic Name Parts.json",
     "Verbs.json",
@@ -84,6 +85,41 @@ def string_list(value: object, location: str) -> list[str]:
     if len(result) != len(set(result)):
         raise AssertionError(f"{location} contains duplicate entries")
     return result
+
+
+def validate_person_name_styles() -> None:
+    name = "Person Name Styles.json"
+    value = load(name)
+    keys = {"formats", "modifiers", "titles", "generations", "credentials"}
+    if not isinstance(value, dict) or set(value) != keys:
+        raise AssertionError(f"{name} has unexpected keys")
+    for key in ("titles", "generations", "credentials"):
+        string_list(value[key], f"{name}.{key}")
+    for key in ("formats", "modifiers"):
+        rows = value[key]
+        if not isinstance(rows, list) or not rows:
+            raise AssertionError(f"{name}.{key} must be a nonempty list")
+        total = 0.0
+        for row in rows:
+            if not isinstance(row, list) or len(row) != 2:
+                raise AssertionError(f"Invalid entry in {name}.{key}")
+            weight, option = row
+            if (
+                type(weight) not in (int, float)
+                or not math.isfinite(weight)
+                or weight < 0
+            ):
+                raise AssertionError(f"Invalid weight in {name}.{key}")
+            total += weight
+            if key == "formats":
+                if not isinstance(option, list) or not option or any(
+                    part not in ("full", "initial") for part in option
+                ):
+                    raise AssertionError(f"Invalid name format in {name}")
+            elif option not in ("none", "prefix", "generation", "credentials"):
+                raise AssertionError(f"Invalid modifier category in {name}")
+        if not math.isfinite(total) or total <= 0:
+            raise AssertionError(f"Invalid total weight in {name}.{key}")
 
 
 def validate_tabular(name: str, width: int) -> None:
@@ -328,6 +364,7 @@ def main() -> None:
     validate_tabular("Nouns.json", 2)
     validate_tabular("Verbs.json", 5)
     validate_given_names()
+    validate_person_name_styles()
     validate_curated_word_lists()
     validate_named_string_lists(
         "Spell Name Parts.json",

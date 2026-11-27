@@ -1,0 +1,21 @@
+{
+  "formats": [
+    [82.49, ["full"]],
+    [10, ["full", "initial"]],
+    [4, ["full", "full"]],
+    [0.5, ["initial", "initial"]],
+    [1, ["initial", "full"]],
+    [1, ["initial"]],
+    [1, ["full", "initial", "initial"]],
+    [0.01, ["initial", "initial", "initial"]]
+  ],
+  "modifiers": [
+    [97, "none"],
+    [1.5, "prefix"],
+    [1, "generation"],
+    [0.5, "credentials"]
+  ],
+  "titles": ["Dr.", "Prof."],
+  "generations": ["Jr.", "Sr.", "II", "III", "IV", "V"],
+  "credentials": ["Esq.", "PhD.", "MD"]
+}

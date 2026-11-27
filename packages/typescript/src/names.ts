@@ -1,9 +1,13 @@
 import surnamesJson from "./assets/Common Surnames.json" with { type: "json" };
 import givenNamesJson from "./assets/Given Names.json" with { type: "json" };
+import personNameStylesJson from "./assets/Person Name Styles.json" with {
+  type: "json",
+};
 import syntheticNamePartsJson from "./assets/Synthetic Name Parts.json" with {
   type: "json",
 };
-import { Component, choose, join, type RandomSource, randomBoolean } from "./core.js";
+import { Component, choose, type RandomSource, randomBoolean } from "./core.js";
+import { randomFraction } from "./random.js";
 import { firstUpper } from "./strings.js";
 
 export const BinaryGender = Object.freeze({
@@ -114,14 +118,157 @@ export class Surname extends Component {
   }
 }
 
-export interface PersonNameOptions {
-  readonly gender?: BinaryGender | undefined;
-  readonly culture?: GivenNameCulture | undefined;
+export type GivenNamePart = "full" | "initial";
+export type PersonNameStyle = "plain" | "varied";
+
+export interface PersonNameModifiers {
+  readonly prefix?: string | undefined;
+  readonly generation?: string | undefined;
+  readonly credentials?: readonly string[] | undefined;
 }
+
+type NameWeights<T> = readonly (readonly [weight: number, value: T])[];
+
+export interface PersonNameOptions extends GivenNameOptions, PersonNameModifiers {
+  readonly style?: PersonNameStyle | undefined;
+  readonly givenNameFormat?: readonly GivenNamePart[] | undefined;
+  readonly initialPeriod?: boolean | undefined;
+  readonly initialSeparator?: string | undefined;
+  readonly generationSeparator?: string | undefined;
+  readonly credentialSeparator?: string | undefined;
+  readonly formatWeights?: NameWeights<readonly GivenNamePart[]> | undefined;
+  readonly modifierWeights?: NameWeights<PersonNameModifiers> | undefined;
+}
+
+interface NameDraw {
+  readonly label: string;
+  readonly count: number;
+  readonly boundaries?: readonly number[];
+}
+
+type NameSelection<T> = Generator<NameDraw, T, number>;
+
+interface WeightedChoices<T> {
+  readonly values: readonly T[];
+  readonly boundaries: readonly number[];
+}
+
+function compileWeights<T>(pairs: NameWeights<T>): WeightedChoices<T> {
+  const values: T[] = [];
+  const boundaries: number[] = [];
+  let total = 0;
+  let largest = 0;
+  for (const [weight, value] of pairs) {
+    if (!Number.isFinite(weight) || weight < 0) {
+      throw new RangeError("Weights must be finite and non-negative.");
+    }
+    if (weight > 0) {
+      total += weight;
+      largest = Math.max(largest, weight);
+      values.push(value);
+      boundaries.push(total);
+    }
+  }
+  if (!(total > 0) || !Number.isFinite(total)) {
+    throw new RangeError("Weights must have a finite positive total.");
+  }
+  if (total <= 2 ** -1022) {
+    total = 0;
+    boundaries.length = 0;
+    for (const [weight] of pairs) {
+      if (weight > 0) {
+        total += weight / largest;
+        boundaries.push(total);
+      }
+    }
+  }
+  return { values, boundaries };
+}
+
+function drawIndex(fraction: number, { count, boundaries }: NameDraw): number {
+  if (boundaries === undefined) {
+    return Math.floor(fraction * count);
+  }
+  const target = fraction * (boundaries.at(-1) as number);
+  const index = boundaries.findIndex((boundary) => target < boundary);
+  return index < 0 ? count - 1 : index;
+}
+
+function* selectNameValue<T>(label: string, values: readonly T[]): NameSelection<T> {
+  const index = yield { label, count: values.length };
+  return values[index] as T;
+}
+
+function* selectWeighted<T>(
+  label: string,
+  choices: WeightedChoices<T>,
+): NameSelection<T> {
+  const index = yield {
+    label,
+    count: choices.values.length,
+    boundaries: choices.boundaries,
+  };
+  return choices.values[index] as T;
+}
+
+function snapshotFormat(parts: readonly GivenNamePart[]): readonly GivenNamePart[] {
+  if (
+    !Array.isArray(parts) ||
+    parts.length === 0 ||
+    Array.from(parts).some((part) => part !== "full" && part !== "initial")
+  ) {
+    throw new RangeError("Given name format must contain full or initial parts.");
+  }
+  return Object.freeze([...parts]);
+}
+
+function snapshotModifiers(modifiers: PersonNameModifiers): PersonNameModifiers {
+  const { prefix, generation, credentials } = modifiers;
+  if (
+    (prefix !== undefined && typeof prefix !== "string") ||
+    (generation !== undefined && typeof generation !== "string")
+  ) {
+    throw new TypeError("Prefix and generation must be strings.");
+  }
+  if (
+    credentials !== undefined &&
+    (!Array.isArray(credentials) ||
+      Array.from(credentials).some(
+        (value) => typeof value !== "string" || !value.trim(),
+      ))
+  ) {
+    throw new TypeError("Credentials must be a sequence of nonempty strings.");
+  }
+  return {
+    prefix,
+    generation,
+    credentials:
+      credentials === undefined ? undefined : Object.freeze([...credentials]),
+  };
+}
+
+const personNameStyles = personNameStylesJson as unknown as {
+  readonly formats: NameWeights<readonly GivenNamePart[]>;
+  readonly modifiers: NameWeights<"none" | "prefix" | "generation" | "credentials">;
+  readonly titles: readonly string[];
+  readonly generations: readonly string[];
+  readonly credentials: readonly string[];
+};
+const defaultNameFormats = compileWeights(personNameStyles.formats);
+const defaultNameModifiers = compileWeights(personNameStyles.modifiers);
 
 export class PersonName extends Component {
   readonly gender: BinaryGender | undefined;
   readonly culture: GivenNameCulture | undefined;
+  readonly #style: PersonNameStyle;
+  readonly #givenNameFormat: readonly GivenNamePart[] | undefined;
+  readonly #initialPeriod: boolean;
+  readonly #initialSeparator: string;
+  readonly #generationSeparator: string;
+  readonly #credentialSeparator: string;
+  readonly #overrides: PersonNameModifiers;
+  readonly #formats: WeightedChoices<readonly GivenNamePart[]> | undefined;
+  readonly #modifiers: WeightedChoices<PersonNameModifiers> | undefined;
 
   constructor(options: PersonNameOptions = {}) {
     super();
@@ -131,16 +278,167 @@ export class PersonName extends Component {
     if (options.culture !== undefined && !isGivenNameCulture(options.culture)) {
       throw new TypeError(`Unsupported given-name culture: ${String(options.culture)}`);
     }
+    const {
+      style = "plain",
+      givenNameFormat,
+      initialPeriod = true,
+      initialSeparator = "",
+      generationSeparator = " ",
+      credentialSeparator = ", ",
+      formatWeights,
+      modifierWeights,
+    } = options;
+    if (style !== "plain" && style !== "varied") {
+      throw new RangeError("Style must be plain or varied.");
+    }
+    if (typeof initialPeriod !== "boolean") {
+      throw new TypeError("Initial period must be a boolean.");
+    }
+    if (
+      [initialSeparator, generationSeparator, credentialSeparator].some(
+        (separator) => typeof separator !== "string",
+      )
+    ) {
+      throw new TypeError("Separators must be strings.");
+    }
     this.gender = options.gender;
     this.culture = options.culture;
+    this.#style = style;
+    this.#givenNameFormat =
+      givenNameFormat === undefined ? undefined : snapshotFormat(givenNameFormat);
+    this.#initialPeriod = initialPeriod;
+    this.#initialSeparator = initialSeparator;
+    this.#generationSeparator = generationSeparator;
+    this.#credentialSeparator = credentialSeparator;
+    this.#overrides = snapshotModifiers(options);
+    this.#formats =
+      formatWeights === undefined
+        ? undefined
+        : compileWeights(
+            formatWeights.map(([weight, format]) => [weight, snapshotFormat(format)]),
+          );
+    this.#modifiers =
+      modifierWeights === undefined
+        ? undefined
+        : compileWeights(
+            modifierWeights.map(([weight, modifiers]) => [
+              weight,
+              snapshotModifiers(modifiers),
+            ]),
+          );
     Object.freeze(this);
   }
 
   override render(rng: RandomSource): string {
-    return join(
-      [new GivenName({ gender: this.gender, culture: this.culture }), new Surname()],
-      " ",
-    ).render(rng);
+    const selection = this.#selectName();
+    let step = selection.next();
+    while (!step.done) {
+      step = selection.next(drawIndex(randomFraction(rng), step.value));
+    }
+    return step.value;
+  }
+
+  async fromHash(digest: string): Promise<string> {
+    if (
+      typeof digest !== "string" ||
+      digest.length !== 64 ||
+      !/^[0-9a-f]+$/iu.test(digest)
+    ) {
+      throw new RangeError("Expected a 64-character hexadecimal SHA-256 digest.");
+    }
+    const bytes = new Uint8Array(33);
+    for (let index = 0; index < 32; index += 1) {
+      bytes[index] = Number.parseInt(digest.slice(index * 2, index * 2 + 2), 16);
+    }
+
+    const encoder = new TextEncoder();
+    const selection = this.#selectName();
+    let step = selection.next();
+    while (!step.done) {
+      const { label } = step.value;
+      const labelBytes = encoder.encode(label);
+      const input = new Uint8Array(bytes.length + labelBytes.length);
+      input.set(bytes);
+      input.set(labelBytes, bytes.length);
+      const hash = await globalThis.crypto.subtle.digest("SHA-256", input);
+      const fraction = new DataView(hash).getUint32(0) / 2 ** 32;
+      step = selection.next(drawIndex(fraction, step.value));
+    }
+    return step.value;
+  }
+
+  *#selectName(): NameSelection<string> {
+    let parts = this.#givenNameFormat;
+    if (parts === undefined) {
+      const formats =
+        this.#formats ?? (this.#style === "varied" ? defaultNameFormats : undefined);
+      parts =
+        formats === undefined ? ["full"] : yield* selectWeighted("format", formats);
+    }
+    const gender = this.gender ?? (yield* selectNameValue("gender", BINARY_GENDERS));
+    const culture =
+      this.culture ?? (yield* selectNameValue("culture", GIVEN_NAME_CULTURES));
+    const names = givenNames.modern[culture][gender];
+    const given: string[] = [];
+    for (const [index, part] of parts.entries()) {
+      const value = yield* selectNameValue(`given.${index}`, names);
+      if (index > 0) {
+        given.push(
+          parts[index - 1] === "initial" && part === "initial"
+            ? this.#initialSeparator
+            : " ",
+        );
+      }
+      if (part === "initial") {
+        const letter = value.match(/\p{L}/u)?.[0] as string;
+        given.push(letter.toUpperCase(), this.#initialPeriod ? "." : "");
+      } else {
+        given.push(value);
+      }
+    }
+    const surname = yield* selectNameValue("surname", surnames);
+    const modifiers = yield* this.#selectModifiers();
+    const prefix = this.#overrides.prefix ?? modifiers.prefix;
+    const generation = this.#overrides.generation ?? modifiers.generation;
+    const credentials = this.#overrides.credentials ?? modifiers.credentials ?? [];
+    return (
+      (prefix ? `${prefix} ` : "") +
+      `${given.join("")} ${surname}` +
+      (generation ? this.#generationSeparator + generation : "") +
+      credentials.map((credential) => this.#credentialSeparator + credential).join("")
+    );
+  }
+
+  *#selectModifiers(): NameSelection<PersonNameModifiers> {
+    const { prefix, generation, credentials } = this.#overrides;
+    if (prefix !== undefined && generation !== undefined && credentials !== undefined) {
+      return {};
+    }
+    if (this.#modifiers !== undefined) {
+      return yield* selectWeighted("modifier", this.#modifiers);
+    }
+    if (this.#style === "varied") {
+      const category = yield* selectWeighted("modifier", defaultNameModifiers);
+      if (category === "prefix" && prefix === undefined) {
+        return { prefix: yield* selectNameValue("title", personNameStyles.titles) };
+      }
+      if (category === "generation" && generation === undefined) {
+        return {
+          generation: yield* selectNameValue(
+            "generation",
+            personNameStyles.generations,
+          ),
+        };
+      }
+      if (category === "credentials" && credentials === undefined) {
+        const credential = yield* selectNameValue(
+          "credential",
+          personNameStyles.credentials,
+        );
+        return { credentials: [credential] };
+      }
+    }
+    return {};
   }
 }
 

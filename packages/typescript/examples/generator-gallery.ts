@@ -23,3 +23,19 @@ const generated = [
 for (const [label, value] of generated) {
   console.log(`${label}: ${value}`);
 }
+
+const hash = await globalThis.crypto.subtle.digest(
+  "SHA-256",
+  new TextEncoder().encode("character:editor"),
+);
+const digest = Array.from(new Uint8Array(hash), (byte) =>
+  byte.toString(16).padStart(2, "0"),
+).join("");
+const editor = new PersonName({
+  givenNameFormat: ["initial", "initial"],
+  prefix: "Dr.",
+  generation: "IV",
+  credentials: ["PhD."],
+});
+console.log(`Editor: ${await editor.fromHash(digest)}`);
+console.log(`Varied: ${await new PersonName({ style: "varied" }).fromHash(digest)}`);

@@ -51,7 +51,10 @@ export type {
   AncientGivenNameOptions,
   FantasyNameOptions,
   GivenNameOptions,
+  GivenNamePart,
+  PersonNameModifiers,
   PersonNameOptions,
+  PersonNameStyle,
 } from "./names.js";
 export {
   AlienName,

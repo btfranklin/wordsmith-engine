@@ -62,3 +62,11 @@ and `Season` are also available for custom compositions.
 
 See the [repository README](https://github.com/btfranklin/wordsmith-engine) for
 the complete feature list, TypeScript usage, examples, and development guide.
+
+## Person names
+
+Use `PersonName(style="varied")` for a mix of given-name formats and rare
+modifiers. Configure a fixed form with `given_name_format`, `prefix`,
+`generation`, and `credentials`. Call `person.from_hash(digest)` with a
+hexadecimal SHA-256 digest for cross-language replay.
+See [the person-name example](examples/character_names.py).

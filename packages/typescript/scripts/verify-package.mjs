@@ -173,7 +173,10 @@ function verifyBrowserConsumer(consumerDirectory) {
   writeFileSync(
     join(consumerDirectory, "browser-entry.js"),
     `
-      import { Noun, seededRandom } from "wordsmith-engine";
+      import { Noun, PersonName, seededRandom } from "wordsmith-engine";
+      if (await new PersonName().fromHash("0".repeat(64)) !== "Kandi Santos") {
+        throw new Error("Browser bundle changed the person-name hash output.");
+      }
       if (!new Noun().render(seededRandom("browser-smoke-test"))) {
         throw new Error("unexpected empty noun");
       }

@@ -108,7 +108,37 @@ Both packages export `AlienName`, `AncientGivenName`, `BinaryGender`,
 `FantasyName`, `GivenName`, `GivenNameCulture`, `PersonName`, and `Surname`.
 TypeScript additionally exports the declaration-only configuration types
 `AlienNameOptions`, `AncientGivenNameOptions`, `FantasyNameOptions`,
-`GivenNameOptions`, and `PersonNameOptions`.
+`GivenNameOptions`, `GivenNamePart`, `PersonNameStyle`, and
+`PersonNameOptions`. Python exports `PersonNameModifiers` as a frozen data
+class. TypeScript exports `PersonNameModifiers` as a type for a plain object.
+
+### Person name options
+
+| Python | TypeScript | Effect |
+| --- | --- | --- |
+| `style` | `style` | Use `plain` (default) or the built-in `varied` mix. |
+| `given_name_format` | `givenNameFormat` | Set a sequence of `full` and `initial` parts. |
+| `initial_period` | `initialPeriod` | Add a period after each initial. Default is true. |
+| `initial_separator` | `initialSeparator` | Join adjacent initials. Default is the empty string. |
+| `prefix` | `prefix` | Add a title before the given names. |
+| `generation` | `generation` | Add a suffix such as `IV` after the surname. |
+| `generation_separator` | `generationSeparator` | Join the surname and generation. Default is one space. |
+| `credentials` | `credentials` | Add an ordered list of credentials after the surname or generation. |
+| `credential_separator` | `credentialSeparator` | Insert a separator before each credential. Default is comma and space. |
+| `format_weights` | `formatWeights` | Set ordered `(weight, format)` pairs. |
+| `modifier_weights` | `modifierWeights` | Set ordered `(weight, modifiers)` pairs. |
+
+Each modifier option has `prefix`, `generation`, and `credentials` fields.
+Omitted fields inside a modifier option contribute no text. A top-level field
+overrides the same field in the selected option. Use an empty string or empty
+credential sequence to suppress that field. Each weight table applies when
+supplied, including in plain style. An explicit given-name format takes
+precedence over format weights.
+
+Call `person.from_hash(digest)` in Python or
+`await person.fromHash(digest)` in TypeScript for cross-language hash replay.
+Supply a 64-character hexadecimal SHA-256 digest. TypeScript uses Web Crypto
+in supported Node.js runtimes and in secure browser contexts.
 
 ## Composite generators
 

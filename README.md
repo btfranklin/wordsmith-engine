@@ -93,6 +93,21 @@ runtime releases.
 `ReadableUniqueIdentifier` additionally includes the current time and is
 therefore outside seed-only replay.
 
+## Person names
+
+`PersonName()` generates one given name and a surname. Set `style="varied"`
+in Python or `style: "varied"` in TypeScript to get more formats. About
+18% use a different given-name format. The mix uses two initials in place of
+all given names 0.5% of the time and three initials 0.01% of the time.
+About 3% get a title, generation suffix, or credential. You can set each field
+explicitly.
+
+For repeatable results across packages, call `person.from_hash(digest)` or
+`await person.fromHash(digest)` with a hexadecimal SHA-256 digest. When
+composing a title, apply title case to the surrounding words before you join
+the person name. This preserves forms such as `R.R.`, `IV`, and `PhD.`.
+See [the person-name options](spec/API.md#person-name-options).
+
 ## Included generators
 
 - Names: `GivenName`, `Surname`, `PersonName`, `AlienName`,

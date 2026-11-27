@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from hashlib import sha256
 import random
 
 from wordsmith import (
@@ -35,6 +36,16 @@ def main() -> None:
     print("\nFull names:")
     for _ in range(5):
         print(PersonName()(rng))
+
+    digest = sha256(b"character:editor").hexdigest()
+    editor = PersonName(
+        given_name_format=("initial", "initial"),
+        prefix="Dr.",
+        generation="IV",
+        credentials=("PhD.",),
+    )
+    print(f"\nEditor: {editor.from_hash(digest)}")
+    print(f"Varied: {PersonName(style='varied').from_hash(digest)}")
 
     print("\nAlien names:")
     for _ in range(5):

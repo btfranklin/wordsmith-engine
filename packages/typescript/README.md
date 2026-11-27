@@ -107,3 +107,11 @@ npm run check
 
 The shared behavioral contract and the Python peer live in the
 [repository](https://github.com/btfranklin/wordsmith-engine).
+
+## Person names
+
+Use `new PersonName({ style: "varied" })` for a mix of given-name formats and
+rare modifiers. Configure a fixed form with `givenNameFormat`, `prefix`,
+`generation`, and `credentials`. Call `await person.fromHash(digest)` with a
+hexadecimal SHA-256 digest for cross-language replay.
+See [the person-name example](examples/generator-gallery.ts).

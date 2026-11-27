@@ -1,0 +1,1129 @@
+{
+  "draws": [
+    {
+      "name": "format-0",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "givenNameFormat": [
+          "full"
+        ]
+      },
+      "fractions": [
+        0,
+        0
+      ],
+      "expected": "Aaquil Smith"
+    },
+    {
+      "name": "format-1",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "givenNameFormat": [
+          "full",
+          "initial"
+        ]
+      },
+      "fractions": [
+        0,
+        0,
+        0
+      ],
+      "expected": "Aaquil A. Smith"
+    },
+    {
+      "name": "format-2",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "givenNameFormat": [
+          "full",
+          "full"
+        ]
+      },
+      "fractions": [
+        0,
+        0,
+        0
+      ],
+      "expected": "Aaquil Aaquil Smith"
+    },
+    {
+      "name": "format-3",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "givenNameFormat": [
+          "initial",
+          "initial"
+        ]
+      },
+      "fractions": [
+        0,
+        0,
+        0
+      ],
+      "expected": "A.A. Smith"
+    },
+    {
+      "name": "format-4",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "givenNameFormat": [
+          "initial",
+          "full"
+        ]
+      },
+      "fractions": [
+        0,
+        0,
+        0
+      ],
+      "expected": "A. Aaquil Smith"
+    },
+    {
+      "name": "format-5",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "givenNameFormat": [
+          "initial"
+        ]
+      },
+      "fractions": [
+        0,
+        0
+      ],
+      "expected": "A. Smith"
+    },
+    {
+      "name": "format-6",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "givenNameFormat": [
+          "full",
+          "initial",
+          "initial"
+        ]
+      },
+      "fractions": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "expected": "Aaquil A.A. Smith"
+    },
+    {
+      "name": "format-7",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "givenNameFormat": [
+          "initial",
+          "initial",
+          "initial"
+        ]
+      },
+      "fractions": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "expected": "A.A.A. Smith"
+    },
+    {
+      "name": "format-8",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "givenNameFormat": [
+          "full",
+          "initial",
+          "full",
+          "initial"
+        ]
+      },
+      "fractions": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "expected": "Aaquil A. Aaquil A. Smith"
+    },
+    {
+      "name": "spaced-initials",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "givenNameFormat": [
+          "initial",
+          "initial",
+          "initial"
+        ],
+        "initialSeparator": " "
+      },
+      "fractions": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "expected": "A. A. A. Smith"
+    },
+    {
+      "name": "no-periods",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "givenNameFormat": [
+          "initial",
+          "initial"
+        ],
+        "initialPeriod": false
+      },
+      "fractions": [
+        0,
+        0,
+        0
+      ],
+      "expected": "AA Smith"
+    },
+    {
+      "name": "Érica",
+      "configuration": {
+        "culture": "english_speaking",
+        "gender": "female",
+        "givenNameFormat": [
+          "initial",
+          "full"
+        ]
+      },
+      "fractions": [
+        0.9996612466124661,
+        0.9996612466124661,
+        0
+      ],
+      "expected": "É. Érica Smith"
+    },
+    {
+      "name": "'Ahdi",
+      "configuration": {
+        "culture": "eastern",
+        "gender": "male",
+        "givenNameFormat": [
+          "initial",
+          "full"
+        ]
+      },
+      "fractions": [
+        6.0606060606060605e-05,
+        6.0606060606060605e-05,
+        0
+      ],
+      "expected": "A. 'Ahdi Smith"
+    },
+    {
+      "name": "Anne-Marie",
+      "configuration": {
+        "culture": "english_speaking",
+        "gender": "female",
+        "givenNameFormat": [
+          "initial",
+          "full"
+        ]
+      },
+      "fractions": [
+        0.06266937669376693,
+        0.06266937669376693,
+        0
+      ],
+      "expected": "A. Anne-Marie Smith"
+    },
+    {
+      "name": "Dr.",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "givenNameFormat": [
+          "full"
+        ]
+      },
+      "fractions": [
+        0,
+        0,
+        0.97,
+        0.25
+      ],
+      "expected": "Dr. Aaquil Smith"
+    },
+    {
+      "name": "Prof.",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "givenNameFormat": [
+          "full"
+        ]
+      },
+      "fractions": [
+        0,
+        0,
+        0.97,
+        0.75
+      ],
+      "expected": "Prof. Aaquil Smith"
+    },
+    {
+      "name": "Jr.",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "givenNameFormat": [
+          "full"
+        ]
+      },
+      "fractions": [
+        0,
+        0,
+        0.985,
+        0.08333333333333333
+      ],
+      "expected": "Aaquil Smith Jr."
+    },
+    {
+      "name": "Sr.",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "givenNameFormat": [
+          "full"
+        ]
+      },
+      "fractions": [
+        0,
+        0,
+        0.985,
+        0.25
+      ],
+      "expected": "Aaquil Smith Sr."
+    },
+    {
+      "name": "II",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "givenNameFormat": [
+          "full"
+        ]
+      },
+      "fractions": [
+        0,
+        0,
+        0.985,
+        0.4166666666666667
+      ],
+      "expected": "Aaquil Smith II"
+    },
+    {
+      "name": "III",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "givenNameFormat": [
+          "full"
+        ]
+      },
+      "fractions": [
+        0,
+        0,
+        0.985,
+        0.5833333333333334
+      ],
+      "expected": "Aaquil Smith III"
+    },
+    {
+      "name": "IV",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "givenNameFormat": [
+          "full"
+        ]
+      },
+      "fractions": [
+        0,
+        0,
+        0.985,
+        0.75
+      ],
+      "expected": "Aaquil Smith IV"
+    },
+    {
+      "name": "V",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "givenNameFormat": [
+          "full"
+        ]
+      },
+      "fractions": [
+        0,
+        0,
+        0.985,
+        0.9166666666666666
+      ],
+      "expected": "Aaquil Smith V"
+    },
+    {
+      "name": "Esq.",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "givenNameFormat": [
+          "full"
+        ]
+      },
+      "fractions": [
+        0,
+        0,
+        0.995,
+        0.16666666666666666
+      ],
+      "expected": "Aaquil Smith, Esq."
+    },
+    {
+      "name": "PhD.",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "givenNameFormat": [
+          "full"
+        ]
+      },
+      "fractions": [
+        0,
+        0,
+        0.995,
+        0.5
+      ],
+      "expected": "Aaquil Smith, PhD."
+    },
+    {
+      "name": "MD",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "givenNameFormat": [
+          "full"
+        ]
+      },
+      "fractions": [
+        0,
+        0,
+        0.995,
+        0.8333333333333334
+      ],
+      "expected": "Aaquil Smith, MD"
+    },
+    {
+      "name": "format-boundary-0-0",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "prefix": "",
+        "generation": "",
+        "credentials": []
+      },
+      "fractions": [
+        0.82489999,
+        0,
+        0
+      ],
+      "expected": "Aaquil Smith"
+    },
+    {
+      "name": "format-boundary-0-1",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "prefix": "",
+        "generation": "",
+        "credentials": []
+      },
+      "fractions": [
+        0.8249,
+        0,
+        0,
+        0
+      ],
+      "expected": "Aaquil A. Smith"
+    },
+    {
+      "name": "format-boundary-0-2",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "prefix": "",
+        "generation": "",
+        "credentials": []
+      },
+      "fractions": [
+        0.82490001,
+        0,
+        0,
+        0
+      ],
+      "expected": "Aaquil A. Smith"
+    },
+    {
+      "name": "format-boundary-1-0",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "prefix": "",
+        "generation": "",
+        "credentials": []
+      },
+      "fractions": [
+        0.92489999,
+        0,
+        0,
+        0
+      ],
+      "expected": "Aaquil A. Smith"
+    },
+    {
+      "name": "format-boundary-1-1",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "prefix": "",
+        "generation": "",
+        "credentials": []
+      },
+      "fractions": [
+        0.9249,
+        0,
+        0,
+        0
+      ],
+      "expected": "Aaquil Aaquil Smith"
+    },
+    {
+      "name": "format-boundary-1-2",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "prefix": "",
+        "generation": "",
+        "credentials": []
+      },
+      "fractions": [
+        0.92490001,
+        0,
+        0,
+        0
+      ],
+      "expected": "Aaquil Aaquil Smith"
+    },
+    {
+      "name": "format-boundary-2-0",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "prefix": "",
+        "generation": "",
+        "credentials": []
+      },
+      "fractions": [
+        0.96489999,
+        0,
+        0,
+        0
+      ],
+      "expected": "Aaquil Aaquil Smith"
+    },
+    {
+      "name": "format-boundary-2-1",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "prefix": "",
+        "generation": "",
+        "credentials": []
+      },
+      "fractions": [
+        0.9649,
+        0,
+        0,
+        0
+      ],
+      "expected": "A.A. Smith"
+    },
+    {
+      "name": "format-boundary-2-2",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "prefix": "",
+        "generation": "",
+        "credentials": []
+      },
+      "fractions": [
+        0.96490001,
+        0,
+        0,
+        0
+      ],
+      "expected": "A.A. Smith"
+    },
+    {
+      "name": "format-boundary-3-0",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "prefix": "",
+        "generation": "",
+        "credentials": []
+      },
+      "fractions": [
+        0.96989999,
+        0,
+        0,
+        0
+      ],
+      "expected": "A.A. Smith"
+    },
+    {
+      "name": "format-boundary-3-1",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "prefix": "",
+        "generation": "",
+        "credentials": []
+      },
+      "fractions": [
+        0.9699,
+        0,
+        0,
+        0
+      ],
+      "expected": "A. Aaquil Smith"
+    },
+    {
+      "name": "format-boundary-3-2",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "prefix": "",
+        "generation": "",
+        "credentials": []
+      },
+      "fractions": [
+        0.96990001,
+        0,
+        0,
+        0
+      ],
+      "expected": "A. Aaquil Smith"
+    },
+    {
+      "name": "format-boundary-4-0",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "prefix": "",
+        "generation": "",
+        "credentials": []
+      },
+      "fractions": [
+        0.97989999,
+        0,
+        0,
+        0
+      ],
+      "expected": "A. Aaquil Smith"
+    },
+    {
+      "name": "format-boundary-4-1",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "prefix": "",
+        "generation": "",
+        "credentials": []
+      },
+      "fractions": [
+        0.9799,
+        0,
+        0
+      ],
+      "expected": "A. Smith"
+    },
+    {
+      "name": "format-boundary-4-2",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "prefix": "",
+        "generation": "",
+        "credentials": []
+      },
+      "fractions": [
+        0.97990001,
+        0,
+        0
+      ],
+      "expected": "A. Smith"
+    },
+    {
+      "name": "format-boundary-5-0",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "prefix": "",
+        "generation": "",
+        "credentials": []
+      },
+      "fractions": [
+        0.98989999,
+        0,
+        0
+      ],
+      "expected": "A. Smith"
+    },
+    {
+      "name": "format-boundary-5-1",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "prefix": "",
+        "generation": "",
+        "credentials": []
+      },
+      "fractions": [
+        0.9899,
+        0,
+        0,
+        0,
+        0
+      ],
+      "expected": "Aaquil A.A. Smith"
+    },
+    {
+      "name": "format-boundary-5-2",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "prefix": "",
+        "generation": "",
+        "credentials": []
+      },
+      "fractions": [
+        0.98990001,
+        0,
+        0,
+        0,
+        0
+      ],
+      "expected": "Aaquil A.A. Smith"
+    },
+    {
+      "name": "format-boundary-6-0",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "prefix": "",
+        "generation": "",
+        "credentials": []
+      },
+      "fractions": [
+        0.99989999,
+        0,
+        0,
+        0,
+        0
+      ],
+      "expected": "Aaquil A.A. Smith"
+    },
+    {
+      "name": "format-boundary-6-1",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "prefix": "",
+        "generation": "",
+        "credentials": []
+      },
+      "fractions": [
+        0.9999,
+        0,
+        0,
+        0,
+        0
+      ],
+      "expected": "A.A.A. Smith"
+    },
+    {
+      "name": "format-boundary-6-2",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "prefix": "",
+        "generation": "",
+        "credentials": []
+      },
+      "fractions": [
+        0.99990001,
+        0,
+        0,
+        0,
+        0
+      ],
+      "expected": "A.A.A. Smith"
+    },
+    {
+      "name": "modifier-boundary-0-0",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "givenNameFormat": [
+          "full"
+        ]
+      },
+      "fractions": [
+        0,
+        0,
+        0.9699999899999999
+      ],
+      "expected": "Aaquil Smith"
+    },
+    {
+      "name": "modifier-boundary-0-1",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "givenNameFormat": [
+          "full"
+        ]
+      },
+      "fractions": [
+        0,
+        0,
+        0.97,
+        0
+      ],
+      "expected": "Dr. Aaquil Smith"
+    },
+    {
+      "name": "modifier-boundary-0-2",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "givenNameFormat": [
+          "full"
+        ]
+      },
+      "fractions": [
+        0,
+        0,
+        0.97000001,
+        0
+      ],
+      "expected": "Dr. Aaquil Smith"
+    },
+    {
+      "name": "modifier-boundary-1-0",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "givenNameFormat": [
+          "full"
+        ]
+      },
+      "fractions": [
+        0,
+        0,
+        0.9849999899999999,
+        0
+      ],
+      "expected": "Dr. Aaquil Smith"
+    },
+    {
+      "name": "modifier-boundary-1-1",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "givenNameFormat": [
+          "full"
+        ]
+      },
+      "fractions": [
+        0,
+        0,
+        0.985,
+        0
+      ],
+      "expected": "Aaquil Smith Jr."
+    },
+    {
+      "name": "modifier-boundary-1-2",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "givenNameFormat": [
+          "full"
+        ]
+      },
+      "fractions": [
+        0,
+        0,
+        0.98500001,
+        0
+      ],
+      "expected": "Aaquil Smith Jr."
+    },
+    {
+      "name": "modifier-boundary-2-0",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "givenNameFormat": [
+          "full"
+        ]
+      },
+      "fractions": [
+        0,
+        0,
+        0.99499999,
+        0
+      ],
+      "expected": "Aaquil Smith Jr."
+    },
+    {
+      "name": "modifier-boundary-2-1",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "givenNameFormat": [
+          "full"
+        ]
+      },
+      "fractions": [
+        0,
+        0,
+        0.995,
+        0
+      ],
+      "expected": "Aaquil Smith, Esq."
+    },
+    {
+      "name": "modifier-boundary-2-2",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "givenNameFormat": [
+          "full"
+        ]
+      },
+      "fractions": [
+        0,
+        0,
+        0.99500001,
+        0
+      ],
+      "expected": "Aaquil Smith, Esq."
+    },
+    {
+      "name": "explicit-modifiers",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "prefix": "Mx.",
+        "generation": "VI",
+        "generationSeparator": ", ",
+        "credentials": [
+          "CPA",
+          "Ph.D."
+        ],
+        "credentialSeparator": " / "
+      },
+      "fractions": [
+        0,
+        0
+      ],
+      "expected": "Mx. Aaquil Smith, VI / CPA / Ph.D."
+    },
+    {
+      "name": "custom-weights-and-overrides",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "formatWeights": [
+          [
+            0,
+            [
+              "full"
+            ]
+          ],
+          [
+            4,
+            [
+              "initial"
+            ]
+          ]
+        ],
+        "modifierWeights": [
+          [
+            2,
+            {
+              "prefix": "Prof.",
+              "generation": "VII",
+              "credentials": [
+                "PhD"
+              ]
+            }
+          ]
+        ],
+        "prefix": ""
+      },
+      "fractions": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "expected": "A. Smith VII, PhD"
+    },
+    {
+      "name": "suppressed-built-in-modifier",
+      "configuration": {
+        "gender": "male",
+        "culture": "english_speaking",
+        "style": "varied",
+        "givenNameFormat": [
+          "full"
+        ],
+        "prefix": ""
+      },
+      "fractions": [
+        0,
+        0,
+        0.97
+      ],
+      "expected": "Aaquil Smith"
+    }
+  ],
+  "hashes": [
+    {
+      "digest": "0000000000000000000000000000000000000000000000000000000000000000",
+      "configuration": {},
+      "expected": "Kandi Santos"
+    },
+    {
+      "digest": "0000000000000000000000000000000000000000000000000000000000000000",
+      "configuration": {
+        "givenNameFormat": [
+          "full",
+          "full",
+          "full"
+        ]
+      },
+      "expected": "Kandi Olena Lorin Santos"
+    },
+    {
+      "digest": "0000000000000000000000000000000000000000000000000000000000000000",
+      "configuration": {
+        "givenNameFormat": [
+          "initial",
+          "initial",
+          "initial"
+        ],
+        "generation": "IV",
+        "credentials": [
+          "MD",
+          "PhD."
+        ]
+      },
+      "expected": "K.O.L. Santos IV, MD, PhD."
+    },
+    {
+      "digest": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "configuration": {},
+      "expected": "Seok-mun Harding"
+    },
+    {
+      "digest": "ABABABABABABABABABABABABABABABABABABABABABABABABABABABABABABABAB",
+      "configuration": {
+        "givenNameFormat": [
+          "initial",
+          "initial",
+          "initial"
+        ],
+        "generation": "IV",
+        "credentials": [
+          "MD",
+          "PhD."
+        ]
+      },
+      "expected": "U.G.K. Sanford IV, MD, PhD."
+    },
+    {
+      "digest": "0000000000000000000000000000000000000000000000000000000000000011",
+      "configuration": {
+        "style": "varied"
+      },
+      "expected": "Ágata A. Gray, PhD."
+    }
+  ]
+}

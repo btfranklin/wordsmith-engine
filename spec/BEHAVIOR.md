@@ -320,6 +320,48 @@ Operations use `HeraldicSymbol`, `WildAnimal`, `CompoundLandmarkName`, and
 `OrganizationSymbol`. All nested calls receive the same caller-owned random
 source. Only the selected branch renders its children.
 
+## Person Names
+
+Plain style selects the gender and culture if the caller omits them, then
+selects one given name and one surname. The surname uses its independent list.
+All given-name positions use the same resolved gender and culture. Each
+position selects a given name independently. A full position preserves the
+asset spelling. An initial position uses the first Unicode letter in uppercase
+and adds a period by default. The initial separator applies only between
+adjacent initials. Other given-name positions and the surname use spaces.
+
+The varied style uses the two independent tables in
+`Person Name Styles.json`. The default weights are 82.49% for one full given
+name, 0.5% for two initials alone, and 0.01% for three initials alone. The other
+given-name formats share 17%. The separate modifier table adds a modifier to
+3% of names. Each modifier category chooses uniformly from its ordered list. The default mix adds at most
+one modifier. Explicit fields can be combined with each other or with weighted
+choices. Suppressing a field does not redistribute its category weight.
+
+For ordinary rendering, draw the format if needed, then gender and culture if
+omitted, then given-name positions in order, then surname. Draw the modifier
+option last, followed by any required category choice. Skip the modifier
+draw if the caller supplies all three modifier fields. Use the caller's random
+source for every draw. Construction snapshots the supplied collections.
+Weights follow the weighted-choice validation and selection rules above.
+
+Hash rendering accepts exactly 64 hexadecimal characters in either letter
+case. For each required draw, hash the decoded digest bytes, one zero byte,
+and the UTF-8 label. Use SHA-256 and divide the first four bytes, interpreted
+as an unsigned big-endian integer, by 2³². Labels are `format`, `gender`,
+`culture`, `given.0` and subsequent positions, `surname`, `modifier`,
+`title`, `generation`, and `credential`. Resolve gender in male, female
+order and culture in English-speaking, Latin American, Eastern order. Select
+uniform list entries by multiplying the fraction by the list length and
+rounding down. For weighted choices, select the first cumulative boundary
+strictly above the fraction times the total.
+
+For the same package release, digest, and configuration, both languages
+produce the same result. Call order and concurrency have no effect.
+Changing the format or modifiers preserves the first given name and surname
+for a fixed gender and culture selection. Use the exact release for durable
+replay because the order and contents of the asset lists can change.
+
 ## Conformance Fixtures
 
 Machine-readable cases live under `spec/conformance/`. Every implementation
@@ -354,6 +396,9 @@ public defaults. Consumers reject unknown keys and invalid values.
 Parity traces and output-quality tests have separate roles. A trace can confirm
 that both implementations return the same text without confirming its English
 grammar. Focused quality tests check required prepositions and noun forms.
+
+`person-names.json` records shared person-name options, scripted draws, and
+exact results for SHA-256 digests.
 
 `public-api.json` is the machine-readable inventory of runtime exports,
 TypeScript declaration-only exports, and semantic language mappings. `API.md`
